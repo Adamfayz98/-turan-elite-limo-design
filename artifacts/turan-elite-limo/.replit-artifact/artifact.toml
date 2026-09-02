@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "TuranEliteLimo"
+description = "A polished luxury chauffeur booking website for TuranEliteLimo, with a cinematic landing experience, service discovery, and an interactive ride quote flow."
+version = "1.0.0"
+id = "artifacts/turan-elite-limo"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23030
+
+[services.development]
+run = "pnpm --filter @workspace/turan-elite-limo run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/turan-elite-limo", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/turan-elite-limo/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23030"
+BASE_PATH = "/"
