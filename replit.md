@@ -1,10 +1,11 @@
-# [Project name]
+# TuranEliteLimo
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+A luxury chauffeur marketing and booking website for TuranEliteLimo.
 
 ## Run & Operate
 
 - `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
+- `pnpm --filter @workspace/turan-elite-limo run dev` — run the website through its managed workflow
 - `pnpm run typecheck` — full typecheck across all packages
 - `pnpm run build` — typecheck + build all packages
 - `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
@@ -22,15 +23,20 @@ _Replace the heading above with the project's name, and this line with one sente
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/turan-elite-limo/src/App.tsx` — homepage content and interactive quote flow
+- `artifacts/turan-elite-limo/src/index.css` — TuranEliteLimo visual system, responsive layout, and motion
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- The first release is frontend-only; the quote journey provides an immediate interactive estimate experience without storing or sending customer data.
+- Blacklane is a structural and interaction reference only. TuranEliteLimo uses original branding, copy, layouts, and visual assets.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+- Cinematic luxury chauffeur landing page
+- Responsive navigation and animated storytelling
+- Interactive airport, point-to-point, hourly, and special-occasion quote flow
+- Service, fleet, standards, journal, testimonial, and contact content
 
 ## User preferences
 
