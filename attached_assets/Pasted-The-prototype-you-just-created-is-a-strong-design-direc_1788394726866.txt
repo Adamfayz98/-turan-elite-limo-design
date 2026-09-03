@@ -1,0 +1,433 @@
+The prototype you just created is a strong design direction.
+
+DO NOT start over.
+
+I especially like the overall visual language you established:
+- the warm light/ivory surfaces
+- the restrained darker accent color
+- the editorial typography
+- the large typography scale
+- the generous whitespace
+- the section-to-section color changes
+- the clean desktop composition
+- the way the design translates to mobile
+- the restrained, premium feeling
+
+I want to KEEP that overall design direction and evolve it into the real website identity for my company, TuranEliteLimo.
+
+This is still an interactive DESIGN PROTOTYPE only.
+
+Do not build production backend functionality.
+Do not connect external APIs.
+Do not recreate my production architecture.
+Do not deploy anything.
+
+I am attaching real TuranEliteLimo assets.
+
+Please inspect the supplied assets before modifying the prototype.
+
+==================================================
+REAL BRAND ASSETS
+==================================================
+
+Use the supplied TuranEliteLimo logo exactly as provided.
+
+Do not redraw it.
+Do not recreate it with text.
+Do not change its colors.
+Do not distort it.
+Do not modify the crescent/wolf artwork.
+Preserve transparency and aspect ratio.
+
+I am also supplying transparent vehicle images for:
+
+- Cadillac XTS
+- Chevrolet Suburban
+- Cadillac Escalade
+
+Use these real vehicle assets in the booking/fleet presentation instead of generic vehicle illustrations or unrelated vehicles.
+
+Do not modify vehicle proportions.
+Do not recolor the vehicles.
+Do not add fake manufacturer badges.
+Do not stretch them.
+
+==================================================
+IMPORTANT DESIGN INSTRUCTION
+==================================================
+
+KEEP the visual confidence and color philosophy of your current prototype.
+
+Do NOT revert this into a conventional black-and-gold limousine website.
+
+Our existing production website currently uses too much black, charcoal and gold.
+
+That is specifically something we are trying to improve.
+
+The TuranEliteLimo logo can carry our black/gold brand identity without requiring the entire website to be black/gold.
+
+I am open to the warm ivory / cream / stone / muted-color direction you already established.
+
+You may refine your current palette if necessary once the real TuranEliteLimo assets are inserted, but preserve the same quiet, editorial, premium philosophy.
+
+Gold should be restrained.
+
+Use it only where it genuinely improves hierarchy or reinforces the brand.
+
+Luxury should come primarily from:
+
+typography
+spacing
+composition
+photography
+proportion
+restraint
+motion
+interaction
+
+—not from excessive gold or dark surfaces.
+
+==================================================
+REAL COMPANY
+==================================================
+
+Company:
+TuranEliteLimo
+
+Business:
+Premium private chauffeur and black car service.
+
+Primary service area:
+San Francisco Bay Area & Northern California.
+
+Airports:
+SFO
+OAK
+SJC
+
+Important destinations/services:
+San Francisco
+Napa Valley
+Sonoma
+Airport transportation
+Point-to-point transportation
+Hourly chauffeur
+Corporate transportation
+Events
+Long-distance transportation
+
+Primary vehicle classes:
+
+EXECUTIVE SEDAN
+Cadillac XTS or similar
+
+LUXURY SUV
+Chevrolet Suburban or similar
+
+PREMIUM SUV
+Cadillac Escalade only
+
+Larger and specialty vehicles are also available by quote, but they should not overwhelm the primary booking experience.
+
+==================================================
+HERO
+==================================================
+
+Do NOT use my existing production website hero design as a constraint.
+
+Keep the design philosophy of the hero you already created and adapt it for TuranEliteLimo.
+
+The primary TuranEliteLimo hero message is:
+
+ARRIVE IN
+UNSPOKEN
+LUXURY.
+
+Supporting geographic message:
+
+Bay Area & Northern California
+
+Use the supplied real TuranEliteLimo logo in the header.
+
+The hero should feel cinematic, calm, premium and confident.
+
+You may retain/refine the image treatment and color composition you already created rather than trying to reproduce our existing dark homepage hero.
+
+We will replace/finalize photography separately if necessary.
+
+==================================================
+BOOKING ENTRY
+==================================================
+
+This is the largest functional design change I want to explore.
+
+The current prototype should evolve toward an extremely simple initial booking experience.
+
+On desktop, conceptually:
+
+Pickup
+Drop-off
+Date
+Time
+SEE VEHICLES →
+
+Do not show the entire reservation workflow immediately.
+
+When Pickup is activated:
+
+smoothly expand the booking experience,
+focus attention on pickup,
+and reduce the prominence of unrelated information.
+
+Use mock address data.
+
+After pickup is selected:
+
+compress it into a clean completed state
+and move attention to Drop-off.
+
+Then Date and Time.
+
+The point is to demonstrate progressive disclosure.
+
+Do not build real address APIs.
+
+I care about the INTERACTION DESIGN.
+
+Transitions should feel controlled and physical rather than flashy.
+
+Approximately 250–350ms is a useful reference for normal UI state changes.
+
+==================================================
+VEHICLE SELECTION
+==================================================
+
+After SEE VEHICLES, demonstrate a dedicated vehicle-selection experience.
+
+Do not simply reveal a huge vertical list underneath the homepage.
+
+On desktop, intelligently use horizontal space.
+
+Explore:
+
+LEFT / PRIMARY AREA
+vehicle selection and vehicle details
+
+RIGHT / STICKY AREA
+trip summary
+mock route/map
+date/time
+selected vehicle
+mock price
+continue action
+
+Primary choices:
+
+Executive Sedan
+Cadillac XTS or similar
+
+Luxury SUV
+Chevrolet Suburban or similar
+
+Premium SUV
+Cadillac Escalade only
+
+Use the attached real transparent vehicle assets.
+
+Make the entire vehicle card/selectable surface interactive.
+
+Do not place a large repetitive button inside every vehicle card unless it is genuinely necessary.
+
+Show a tasteful selected state.
+
+Once selected, allow the user to understand more about the vehicle/service.
+
+Example information:
+
+passenger capacity
+luggage capacity
+bottled water
+phone chargers
+professional chauffeur
+
+Additional specialty vehicles can live behind something such as:
+
+Need something larger?
+
+==================================================
+HOMEPAGE CONTENT
+==================================================
+
+Keep the strong editorial pacing of your current prototype.
+
+Avoid turning the page into:
+
+heading
+three cards
+heading
+three cards
+heading
+three cards
+
+Use different compositions and different amounts of visual density.
+
+Some sections should communicate ONE idea with large typography and significant whitespace.
+
+Content concepts to incorporate:
+
+THE TURAN STANDARD
+
+Step in.
+Breathe out.
+
+Supporting idea:
+
+From airport pickups to a night in the city, your chauffeur handles the details so the ride feels effortless.
+
+
+HOW IT WORKS
+
+Three steps. Nothing more.
+
+1. Tell us where and when.
+2. Choose your ride.
+3. We handle the rest.
+
+
+SERVICES
+
+Airport Transfers
+Hourly Chauffeur
+Corporate Transportation
+Napa / Sonoma
+Events
+
+
+FLEET
+
+Executive Sedan
+Luxury SUV
+Premium SUV
+
+Use the attached real vehicle assets.
+
+
+COVERAGE
+
+Bay Area & Northern California
+
+SFO / OAK / SJC
+San Francisco
+Napa
+Sonoma
+Corporate travel
+Events
+Long-distance transportation
+
+
+REVIEWS
+
+Keep testimonials editorial and spacious.
+
+Do not automatically use several small quote cards.
+
+
+FINAL CTA
+
+Your ride starts here.
+
+Book in a few simple steps.
+We'll handle the rest.
+
+==================================================
+IMAGERY
+==================================================
+
+Do NOT force every section to contain an image.
+
+Use fewer, stronger photographic moments.
+
+For now, retain or refine the photographic direction of the prototype you already created where appropriate.
+
+We will separately finalize the exact production photography later.
+
+The supplied transparent vehicle assets ARE real and should be used.
+
+Do not generate substitutes for those vehicles.
+
+For lifestyle/editorial photography, prioritize composition and leave it easy for us to replace the image asset later without redesigning the section.
+
+==================================================
+MOTION
+==================================================
+
+Keep motion restrained.
+
+I want:
+
+subtle fade + rise
+gentle image reveals
+smooth booking expansion/collapse
+clean selected states
+controlled transitions
+small tasteful stagger where appropriate
+
+I do NOT want:
+
+bouncing
+constant animation
+aggressive parallax
+rotating carousels
+floating cars
+flashy effects
+unnecessary movement
+
+Once a scroll entrance animation completes, the section should generally become still.
+
+Respect prefers-reduced-motion.
+
+==================================================
+MOBILE
+==================================================
+
+The mobile preview of your existing prototype is one of the things I liked.
+
+Preserve that level of care.
+
+Do not simply shrink desktop.
+
+Maintain:
+
+large readable typography
+generous whitespace
+strong section composition
+comfortable touch targets
+clear booking progression
+intentional mobile vehicle presentation
+
+Avoid:
+
+tiny typography
+dense card grids
+excessive borders
+endless repetitive cards
+
+==================================================
+IMPORTANT
+==================================================
+
+This is an evolution of the design you already created.
+
+DO NOT START OVER.
+
+Keep the qualities that made the current prototype successful while replacing generic identity/content with TuranEliteLimo's real identity, vehicles and information.
+
+Where my instructions conflict with the current prototype, follow these instructions.
+
+Where they do not conflict, preserve the design judgment and visual system you already established.
+
+The goal of this iteration is to see what YOUR existing design direction looks and feels like when it becomes TuranEliteLimo.
+
+Do not deploy.
+Do not build backend integrations.
+Keep everything as an interactive frontend prototype.
