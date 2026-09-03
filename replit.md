@@ -28,7 +28,8 @@ A luxury chauffeur marketing and booking website for TuranEliteLimo.
 
 ## Architecture decisions
 
-- The first release is frontend-only; the quote journey provides an immediate interactive estimate experience without storing or sending customer data.
+- This remains an interactive design prototype only: no production backend, external APIs, production architecture, or deployment work unless the user explicitly changes direction.
+- The quote journey uses local mock data and progressive disclosure without storing or sending customer data.
 - Blacklane is a structural and interaction reference only. TuranEliteLimo uses original branding, copy, layouts, and visual assets.
 
 ## Product
@@ -40,7 +41,10 @@ A luxury chauffeur marketing and booking website for TuranEliteLimo.
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+- Preserve the approved warm ivory/cream/stone editorial direction, large typography, generous whitespace, varied section compositions, restrained dark accents, and carefully limited gold.
+- Luxury should come from typography, spacing, composition, photography, proportion, restraint, motion, and interaction—not a conventional black-and-gold limousine treatment.
+- Keep motion subtle and finite: fade/rise, gentle reveals, controlled 250–350ms state changes, no bouncing, aggressive parallax, rotating carousels, floating cars, or constant animation.
+- Use supplied vehicle and logo assets exactly as provided; never redraw, recolor, distort, stretch, or replace them with generated substitutes.
 
 ## Gotchas
 

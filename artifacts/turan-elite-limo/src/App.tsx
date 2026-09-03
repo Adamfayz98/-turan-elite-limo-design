@@ -9,27 +9,19 @@ import { Route, Switch, useLocation, Router as WouterRouter } from 'wouter';
 
 const queryClient = new QueryClient();
 
-type RideMode = 'airport' | 'hourly' | 'point-to-point' | 'occasion';
-type FleetMode = 'sedan' | 'suv' | 'van';
-
-const rideModes: { id: RideMode; label: string; detail: string; icon: typeof Plane }[] = [
-  { id: 'airport', label: 'Airport transfer', detail: 'Meet & greet included', icon: Plane },
-  { id: 'point-to-point', label: 'Point to point', detail: 'Direct, door to door', icon: Navigation },
-  { id: 'hourly', label: 'By the hour', detail: 'Your car, at your pace', icon: Clock3 },
-  { id: 'occasion', label: 'Special occasion', detail: 'Arrive memorably', icon: Diamond },
-];
-
-const services = [
-  { number: '01', title: 'Airport arrivals', copy: 'A composed landing. Your chauffeur tracks the flight, handles the luggage, and knows precisely where to be.', tag: 'Most requested', accent: 'ochre' },
-  { number: '02', title: 'Executive travel', copy: 'Move between meetings with an unobtrusive rhythm. Quiet cabin, considered timing, zero loose ends.', tag: 'For business', accent: 'teal' },
-  { number: '03', title: 'Weddings & occasions', copy: 'The final detail that makes the entrance. White-glove coordination for the moments worth remembering.', tag: 'Make an entrance', accent: 'rose' },
-];
+type FleetMode = 'sedan' | 'suv' | 'premium';
 
 const fleet = {
-  sedan: { name: 'The Meridian', type: 'Executive sedan', spec: '1–3 guests  ·  2 cases', description: 'Low profile. Long wheelbase. An interior designed for the pause between destinations.', code: 'TEL / 07' },
-  suv: { name: 'The Atlas', type: 'Luxury SUV', spec: '1–5 guests  ·  4 cases', description: 'A little more room for the people and pieces that matter, without losing its poise.', code: 'TEL / 12' },
-  van: { name: 'The Gallery', type: 'First-class van', spec: '1–7 guests  ·  7 cases', description: 'Private lounge seating for a party that prefers to travel together and arrive refreshed.', code: 'TEL / 19' },
+  sedan: { id: 'sedan', name: 'Executive Sedan', type: 'Cadillac XTS or similar', spec: '1–3 guests  ·  2 cases', description: 'Low profile. Long wheelbase. An interior designed for the pause between destinations.', image: '/assets/executive-sedan-cadillac-xts.png', code: 'TEL / 07', price: '$145' },
+  suv: { id: 'suv', name: 'Luxury SUV', type: 'Chevrolet Suburban or similar', spec: '1–5 guests  ·  4 cases', description: 'A little more room for the people and pieces that matter, without losing its poise.', image: '/assets/luxury-suv-suburban.png', code: 'TEL / 12', price: '$185' },
+  premium: { id: 'premium', name: 'Premium SUV', type: 'Cadillac Escalade only', spec: '1–6 guests  ·  5 cases', description: 'Uncompromising presence and capability. The definitive luxury SUV experience.', image: '/assets/Escalade.png', code: 'TEL / 19', price: '$225' },
 };
+
+const services = [
+  { number: '01', title: 'Airport transfers', copy: 'A composed landing. Your chauffeur tracks the flight, handles the luggage, and knows precisely where to be at SFO, OAK, or SJC.', tag: 'Most requested', accent: 'ochre' },
+  { number: '02', title: 'Corporate travel', copy: 'Move between meetings with an unobtrusive rhythm. Quiet cabin, considered timing, zero loose ends.', tag: 'For business', accent: 'teal' },
+  { number: '03', title: 'Napa & Sonoma', copy: 'Experience wine country without watching the clock. We provide seamless, full-day transportation tailored to your itinerary.', tag: 'By the hour', accent: 'rose' },
+];
 
 function useReveal() {
   useEffect(() => {
@@ -94,77 +86,106 @@ function Nav({ onBook }: { onBook: () => void }) {
   );
 }
 
-function BookingCard() {
-  const [mode, setMode] = useState<RideMode>('airport');
+function BookingCard({ onSeeVehicles }: { onSeeVehicles: (details: any) => void }) {
+  const [step, setStep] = useState(0);
   const [from, setFrom] = useState('');
   const [to, setTo] = useState('');
   const [date, setDate] = useState('');
-  const [time, setTime] = useState('09:30');
-  const [confirmed, setConfirmed] = useState(false);
+  const [time, setTime] = useState('');
 
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (from && to && date) setConfirmed(true);
+    if (step === 0 && from) setStep(1);
+    else if (step === 1 && to) setStep(2);
+    else if (step === 2 && date) setStep(3);
+    else if (step === 3 && time) onSeeVehicles({ from, to, date, time });
   };
-  const selectedLabel = rideModes.find((ride) => ride.id === mode)?.label ?? 'Private transfer';
+
   return (
-    <div className="relative z-10 rounded-[2px] bg-[#f6f1e8] p-5 text-[#193f3e] shadow-[0_22px_70px_rgba(8,28,28,.28)] sm:p-7" id="booking" data-testid="card-booking">
-      {!confirmed ? <form onSubmit={submit}>
-        <div className="mb-6 flex items-center justify-between">
+    <div className="relative z-10 rounded-[2px] bg-[#f6f1e8] p-6 text-[#193f3e] shadow-[0_22px_70px_rgba(8,28,28,.28)] sm:p-9" id="booking" data-testid="card-booking">
+      <form onSubmit={submit} className="flex flex-col gap-4">
+        <div className="mb-4 flex items-center justify-between">
           <div>
             <span className="font-mono-ui text-[9px] uppercase tracking-[.2em] text-[#d19a5c]">The first move</span>
             <h2 className="mt-2 font-display text-[28px] leading-none sm:text-[32px]">Where shall we take you?</h2>
           </div>
-          <span className="hidden h-9 w-9 items-center justify-center rounded-full border border-[#193f3e]/15 sm:flex"><ArrowDownRight size={16} /></span>
         </div>
-        <div className="mb-6 grid grid-cols-2 gap-2 lg:grid-cols-4">
-          {rideModes.map(({ id, label, detail, icon: Icon }) => <button type="button" key={id} onClick={() => setMode(id)} className={`min-h-[76px] border p-3 text-left ${mode === id ? 'border-[#d19a5c] bg-[#e9dfcf]' : 'border-[#193f3e]/15 hover:border-[#193f3e]/45'}`} data-testid={`button-ride-mode-${id}`}>
-            <Icon size={16} className={mode === id ? 'text-[#bc754e]' : 'text-[#193f3e]/55'} />
-            <span className="mt-2 block text-[11px] font-bold">{label}</span>
-            <span className="mt-1 block font-mono-ui text-[8px] text-[#193f3e]/55">{detail}</span>
-          </button>)}
+
+        <div className="grid gap-3">
+          {/* Pickup */}
+          <div className={`overflow-hidden transition-all duration-300 ${step === 0 ? 'opacity-100 h-auto' : step > 0 ? 'opacity-75 h-[48px]' : 'opacity-30 pointer-events-none'}`}>
+            {step === 0 ? (
+              <label className="group relative flex min-h-[72px] flex-col justify-center border border-[#193f3e]/25 px-5 bg-white/50 focus-within:border-[#193f3e] focus-within:bg-white transition-colors">
+                <span className="font-mono-ui text-[8px] uppercase tracking-[.15em] text-[#193f3e]/50">From</span>
+                <input autoFocus required value={from} onChange={(e) => setFrom(e.target.value)} placeholder="San Francisco International Airport (SFO)" className="mt-1.5 w-full bg-transparent text-[13px] font-semibold outline-none placeholder:text-[#193f3e]/38 placeholder:font-normal" data-testid="input-pickup" />
+                <span className="absolute right-4 top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full border-[1.5px] border-[#bc754e]" />
+              </label>
+            ) : (
+              <button type="button" onClick={() => setStep(0)} className="flex w-full items-center justify-between h-full border border-[#193f3e]/15 px-5 text-left hover:border-[#193f3e]/30">
+                <span className="flex items-center gap-3 text-[12px] font-semibold"><span className="h-2 w-2 rounded-full border-[1.5px] border-[#bc754e]" /> {from}</span>
+                <span className="font-mono-ui text-[8px] uppercase tracking-[.15em] text-[#193f3e]/50 underline decoration-transparent hover:decoration-current underline-offset-4 transition-all">Edit</span>
+              </button>
+            )}
+          </div>
+
+          {/* Dropoff */}
+          <div className={`overflow-hidden transition-all duration-300 ${step === 1 ? 'opacity-100 h-auto' : step > 1 ? 'opacity-75 h-[48px]' : step === 0 ? 'opacity-40 h-[48px] grayscale' : 'opacity-30 pointer-events-none'}`}>
+            {step === 1 ? (
+              <label className="group relative flex min-h-[72px] flex-col justify-center border border-[#193f3e]/25 px-5 bg-white/50 focus-within:border-[#193f3e] focus-within:bg-white transition-colors">
+                <span className="font-mono-ui text-[8px] uppercase tracking-[.15em] text-[#193f3e]/50">To</span>
+                <input autoFocus required value={to} onChange={(e) => setTo(e.target.value)} placeholder="Napa Valley, CA" className="mt-1.5 w-full bg-transparent text-[13px] font-semibold outline-none placeholder:text-[#193f3e]/38 placeholder:font-normal" data-testid="input-dropoff" />
+                <span className="absolute right-4 top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-[#193f3e]" />
+              </label>
+            ) : (
+              <button type="button" onClick={() => step > 1 ? setStep(1) : undefined} className={`flex w-full items-center justify-between h-full border border-[#193f3e]/15 px-5 text-left ${step > 1 ? 'hover:border-[#193f3e]/30 cursor-pointer' : 'cursor-default'}`}>
+                <span className="flex items-center gap-3 text-[12px] font-semibold"><span className="h-2 w-2 rounded-full bg-[#193f3e]" /> {step > 1 ? to : 'Destination'}</span>
+                {step > 1 && <span className="font-mono-ui text-[8px] uppercase tracking-[.15em] text-[#193f3e]/50 underline decoration-transparent hover:decoration-current underline-offset-4 transition-all">Edit</span>}
+              </button>
+            )}
+          </div>
+
+          {/* Date & Time Row */}
+          <div className="grid grid-cols-2 gap-3">
+            <div className={`overflow-hidden transition-all duration-300 ${step === 2 ? 'opacity-100 h-auto' : step > 2 ? 'opacity-75 h-[48px]' : step < 2 ? 'opacity-40 h-[48px] grayscale' : 'opacity-30 pointer-events-none'}`}>
+              {step === 2 ? (
+                <label className="group relative flex min-h-[72px] flex-col justify-center border border-[#193f3e]/25 px-5 bg-white/50 focus-within:border-[#193f3e] focus-within:bg-white transition-colors">
+                  <span className="flex items-center gap-1.5 font-mono-ui text-[8px] uppercase tracking-[.15em] text-[#193f3e]/50"><CalendarDays size={10} /> Date</span>
+                  <input autoFocus required type="date" value={date} onChange={(e) => setDate(e.target.value)} className="mt-1.5 w-full bg-transparent text-[13px] font-semibold outline-none" data-testid="input-date" />
+                </label>
+              ) : (
+                <button type="button" onClick={() => step > 2 ? setStep(2) : undefined} className={`flex w-full items-center justify-between h-full border border-[#193f3e]/15 px-5 text-left ${step > 2 ? 'hover:border-[#193f3e]/30 cursor-pointer' : 'cursor-default'}`}>
+                  <span className="flex items-center gap-2 text-[12px] font-semibold"><CalendarDays size={12} className="text-[#193f3e]/50" /> {step > 2 ? date : 'Date'}</span>
+                </button>
+              )}
+            </div>
+
+            <div className={`overflow-hidden transition-all duration-300 ${step === 3 ? 'opacity-100 h-auto' : step > 3 ? 'opacity-75 h-[48px]' : step < 3 ? 'opacity-40 h-[48px] grayscale' : 'opacity-30 pointer-events-none'}`}>
+              {step === 3 ? (
+                <label className="group relative flex min-h-[72px] flex-col justify-center border border-[#193f3e]/25 px-5 bg-white/50 focus-within:border-[#193f3e] focus-within:bg-white transition-colors">
+                  <span className="flex items-center gap-1.5 font-mono-ui text-[8px] uppercase tracking-[.15em] text-[#193f3e]/50"><Clock3 size={10} /> Time</span>
+                  <input autoFocus required type="time" value={time} onChange={(e) => setTime(e.target.value)} className="mt-1.5 w-full bg-transparent text-[13px] font-semibold outline-none" data-testid="input-time" />
+                </label>
+              ) : (
+                <button type="button" onClick={() => step > 3 ? setStep(3) : undefined} className={`flex w-full items-center justify-between h-full border border-[#193f3e]/15 px-5 text-left ${step > 3 ? 'hover:border-[#193f3e]/30 cursor-pointer' : 'cursor-default'}`}>
+                  <span className="flex items-center gap-2 text-[12px] font-semibold"><Clock3 size={12} className="text-[#193f3e]/50" /> {step > 3 ? time : 'Time'}</span>
+                </button>
+              )}
+            </div>
+          </div>
         </div>
-        <div className="grid gap-2 lg:grid-cols-[1fr_1fr_150px_120px]">
-          <label className="group relative flex min-h-[61px] flex-col justify-center border border-[#193f3e]/15 px-4 focus-within:border-[#193f3e]">
-            <span className="font-mono-ui text-[8px] uppercase tracking-[.15em] text-[#193f3e]/50">From</span>
-            <input required value={from} onChange={(event) => setFrom(event.target.value)} placeholder="Airport, hotel or address" className="mt-1 w-full bg-transparent text-[12px] font-semibold outline-none placeholder:text-[#193f3e]/38" data-testid="input-pickup" />
-            <span className="absolute right-3 top-1/2 h-2 w-2 -translate-y-1/2 rounded-full border border-[#bc754e]" />
-          </label>
-          <label className="group relative flex min-h-[61px] flex-col justify-center border border-[#193f3e]/15 px-4 focus-within:border-[#193f3e]">
-            <span className="font-mono-ui text-[8px] uppercase tracking-[.15em] text-[#193f3e]/50">To</span>
-            <input required value={to} onChange={(event) => setTo(event.target.value)} placeholder="Your destination" className="mt-1 w-full bg-transparent text-[12px] font-semibold outline-none placeholder:text-[#193f3e]/38" data-testid="input-dropoff" />
-            <span className="absolute right-3 top-1/2 h-2 w-2 -translate-y-1/2 rounded-full bg-[#193f3e]" />
-          </label>
-          <label className="flex min-h-[61px] flex-col justify-center border border-[#193f3e]/15 px-4 focus-within:border-[#193f3e]">
-            <span className="flex items-center gap-1 font-mono-ui text-[8px] uppercase tracking-[.15em] text-[#193f3e]/50"><CalendarDays size={10} /> Date</span>
-            <input required type="date" value={date} onChange={(event) => setDate(event.target.value)} className="mt-1 w-full bg-transparent text-[12px] font-semibold outline-none" data-testid="input-date" />
-          </label>
-          <label className="flex min-h-[61px] flex-col justify-center border border-[#193f3e]/15 px-4 focus-within:border-[#193f3e]">
-            <span className="flex items-center gap-1 font-mono-ui text-[8px] uppercase tracking-[.15em] text-[#193f3e]/50"><Clock3 size={10} /> Time</span>
-            <input required type="time" value={time} onChange={(event) => setTime(event.target.value)} className="mt-1 w-full bg-transparent text-[12px] font-semibold outline-none" data-testid="input-time" />
-          </label>
+
+        <div className="mt-4 flex flex-col items-center justify-between gap-4 sm:flex-row">
+          <span className={`font-mono-ui text-[9px] leading-relaxed text-[#193f3e]/55 transition-opacity ${step < 3 ? 'opacity-0' : 'opacity-100'}`}>We match the vehicle<br />to your itinerary.</span>
+          <button type="submit" disabled={step < 3 || (step === 3 && !time)} className="group flex w-full items-center justify-center gap-4 bg-[#193f3e] px-8 py-4 font-mono-ui text-[10px] uppercase tracking-[.16em] text-[#f6f1e8] hover:bg-[#bc754e] disabled:opacity-50 disabled:cursor-not-allowed sm:w-auto" data-testid="button-next-step">
+            {step < 3 ? 'Continue' : 'See Vehicles'} <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+          </button>
         </div>
-        <div className="mt-5 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
-          <span className="font-mono-ui text-[9px] leading-relaxed text-[#193f3e]/55">A tailored quote, held for 15 minutes.<br />No account required.</span>
-          <button type="submit" className="group flex w-full items-center justify-center gap-4 bg-[#193f3e] px-6 py-4 font-mono-ui text-[10px] uppercase tracking-[.16em] text-[#f6f1e8] hover:bg-[#bc754e] sm:w-auto" data-testid="button-get-quote">See my estimate <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" /></button>
-        </div>
-      </form> : <div className="py-5 sm:py-8" data-testid="status-quote-confirmation">
-        <div className="flex items-start justify-between">
-          <div><span className="font-mono-ui text-[9px] uppercase tracking-[.2em] text-[#bc754e]">Your journey is held</span><h2 className="mt-3 font-display text-[34px] leading-[1.05]">A calm start<br /><i>awaits.</i></h2></div>
-          <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[#d19a5c] text-[#193f3e]"><Check size={20} /></span>
-        </div>
-        <div className="my-7 grid gap-3 border-y border-[#193f3e]/15 py-5 sm:grid-cols-2">
-          <div><span className="font-mono-ui text-[8px] uppercase tracking-[.14em] text-[#193f3e]/50">Journey</span><p className="mt-1 text-sm font-bold">{from} <span className="px-1 text-[#bc754e]">→</span> {to}</p></div>
-          <div><span className="font-mono-ui text-[8px] uppercase tracking-[.14em] text-[#193f3e]/50">When</span><p className="mt-1 text-sm font-bold">{date} at {time}</p></div>
-        </div>
-        <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end"><div><span className="font-mono-ui text-[8px] uppercase tracking-[.14em] text-[#193f3e]/50">Indicative fare</span><p className="mt-1 font-display text-3xl">$185 <span className="font-sans text-xs font-normal text-[#193f3e]/55">+ local taxes</span></p></div><button type="button" onClick={() => setConfirmed(false)} className="flex items-center gap-2 font-mono-ui text-[9px] uppercase tracking-[.15em] text-[#193f3e]/65 underline decoration-[#d19a5c] underline-offset-4" data-testid="button-edit-quote">Edit journey <ArrowRight size={12} /></button></div>
-        <p className="mt-6 border-l-2 border-[#d19a5c] pl-3 text-[11px] leading-relaxed text-[#193f3e]/70">A member of our client team will confirm the vehicle and exact fare shortly. Your preference: {selectedLabel}.</p>
-      </div>}
+      </form>
     </div>
   );
 }
 
-function Hero() {
+function Hero({ onBook }: { onBook: (details: any) => void }) {
   const jump = () => document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' });
   return (
     <section id="top" className="relative min-h-[790px] overflow-hidden bg-[#193f3e] pt-[82px] text-[#f6f1e8]">
@@ -175,18 +196,18 @@ function Hero() {
       <Nav onBook={jump} />
       <div className="container-edge relative grid gap-12 pb-20 pt-20 lg:grid-cols-[.95fr_1.05fr] lg:items-end lg:gap-20 lg:pt-28">
         <div className="reveal">
-          <p className="flex items-center gap-3 font-mono-ui text-[9px] uppercase tracking-[.25em] text-[#d19a5c]"><span className="h-px w-7 bg-[#d19a5c]" />Private ground travel, considered</p>
-          <h1 className="mt-8 max-w-[640px] font-display text-[clamp(4rem,9vw,8.6rem)] leading-[.84] tracking-[-.05em]">Arrive<br /><i className="text-[#d19a5c]">unhurried.</i></h1>
-          <p className="mt-8 max-w-[390px] text-[14px] leading-[1.8] text-[#dbe0d6]/72">The city moves around you. Turan keeps your journey quiet, exact, and entirely your own.</p>
+          <p className="flex items-center gap-3 font-mono-ui text-[9px] uppercase tracking-[.25em] text-[#d19a5c]"><span className="h-px w-7 bg-[#d19a5c]" />Bay Area & Northern California</p>
+          <h1 className="mt-8 max-w-[640px] font-display text-[clamp(3.8rem,8.5vw,8.2rem)] leading-[.84] tracking-[-.05em]">Arrive in<br /><i className="text-[#d19a5c]">unspoken<br />luxury.</i></h1>
+          <p className="mt-8 max-w-[390px] text-[14px] leading-[1.8] text-[#dbe0d6]/72">From SFO to Napa, your chauffeur handles the details so the ride feels effortless.</p>
           <div className="mt-9 flex items-center gap-6">
             <button onClick={jump} className="group flex items-center gap-3 border-b border-[#d19a5c] pb-2 font-mono-ui text-[10px] uppercase tracking-[.17em] hover:text-[#d19a5c]" data-testid="button-hero-book">Plan your journey <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" /></button>
             <span className="font-mono-ui text-[9px] text-[#dbe0d6]/45">01 / 04</span>
           </div>
         </div>
-        <div className="reveal delay-2 lg:mb-[-90px]"><BookingCard /></div>
+        <div className="reveal delay-2 lg:mb-[-90px]"><BookingCard onSeeVehicles={onBook} /></div>
       </div>
       <div className="container-edge absolute bottom-6 left-1/2 flex -translate-x-1/2 items-center justify-between font-mono-ui text-[9px] uppercase tracking-[.16em] text-[#dbe0d6]/45">
-        <span className="hidden sm:block">New York · London · Paris · Wherever next</span>
+        <span className="hidden sm:block">SFO · OAK · SJC · Napa · Sonoma</span>
         <span className="flex items-center gap-2"><span className="pulse-ring h-2 w-2 rounded-full bg-[#d19a5c]" />Available around the clock</span>
       </div>
     </section>
@@ -219,13 +240,13 @@ function Standard() {
       <div className="container-edge grid gap-16 lg:grid-cols-[.8fr_1.2fr] lg:items-center">
         <div className="reveal relative min-h-[470px] overflow-hidden bg-[#193f3e] p-8 text-[#f6f1e8]">
           <div className="absolute -right-20 top-10 h-72 w-72 rounded-full border border-[#d19a5c]/35" /><div className="absolute -right-4 top-24 h-44 w-44 rounded-full border border-[#d19a5c]/35" />
-          <span className="relative font-mono-ui text-[9px] uppercase tracking-[.2em] text-[#d19a5c]">Turan / 00:17</span>
+          <span className="relative font-mono-ui text-[9px] uppercase tracking-[.2em] text-[#d19a5c]">Step in. Breathe out.</span>
           <div className="absolute bottom-8 left-8 right-8"><p className="font-display text-4xl leading-[1.05]">“The luxury is<br /><i>the lack of friction.”</i></p><div className="mt-8 flex items-center gap-3"><span className="flex h-8 w-8 items-center justify-center rounded-full border border-[#d19a5c]/50"><ShieldCheck size={13} className="text-[#d19a5c]" /></span><span className="font-mono-ui text-[9px] uppercase tracking-[.12em] text-[#dbe0d6]/60">Our operating principle</span></div></div>
         </div>
         <div className="reveal delay-2">
           <span className="font-mono-ui text-[9px] uppercase tracking-[.2em] text-[#bc754e]">The Turan standard</span>
           <h2 className="mt-5 max-w-[570px] font-display text-[clamp(2.8rem,5.5vw,5.6rem)] leading-[.92] tracking-[-.04em]">Nothing loud.<br /><i>Everything ready.</i></h2>
-          <p className="mt-8 max-w-[470px] text-[14px] leading-[1.85] text-[#193f3e]/68">We believe a great chauffeur service should leave you with more time than it found you with. Every detail has a job: the right temperature, a driver who has read the room, an arrival that never needs explaining.</p>
+          <p className="mt-8 max-w-[470px] text-[14px] leading-[1.85] text-[#193f3e]/68">From airport pickups to a night in the city, your chauffeur handles the details so the ride feels effortless. Every detail has a job: the right temperature, a driver who has read the room, an arrival that never needs explaining.</p>
           <div className="mt-10 grid max-w-[560px] grid-cols-2 gap-y-8 border-t border-[#193f3e]/15 pt-7 sm:grid-cols-4">
             {[['04:12', 'Average reply'], ['24/7', 'Human support'], ['12 min', 'Early to you'], ['∞', 'Small details']].map(([value, label]) => <div key={label}><strong className="font-display text-2xl font-medium">{value}</strong><span className="mt-1 block font-mono-ui text-[8px] uppercase tracking-[.1em] text-[#193f3e]/50">{label}</span></div>)}
           </div>
@@ -236,7 +257,7 @@ function Standard() {
 }
 
 function Fleet() {
-  const [selected, setSelected] = useState<FleetMode>('sedan');
+  const [selected, setSelected] = useState<FleetMode>('premium');
   const vehicle = fleet[selected];
   return (
     <section id="fleet" className="bg-[#193f3e] py-28 text-[#f6f1e8] sm:py-40">
@@ -246,15 +267,15 @@ function Fleet() {
           <p className="max-w-[255px] text-[12px] leading-[1.8] text-[#dbe0d6]/65">Current-generation vehicles, maintained to exacting standards. Never flashy. Always immaculate.</p>
         </div>
         <div className="mt-14 grid gap-10 lg:grid-cols-[1fr_1fr] lg:items-center">
-          <div className="reveal relative flex min-h-[390px] items-end overflow-hidden border border-[#dbe0d6]/15 bg-[#244d4c] p-8">
+          <div className="reveal relative flex min-h-[390px] items-center justify-center overflow-hidden border border-[#dbe0d6]/15 bg-[#244d4c] p-8">
             <div className="absolute left-1/2 top-[25%] h-56 w-56 -translate-x-1/2 rounded-full border border-[#d19a5c]/25 sm:h-72 sm:w-72" /><div className="absolute left-1/2 top-[32%] h-40 w-40 -translate-x-1/2 rounded-full border border-[#d19a5c]/20" />
-            <div className="absolute inset-x-[13%] top-[44%] h-[74px] rounded-[50%_50%_18%_18%] border-2 border-[#d19a5c]/60 bg-[#183b3b] shadow-[0_20px_30px_rgba(0,0,0,.22)] sm:inset-x-[18%]"><span className="absolute left-[8%] top-3 h-9 w-[34%] rounded-tl-full border border-[#d19a5c]/35 bg-[#dbe0d6]/10" /><span className="absolute right-[8%] top-3 h-9 w-[34%] rounded-tr-full border border-[#d19a5c]/35 bg-[#dbe0d6]/10" /><span className="absolute -bottom-3 left-[10%] h-5 w-5 rounded-full bg-[#0f2a2b] ring-2 ring-[#d19a5c]/70" /><span className="absolute -bottom-3 right-[10%] h-5 w-5 rounded-full bg-[#0f2a2b] ring-2 ring-[#d19a5c]/70" /></div>
-            <div className="relative flex w-full items-end justify-between"><span className="font-mono-ui text-[9px] uppercase tracking-[.17em] text-[#dbe0d6]/55">{vehicle.code}</span><span className="font-mono-ui text-[9px] uppercase tracking-[.17em] text-[#d19a5c]">Exterior / profile</span></div>
+            <img src={vehicle.image} alt={vehicle.name} className="relative z-10 w-[85%] object-contain mix-blend-normal" />
+            <div className="absolute bottom-8 left-8 right-8 flex items-end justify-between"><span className="font-mono-ui text-[9px] uppercase tracking-[.17em] text-[#dbe0d6]/55">{vehicle.code}</span><span className="font-mono-ui text-[9px] uppercase tracking-[.17em] text-[#d19a5c]">Exterior / profile</span></div>
           </div>
           <div className="reveal delay-2">
-            <div className="flex gap-2 border-b border-[#dbe0d6]/15 pb-4">{(['sedan', 'suv', 'van'] as FleetMode[]).map((item) => <button key={item} onClick={() => setSelected(item)} className={`px-1 pb-3 mr-5 font-mono-ui text-[9px] uppercase tracking-[.16em] ${selected === item ? 'border-b border-[#d19a5c] text-[#d19a5c]' : 'text-[#dbe0d6]/45 hover:text-[#f6f1e8]'}`} data-testid={`button-fleet-${item}`}>{item}</button>)}</div>
+            <div className="flex gap-2 border-b border-[#dbe0d6]/15 pb-4">{(['sedan', 'suv', 'premium'] as FleetMode[]).map((item) => <button key={item} onClick={() => setSelected(item)} className={`px-1 pb-3 mr-5 font-mono-ui text-[9px] uppercase tracking-[.16em] ${selected === item ? 'border-b border-[#d19a5c] text-[#d19a5c]' : 'text-[#dbe0d6]/45 hover:text-[#f6f1e8]'}`} data-testid={`button-fleet-${item}`}>{item}</button>)}</div>
             <span className="mt-10 block font-mono-ui text-[9px] uppercase tracking-[.18em] text-[#d19a5c]">{vehicle.type}</span><h3 className="mt-4 font-display text-5xl">{vehicle.name}</h3><p className="mt-6 max-w-[380px] text-[14px] leading-[1.8] text-[#dbe0d6]/68">{vehicle.description}</p><div className="mt-9 flex items-center gap-6 border-y border-[#dbe0d6]/15 py-5"><span className="font-mono-ui text-[10px] text-[#dbe0d6]/60">{vehicle.spec}</span><span className="h-1 w-1 rounded-full bg-[#d19a5c]" /><span className="font-mono-ui text-[10px] text-[#dbe0d6]/60">Wi-Fi · water · privacy</span></div>
-            <button onClick={() => document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' })} className="group mt-8 flex items-center gap-3 font-mono-ui text-[10px] uppercase tracking-[.16em] text-[#f6f1e8]" data-testid="button-select-vehicle">Select this vehicle <ArrowRight size={14} className="text-[#d19a5c] transition-transform group-hover:translate-x-1" /></button>
+            <button onClick={() => document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' })} className="group mt-8 flex items-center gap-3 font-mono-ui text-[10px] uppercase tracking-[.16em] text-[#f6f1e8]" data-testid="button-book-this-vehicle">Select this vehicle <ArrowRight size={14} className="text-[#d19a5c] transition-transform group-hover:translate-x-1" /></button>
           </div>
         </div>
       </div>
@@ -266,10 +287,10 @@ function Process() {
   return (
     <section className="bg-[#e9dfcf] py-28 sm:py-36">
       <div className="container-edge">
-        <div className="reveal text-center"><span className="font-mono-ui text-[9px] uppercase tracking-[.2em] text-[#bc754e]">From here to there</span><h2 className="mx-auto mt-5 max-w-[650px] font-display text-[clamp(2.8rem,5vw,5rem)] leading-[.95]">Three quiet steps<br /><i>to your destination.</i></h2></div>
+        <div className="reveal text-center"><span className="font-mono-ui text-[9px] uppercase tracking-[.2em] text-[#bc754e]">How it works</span><h2 className="mx-auto mt-5 max-w-[650px] font-display text-[clamp(2.8rem,5vw,5rem)] leading-[.95]">Three steps.<br /><i>Nothing more.</i></h2></div>
         <div className="relative mt-20 grid gap-12 md:grid-cols-3 md:gap-6">
           <div className="absolute left-[16%] right-[16%] top-5 hidden h-px border-t border-dashed border-[#193f3e]/25 md:block" />
-          {[['01', 'Tell us where', 'A few details are enough. Choose your service, share the route, and tell us when to be ready.'], ['02', 'We make it exact', 'Our team matches the vehicle and chauffeur to your itinerary, then sends one clear confirmation.'], ['03', 'You arrive composed', 'Your car is early, your route is considered, and the rest of the world can wait.']].map(([num, title, copy], index) => <div key={num} className={`reveal delay-${index + 1} relative`}><span className="relative z-10 flex h-10 w-10 items-center justify-center rounded-full border border-[#193f3e] bg-[#e9dfcf] font-mono-ui text-[10px]">{num}</span><h3 className="mt-7 font-display text-2xl">{title}</h3><p className="mt-3 max-w-[260px] text-[12px] leading-[1.75] text-[#193f3e]/65">{copy}</p></div>)}
+          {[['01', 'Tell us where and when', 'A few details are enough. Choose your service, share the route, and tell us when to be ready.'], ['02', 'Choose your ride', 'Select from our fleet of immaculate sedans and SUVs tailored to your journey.'], ['03', 'We handle the rest', 'Your car is early, your route is considered, and the rest of the world can wait.']].map(([num, title, copy], index) => <div key={num} className={`reveal delay-${index + 1} relative`}><span className="relative z-10 flex h-10 w-10 items-center justify-center rounded-full border border-[#193f3e] bg-[#e9dfcf] font-mono-ui text-[10px]">{num}</span><h3 className="mt-7 font-display text-2xl">{title}</h3><p className="mt-3 max-w-[260px] text-[12px] leading-[1.75] text-[#193f3e]/65">{copy}</p></div>)}
         </div>
       </div>
     </section>
@@ -296,16 +317,95 @@ function Footer() {
   return (
     <footer className="bg-[#bc754e] text-[#193f3e]">
       <div className="container-edge py-24 sm:py-32">
-        <div className="reveal flex flex-col justify-between gap-12 md:flex-row md:items-end"><div><span className="font-mono-ui text-[9px] uppercase tracking-[.2em]">The road is yours</span><h2 className="mt-5 max-w-[700px] font-display text-[clamp(3.5rem,8vw,8rem)] leading-[.82] tracking-[-.06em]">Take your<br /><i>time.</i></h2></div><button onClick={jump} className="group flex items-center gap-3 border-b border-[#193f3e] pb-3 text-left font-mono-ui text-[10px] uppercase tracking-[.16em]" data-testid="button-footer-book">Request a car <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" /></button></div>
+        <div className="reveal flex flex-col justify-between gap-12 md:flex-row md:items-end"><div><span className="font-mono-ui text-[9px] uppercase tracking-[.2em]">Your ride starts here</span><h2 className="mt-5 max-w-[700px] font-display text-[clamp(3.5rem,8vw,8rem)] leading-[.82] tracking-[-.06em]">Book in a few<br /><i>simple steps.</i></h2></div><button onClick={jump} className="group flex items-center gap-3 border-b border-[#193f3e] pb-3 text-left font-mono-ui text-[10px] uppercase tracking-[.16em]" data-testid="button-footer-book">We'll handle the rest <ArrowRight size={15} className="transition-transform group-hover:translate-x-1" /></button></div>
         <div className="mt-24 flex flex-col justify-between gap-9 border-t border-[#193f3e]/25 pt-7 sm:flex-row"><Logo /><div className="flex flex-wrap gap-x-7 gap-y-3 font-mono-ui text-[9px] uppercase tracking-[.13em] text-[#193f3e]/65"><a href="#services" data-testid="link-footer-services">Services</a><a href="#fleet" data-testid="link-footer-fleet">Fleet</a><a href="#standard" data-testid="link-footer-standard">Our standard</a><a href="mailto:hello@turan-elite.com" data-testid="link-footer-email">Concierge email</a></div><span className="font-mono-ui text-[9px] text-[#193f3e]/55">© 2024 Turan Elite Limo</span></div>
       </div>
     </footer>
   );
 }
 
+function VehicleSelection({ trip, onBack }: { trip: any; onBack: () => void }) {
+  const [selected, setSelected] = useState<FleetMode>('sedan');
+  const vehicle = fleet[selected];
+  const [confirmed, setConfirmed] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  if (confirmed) {
+    return (
+      <div className="min-h-screen bg-[#f6f1e8] text-[#193f3e] flex items-center justify-center p-6 text-center">
+        <div className="max-w-md reveal is-visible">
+          <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full border border-[#193f3e]/20 bg-white shadow-[0_12px_40px_rgba(8,28,28,.06)]">
+            <Check size={28} className="text-[#bc754e]" />
+          </div>
+          <h2 className="font-display text-4xl mb-4">Request received.</h2>
+          <p className="text-[14px] leading-relaxed text-[#193f3e]/70 mb-8">
+            Your choice of the {vehicle.name} has been held. Our concierge team will review your itinerary and send a final confirmation shortly.
+          </p>
+          <button onClick={() => window.location.reload()} className="font-mono-ui text-[10px] uppercase tracking-[.16em] border-b border-[#193f3e] pb-1 hover:text-[#bc754e] hover:border-[#bc754e] transition-colors">Return to homepage</button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-[#f6f1e8] text-[#193f3e] flex flex-col md:flex-row">
+      <div className="flex-1 p-6 sm:p-10 md:p-16 lg:p-20 border-r border-[#193f3e]/15">
+        <button onClick={onBack} className="flex items-center gap-3 font-mono-ui text-[9px] uppercase tracking-[.16em] text-[#193f3e]/50 hover:text-[#193f3e] transition-colors mb-12"><ArrowRight size={13} className="rotate-180" /> Back to details</button>
+        <h2 className="font-display text-3xl sm:text-5xl mb-3">Choose your vehicle</h2>
+        <p className="text-[13px] text-[#193f3e]/65 mb-12 max-w-md">Our fleet is maintained to exacting standards. Each vehicle includes bottled water, chargers, and a professional chauffeur.</p>
+        
+        <div className="grid gap-6">
+          {(['sedan', 'suv', 'premium'] as FleetMode[]).map((key) => {
+            const v = fleet[key];
+            const isSelected = selected === key;
+            return (
+              <div key={key} onClick={() => setSelected(key)} className={`group relative cursor-pointer overflow-hidden border transition-all duration-300 ${isSelected ? 'border-[#d19a5c] bg-white shadow-[0_12px_40px_rgba(8,28,28,.08)]' : 'border-[#193f3e]/15 hover:border-[#193f3e]/40 bg-white/50'}`}>
+                <div className="flex flex-col sm:flex-row items-center gap-6 p-6 sm:p-8">
+                  <div className="w-full sm:w-[220px] shrink-0">
+                    <img src={v.image} alt={v.name} className={`w-full object-contain transition-transform duration-500 ${isSelected ? 'scale-105' : 'group-hover:scale-105'}`} />
+                  </div>
+                  <div className="flex-1 w-full">
+                    <div className="flex justify-between items-start mb-2">
+                      <div><span className="block font-mono-ui text-[9px] uppercase tracking-[.15em] text-[#bc754e]">{v.type}</span><h3 className="font-display text-2xl mt-1">{v.name}</h3></div>
+                      <div className="text-right"><span className="font-mono-ui text-[9px] uppercase tracking-[.15em] text-[#193f3e]/50 block mb-1">Est. Total</span><span className="font-display text-xl">{v.price}</span></div>
+                    </div>
+                    <div className="flex items-center gap-4 mt-4 pt-4 border-t border-[#193f3e]/10">
+                      <span className="font-mono-ui text-[9px] text-[#193f3e]/60">{v.spec}</span><span className="h-1 w-1 rounded-full bg-[#d19a5c]/50" /><span className="font-mono-ui text-[9px] text-[#193f3e]/60">Chauffeur</span>
+                    </div>
+                  </div>
+                </div>
+                {isSelected && <div className="absolute top-4 left-4 h-2 w-2 rounded-full bg-[#d19a5c]" />}
+              </div>
+            );
+          })}
+        </div>
+        <div className="mt-12 text-center md:text-left"><a href="mailto:hello@turan-elite.com" className="font-mono-ui text-[9px] uppercase tracking-[.15em] text-[#193f3e]/50 underline decoration-transparent hover:decoration-current hover:text-[#193f3e] transition-colors">Need something larger? Contact concierge</a></div>
+      </div>
+      <div className="w-full md:w-[380px] lg:w-[440px] shrink-0 bg-[#e9dfcf] p-6 sm:p-10 md:p-12 md:sticky md:top-0 h-auto md:h-screen flex flex-col justify-between">
+        <div>
+          <span className="font-mono-ui text-[9px] uppercase tracking-[.2em] text-[#bc754e]">Trip Summary</span>
+          <div className="mt-8 space-y-6">
+            <div><span className="block font-mono-ui text-[8px] uppercase tracking-[.15em] text-[#193f3e]/50 mb-1.5">Route</span><p className="text-[13px] font-semibold leading-relaxed">{trip.from}<br /><span className="text-[#bc754e] my-1.5 block">↓</span>{trip.to}</p></div>
+            <div className="flex gap-8"><div><span className="block font-mono-ui text-[8px] uppercase tracking-[.15em] text-[#193f3e]/50 mb-1.5">Date</span><p className="text-[13px] font-semibold">{trip.date}</p></div><div><span className="block font-mono-ui text-[8px] uppercase tracking-[.15em] text-[#193f3e]/50 mb-1.5">Time</span><p className="text-[13px] font-semibold">{trip.time}</p></div></div>
+            <div className="pt-6 border-t border-[#193f3e]/15">
+              <span className="block font-mono-ui text-[8px] uppercase tracking-[.15em] text-[#193f3e]/50 mb-1.5">Selected Vehicle</span><p className="text-[15px] font-display italic">{vehicle.name}</p>
+            </div>
+          </div>
+        </div>
+        <button onClick={() => setConfirmed(true)} className="group mt-12 w-full flex items-center justify-between bg-[#193f3e] px-6 py-5 text-[#f6f1e8] hover:bg-[#bc754e] transition-colors"><span className="font-mono-ui text-[10px] uppercase tracking-[.16em]">Confirm request</span><ArrowRight size={15} className="transition-transform group-hover:translate-x-1" /></button>
+      </div>
+    </div>
+  );
+}
+
 function Home() {
+  const [tripState, setTripState] = useState<any>(null);
   useReveal();
-  return <main className="noise overflow-hidden"><Hero /><div className="border-b border-[#193f3e]/15 bg-[#e9dfcf]"><div className="container-edge grid gap-5 py-6 font-mono-ui text-[9px] uppercase tracking-[.14em] text-[#193f3e]/55 sm:grid-cols-3 sm:gap-3"><span className="flex items-center gap-2"><Globe2 size={12} className="text-[#bc754e]" /> One standard, any city</span><span className="flex items-center gap-2"><UserRound size={12} className="text-[#bc754e]" /> A real person, always</span><span className="flex items-center gap-2"><Sparkles size={12} className="text-[#bc754e]" /> Thoughtful by default</span></div></div><Services /><Standard /><Fleet /><Process /><Journal /><section className="bg-[#f6f1e8] pb-28 sm:pb-40"><div className="container-edge reveal border-t border-[#193f3e]/15 pt-20"><div className="flex flex-col justify-between gap-8 sm:flex-row sm:items-center"><div><div className="flex gap-1 text-[#bc754e]">{[1, 2, 3, 4, 5].map((item) => <Star key={item} size={14} fill="currentColor" />)}</div><blockquote className="mt-5 max-w-[720px] font-display text-3xl leading-[1.15] sm:text-5xl">“It is the rare service that makes a 5am departure feel like a privilege.”</blockquote><cite className="mt-5 block font-mono-ui text-[9px] uppercase tracking-[.15em] text-[#193f3e]/50 not-italic">— A. Rahman, global strategy</cite></div><Quote className="hidden text-[#bc754e]/45 sm:block" size={54} strokeWidth={1} /></div></div></section><Footer /></main>;
+  if (tripState) return <VehicleSelection trip={tripState} onBack={() => setTripState(null)} />;
+  return <main className="noise overflow-hidden"><Hero onBook={setTripState} /><div className="border-b border-[#193f3e]/15 bg-[#e9dfcf]"><div className="container-edge grid gap-5 py-6 font-mono-ui text-[9px] uppercase tracking-[.14em] text-[#193f3e]/55 sm:grid-cols-3 sm:gap-3"><span className="flex items-center gap-2"><Globe2 size={12} className="text-[#bc754e]" /> One standard, any city</span><span className="flex items-center gap-2"><UserRound size={12} className="text-[#bc754e]" /> A real person, always</span><span className="flex items-center gap-2"><Sparkles size={12} className="text-[#bc754e]" /> Thoughtful by default</span></div></div><Services /><Standard /><Fleet /><Process /><Journal /><section className="bg-[#f6f1e8] pb-28 sm:pb-40"><div className="container-edge reveal border-t border-[#193f3e]/15 pt-20"><div className="flex flex-col justify-between gap-8 sm:flex-row sm:items-center"><div><div className="flex gap-1 text-[#bc754e]">{[1, 2, 3, 4, 5].map((item) => <Star key={item} size={14} fill="currentColor" />)}</div><blockquote className="mt-5 max-w-[720px] font-display text-3xl leading-[1.15] sm:text-5xl">“It is the rare service that makes a 5am departure feel like a privilege.”</blockquote><cite className="mt-5 block font-mono-ui text-[9px] uppercase tracking-[.15em] text-[#193f3e]/50 not-italic">— A. Rahman, global strategy</cite></div><Quote className="hidden text-[#bc754e]/45 sm:block" size={54} strokeWidth={1} /></div></div></section><Footer /></main>;
 }
 
 function Router() {
