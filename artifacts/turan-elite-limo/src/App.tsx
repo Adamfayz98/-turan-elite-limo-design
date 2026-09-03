@@ -41,16 +41,12 @@ function useReveal() {
 
 function Logo({ light = false }: { light?: boolean }) {
   return (
-    <div className={`flex items-center gap-3 ${light ? 'text-[#f6f1e8]' : 'text-[#193f3e]'}`} data-testid="brand-logo">
-      <span className="relative flex h-9 w-9 items-center justify-center border border-current/60 rounded-full">
-        <span className="absolute h-4 w-4 rounded-full border border-current/70" />
-        <span className="h-1 w-1 rounded-full bg-[#d19a5c]" />
-      </span>
-      <span className="leading-none">
-        <span className="block font-mono-ui text-[9px] tracking-[.28em]">TURAN</span>
-        <span className="block mt-1 font-mono-ui text-[9px] tracking-[.16em] opacity-70">ELITE LIMO</span>
-      </span>
-    </div>
+    <img
+      src={`${import.meta.env.BASE_URL}assets/turan-elite-limo-logo.png`}
+      alt="TuranEliteLimo — Luxury Chauffeur Services"
+      className={`h-auto w-[154px] object-contain sm:w-[182px] ${light ? 'drop-shadow-[0_2px_10px_rgba(0,0,0,0.18)]' : ''}`}
+      data-testid="brand-logo"
+    />
   );
 }
 
