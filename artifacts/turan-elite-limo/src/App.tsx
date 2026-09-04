@@ -501,11 +501,11 @@ function Hero() {
       <Nav onBook={jump} />
       
       <div className="container-edge relative flex-1 flex flex-col justify-end lg:justify-center pb-16 lg:pb-24 pt-20 lg:pt-32">
-        <div className={`w-full max-w-[700px] transition-all duration-300 ease-out overflow-hidden ${isBookingActive ? 'opacity-0 max-h-0 mb-0' : 'opacity-100 max-h-[500px] mb-12 lg:mb-16'}`}>
+        <div className={`w-full max-w-[700px] transition-all duration-300 ease-out overflow-hidden lg:-translate-y-6 ${isBookingActive ? 'opacity-0 max-h-0 mb-0' : 'opacity-100 max-h-[500px] mb-12 lg:mb-16'}`}>
           <div className="reveal">
-            <p className="flex items-center gap-3 font-mono-ui text-[9px] uppercase tracking-[.25em] text-[#d19a5c]"><span className="h-px w-7 bg-[#d19a5c]" />Bay Area & Northern California</p>
-            <h1 className="mt-8 font-display text-[clamp(3.8rem,8.5vw,8.2rem)] leading-[.84] tracking-[-.05em]">Arrive in<br /><i className="text-[#d19a5c]">unspoken<br />luxury.</i></h1>
-            <p className="mt-8 max-w-[390px] text-[14px] leading-[1.8] text-[#dbe0d6]/72">From SFO to Napa, your chauffeur handles the details so the ride feels effortless.</p>
+            <p className="flex items-center gap-3 font-mono-ui text-[10px] uppercase tracking-[.22em] text-[#d19a5c] font-medium"><span className="h-px w-7 bg-[#d19a5c]" />Northern California · Bay Area · SFO · OAK · SJC</p>
+            <h1 className="mt-5 font-display text-[clamp(3.8rem,8.5vw,8.2rem)] leading-[.84] tracking-[-.05em]">Arrive in<br /><i className="text-[#d19a5c]">unspoken<br />luxury.</i></h1>
+            <p className="mt-6 max-w-[390px] text-[15px] leading-[1.8] text-[#dbe0d6]/80 font-medium">From SFO to Napa, your chauffeur handles the details so the ride feels effortless.</p>
           </div>
         </div>
         <div className={`w-full flex justify-center z-20 transition-[top,transform] duration-300 ease-out ${isBookingActive ? 'lg:absolute lg:inset-x-0 lg:top-1/2 lg:-translate-y-1/2' : 'relative'}`}>
@@ -583,6 +583,129 @@ function ServiceSlider() {
             <button onClick={prev} className="w-12 h-12 rounded-full border border-[#193f3e]/20 flex items-center justify-center text-[#193f3e] hover:bg-[#193f3e] hover:text-[#f6f1e8] transition-colors"><ChevronLeft size={20} strokeWidth={1.5} /></button>
             <button onClick={next} className="w-12 h-12 rounded-full border border-[#193f3e]/20 flex items-center justify-center text-[#193f3e] hover:bg-[#193f3e] hover:text-[#f6f1e8] transition-colors"><ChevronRight size={20} strokeWidth={1.5} /></button>
           </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function AppSection() {
+  return (
+    <section className="bg-[#f6f1e8] py-28 sm:py-40 border-t border-[#193f3e]/10 overflow-hidden relative">
+      <div className="container-edge grid gap-16 lg:grid-cols-[1fr_1.2fr] lg:gap-24 lg:items-center">
+        <div className="reveal">
+          <span className="font-mono-ui text-[10px] uppercase tracking-[.2em] text-[#bc754e] font-medium">The TuranEliteLimo App</span>
+          <h2 className="mt-5 max-w-[500px] font-display text-[clamp(3.2rem,5vw,4.5rem)] leading-[1.05] tracking-[-.03em]">TuranEliteLimo,<br /><i>wherever you go.</i></h2>
+          <p className="mt-8 text-[15px] leading-[1.8] text-[#193f3e]/80 max-w-[400px] font-medium">Book and manage your rides from one place. Your chauffeur service stays within reach whenever you need it.</p>
+          
+          <div className="mt-12 hidden lg:flex flex-col sm:flex-row gap-4">
+             <button type="button" onClick={(e) => e.preventDefault()} className="w-full sm:w-[200px] h-[54px] rounded-full border border-[#193f3e]/20 bg-white text-[#193f3e] flex items-center justify-center gap-3 hover:border-[#193f3e]/50 hover:bg-[#e9dfcf] transition-colors shadow-sm" data-testid="button-app-store">
+               <span className="font-mono-ui text-[10px] uppercase tracking-[.12em] font-bold">Download on the App Store</span>
+             </button>
+             <button type="button" onClick={(e) => e.preventDefault()} className="w-full sm:w-[200px] h-[54px] rounded-full border border-[#193f3e]/20 bg-white text-[#193f3e] flex items-center justify-center gap-3 hover:border-[#193f3e]/50 hover:bg-[#e9dfcf] transition-colors shadow-sm" data-testid="button-google-play">
+               <span className="font-mono-ui text-[10px] uppercase tracking-[.12em] font-bold">Get it on Google Play</span>
+             </button>
+          </div>
+        </div>
+        
+        <div className="reveal delay-2 relative w-full h-[500px] sm:h-[600px] bg-[#e9dfcf]/60 rounded-[4px] overflow-hidden flex items-end justify-center shadow-[inset_0_2px_20px_rgba(0,0,0,0.02)] border border-[#193f3e]/5">
+           {/* Decorative circles */}
+           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full border border-[#193f3e]/5 pointer-events-none" />
+           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full border border-[#193f3e]/5 pointer-events-none" />
+           
+           {/* Tablet/Desktop secondary UI floating behind phone */}
+           <div className="absolute right-[-5%] top-[15%] w-[340px] h-[260px] bg-white rounded-xl shadow-[0_20px_50px_rgba(8,28,28,0.08)] border border-[#193f3e]/5 hidden lg:flex flex-col z-0 opacity-95 p-7">
+              <span className="font-mono-ui text-[9px] uppercase tracking-[.2em] text-[#193f3e]/40 block mb-6 font-medium">Manage Bookings</span>
+              <div className="flex flex-col gap-5">
+                <div className="flex items-center gap-4 border-b border-[#193f3e]/5 pb-5">
+                  <div className="w-12 h-12 bg-[#193f3e] rounded-full flex items-center justify-center"><CalendarDays size={16} className="text-[#d19a5c]"/></div>
+                  <div>
+                    <span className="block text-[14px] font-bold text-[#193f3e] mb-1">Tomorrow, 8:00 AM</span>
+                    <span className="block text-[12px] text-[#193f3e]/60 font-medium">SFO to Napa Valley</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-[#193f3e]/5 rounded-full flex items-center justify-center"><CalendarDays size={16} className="text-[#193f3e]/40"/></div>
+                  <div>
+                    <span className="block text-[14px] font-bold text-[#193f3e] mb-1">Oct 15, 2:30 PM</span>
+                    <span className="block text-[12px] text-[#193f3e]/60 font-medium">Corporate HQ</span>
+                  </div>
+                </div>
+              </div>
+           </div>
+
+           {/* Phone mockup */}
+           <div className="relative w-[280px] h-[540px] bg-[#193f3e] rounded-t-[40px] shadow-[0_0_60px_rgba(8,28,28,0.15)] border-[8px] border-[#102a29] border-b-0 flex flex-col overflow-hidden z-10 translate-y-4">
+             {/* Notch */}
+             <div className="absolute top-0 inset-x-0 h-6 flex justify-center z-20">
+                <div className="w-36 h-6 bg-[#102a29] rounded-b-[18px]" />
+             </div>
+             
+             {/* App Header */}
+             <div className="bg-[#193f3e] pt-16 pb-7 px-7 text-[#f6f1e8] border-b border-white/10 relative z-10">
+                <span className="font-mono-ui text-[9px] uppercase tracking-[.2em] text-[#d19a5c] block mb-2 font-medium">Next Ride</span>
+                <h4 className="font-display text-3xl">Wed, Oct 12</h4>
+                <div className="mt-6 flex items-start gap-4">
+                  <div className="flex flex-col items-center mt-1.5">
+                    <span className="w-2 h-2 rounded-full border border-[#d19a5c]" />
+                    <span className="w-px h-7 bg-[#d19a5c]/40 my-1" />
+                    <span className="w-2 h-2 rounded-full bg-[#d19a5c]" />
+                  </div>
+                  <div className="flex flex-col gap-4">
+                    <span className="text-[13px] font-medium leading-none text-white/95 mt-0.5">SFO Airport</span>
+                    <span className="text-[13px] font-medium leading-none text-white/95 mt-4">Four Seasons SF</span>
+                  </div>
+                </div>
+             </div>
+             
+             {/* App Body */}
+             <div className="flex-1 bg-[#f6f1e8] p-5 flex flex-col gap-4 relative">
+                <div className="w-full bg-white rounded-xl shadow-sm border border-[#193f3e]/5 p-5 relative overflow-hidden">
+                  <span className="font-mono-ui text-[9px] uppercase tracking-[.2em] text-[#193f3e]/40 block mb-4 font-medium">Vehicle</span>
+                  <div className="aspect-[2/1] w-full bg-[#e1e8e0]/50 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
+                    <img src="/assets/executive-sedan-cadillac-xts.png" alt="Executive sedan" className="w-[85%] h-auto mix-blend-multiply object-contain" />
+                  </div>
+                  <div className="flex justify-between items-end">
+                    <div>
+                      <h5 className="font-display text-[16px] text-[#193f3e] mb-1 font-bold">Executive Sedan</h5>
+                      <span className="text-[11px] text-[#193f3e]/60 font-medium">S-Class or similar</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="w-full bg-white rounded-xl shadow-sm border border-[#193f3e]/5 p-4 flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-full bg-[#193f3e]/5 flex items-center justify-center shrink-0">
+                    <ShieldCheck size={16} className="text-[#193f3e]" />
+                  </div>
+                  <div>
+                    <span className="block text-[13px] font-bold text-[#193f3e] mb-0.5">Reservation support</span>
+                    <span className="block text-[11px] text-[#193f3e]/60 font-medium">24/7 live dispatch</span>
+                  </div>
+                </div>
+             </div>
+             
+             {/* Bottom Nav */}
+             <div className="h-[72px] bg-white border-t border-[#193f3e]/10 flex justify-around items-center px-6">
+                <div className="flex flex-col items-center gap-1 text-[#193f3e]">
+                  <Globe2 size={18} />
+                </div>
+                <div className="flex flex-col items-center gap-1 text-[#193f3e]/30">
+                  <CalendarDays size={18} />
+                </div>
+                <div className="flex flex-col items-center gap-1 text-[#193f3e]/30">
+                  <UserRound size={18} />
+                </div>
+             </div>
+           </div>
+           
+        </div>
+        <div className="flex flex-col sm:flex-row gap-4 lg:hidden">
+          <button type="button" onClick={(e) => e.preventDefault()} className="w-full sm:w-[220px] h-[54px] rounded-full border border-[#193f3e]/20 bg-white text-[#193f3e] flex items-center justify-center shadow-sm" data-testid="button-app-store-mobile">
+            <span className="font-mono-ui text-[10px] uppercase tracking-[.12em] font-bold">Download on the App Store</span>
+          </button>
+          <button type="button" onClick={(e) => e.preventDefault()} className="w-full sm:w-[220px] h-[54px] rounded-full border border-[#193f3e]/20 bg-white text-[#193f3e] flex items-center justify-center shadow-sm" data-testid="button-google-play-mobile">
+            <span className="font-mono-ui text-[10px] uppercase tracking-[.12em] font-bold">Get it on Google Play</span>
+          </button>
         </div>
       </div>
     </section>
@@ -696,14 +819,14 @@ function Process() {
         <div className="reveal flex flex-col items-center text-center"><span className="font-mono-ui text-[9px] uppercase tracking-[.2em] text-[#bc754e]">How it works</span><h2 className="mt-5 max-w-[650px] font-display text-[clamp(3.2rem,6vw,5.5rem)] leading-[.95] tracking-[-.03em]">Three steps.<br /><i>Nothing more.</i></h2></div>
         
         <div className="mt-24 grid gap-16 lg:grid-cols-3 lg:gap-12 relative max-w-[1000px] mx-auto">
-          {[['01', 'Tell us where and when', 'A few details are enough. Choose your service, share the route, and tell us when to be ready.'], 
-            ['02', 'Choose your ride', 'Select from our fleet of immaculate sedans and SUVs tailored to your journey.'], 
-            ['03', 'We handle the rest', 'Your car is early, your route is considered, and the rest of the world can wait.']
+          {[['01', 'Tell us where and when', 'Choose your pickup, destination, date and time.'], 
+            ['02', 'Choose your ride', 'Select from sedans, SUVs and specialty vehicles tailored to your trip.'], 
+            ['03', 'We handle the rest', 'A professional chauffeur arrives on time and gets you there safely.']
            ].map(([num, title, copy], index) => (
             <div key={num} className={`reveal delay-${index + 1} flex flex-col items-center text-center`}>
-              <span className="font-display text-6xl text-[#193f3e]/30 mb-6">{num}</span>
+              <span className="font-display text-6xl text-[#193f3e]/60 mb-6 font-medium">{num}</span>
               <h3 className="font-display text-2xl mb-4">{title}</h3>
-              <p className="text-[14px] leading-[1.7] text-[#193f3e]/70 max-w-[280px]">{copy}</p>
+              <p className="text-[15px] leading-[1.7] text-[#193f3e]/80 max-w-[280px] font-medium">{copy}</p>
             </div>
           ))}
         </div>
@@ -729,15 +852,15 @@ function Standard() {
           </div>
         </div>
         <div className="reveal delay-2 lg:py-10">
-          <span className="font-mono-ui text-[9px] uppercase tracking-[.2em] text-[#bc754e]">The Turan standard</span>
-          <h2 className="mt-6 max-w-[500px] font-display text-[clamp(3.2rem,5vw,4.5rem)] leading-[1] tracking-[-.03em]">Nothing loud.<br /><i>Everything ready.</i></h2>
-          <p className="mt-8 text-[15px] leading-[1.8] text-[#193f3e]/75 max-w-[440px]">From airport pickups to a night in the city, your chauffeur handles the details so the ride feels effortless. Every element has a job: the right temperature, a driver who has read the room, an arrival that never needs explaining.</p>
+          <span className="font-mono-ui text-[10px] uppercase tracking-[.2em] text-[#bc754e] font-medium">The Turan standard</span>
+          <h2 className="mt-5 max-w-[500px] font-display text-[clamp(3.2rem,5vw,4.5rem)] leading-[1] tracking-[-.03em]">Nothing loud.<br /><i>Everything ready.</i></h2>
+          <p className="mt-8 text-[15px] leading-[1.8] text-[#193f3e]/80 max-w-[440px] font-medium">TuranEliteLimo is a boutique chauffeur service built around professional chauffeurs, licensed and insured carriers, and live dispatch from booking to drop-off.</p>
           
-          <div className="mt-12 grid grid-cols-2 gap-x-8 gap-y-10 border-t border-[#193f3e]/15 pt-10">
-            {[['04:12', 'Average reply'], ['24/7', 'Human support'], ['12 min', 'Early to you'], ['∞', 'Small details']].map(([value, label]) => (
+          <div className="mt-12 grid grid-cols-2 gap-x-8 gap-y-10 border-t border-[#193f3e]/20 pt-10">
+            {[['30+', 'NorCal Cities'], ['24/7', 'Live Dispatch'], ['45 Min', 'Airport Grace Period'], ['15 Min', 'Standard Pickup Grace Period']].map(([value, label]) => (
               <div key={label}>
-                <strong className="block font-display text-4xl font-medium text-[#193f3e]">{value}</strong>
-                <span className="mt-2 block font-mono-ui text-[9px] uppercase tracking-[.15em] text-[#193f3e]/60">{label}</span>
+                <strong className="block font-display text-4xl lg:text-5xl font-medium text-[#193f3e]">{value}</strong>
+                <span className="mt-3 block font-mono-ui text-[10px] uppercase tracking-[.15em] text-[#193f3e]/70 font-medium">{label}</span>
               </div>
             ))}
           </div>
@@ -755,22 +878,60 @@ function Footer() {
       <div className="container-edge py-24 sm:py-32 relative z-10">
         <div className="reveal flex flex-col justify-between gap-12 lg:flex-row lg:items-end">
           <div>
-            <span className="font-mono-ui text-[10px] uppercase tracking-[.2em]">Your ride starts here</span>
+            <span className="font-mono-ui text-[10px] uppercase tracking-[.2em] font-medium">Your ride starts here</span>
             <h2 className="mt-6 max-w-[700px] font-display text-[clamp(4rem,8vw,7rem)] leading-[.85] tracking-[-.04em]">Book in a few<br /><i>simple steps.</i></h2>
           </div>
-          <button onClick={jump} className="group flex items-center gap-4 border-b-2 border-[#193f3e] pb-3 text-left font-mono-ui text-[12px] uppercase tracking-[.16em] hover:text-[#f6f1e8] hover:border-[#f6f1e8] transition-colors" data-testid="button-footer-book">
-            We'll handle the rest <ArrowRight size={18} className="transition-transform group-hover:translate-x-2" />
+          <button onClick={jump} className="group flex items-center gap-4 border-b-2 border-[#193f3e] pb-3 text-left font-mono-ui text-[12px] uppercase tracking-[.16em] font-bold hover:text-[#f6f1e8] hover:border-[#f6f1e8] transition-colors" data-testid="button-footer-book">
+            Book Your Ride <ArrowRight size={18} className="transition-transform group-hover:translate-x-2" />
           </button>
         </div>
-        <div className="mt-28 flex flex-col justify-between gap-10 border-t border-[#193f3e]/20 pt-10 sm:flex-row items-start sm:items-center">
-          <Logo />
-          <div className="flex flex-wrap gap-x-10 gap-y-4 font-mono-ui text-[10px] uppercase tracking-[.15em] text-[#193f3e]/80">
-            <a href="#services" className="hover:text-[#f6f1e8] transition-colors" data-testid="link-footer-services">Services</a>
-            <a href="#process" className="hover:text-[#f6f1e8] transition-colors" data-testid="link-footer-process">How it works</a>
-            <a href="#standard" className="hover:text-[#f6f1e8] transition-colors" data-testid="link-footer-standard">Our standard</a>
-            <a href="mailto:hello@turan-elite.com" className="hover:text-[#f6f1e8] transition-colors" data-testid="link-footer-email">Concierge email</a>
+        
+        <div className="mt-28 grid gap-12 lg:grid-cols-4 border-t border-[#193f3e]/20 pt-16">
+          <div className="lg:col-span-1">
+             <div className="mix-blend-multiply opacity-90 brightness-0" style={{ filter: 'brightness(0) invert(22%) sepia(21%) saturate(1831%) hue-rotate(126deg) brightness(97%) contrast(93%)' }}>
+               <Logo />
+             </div>
+             <p className="mt-8 text-[13px] leading-relaxed text-[#193f3e]/80 max-w-[280px] font-medium">
+               A premium private chauffeur service for the Bay Area & Northern California.
+             </p>
           </div>
-          <span className="font-mono-ui text-[9px] text-[#193f3e]/60">© 2024 Turan Elite Limo</span>
+          
+          <div className="grid grid-cols-2 gap-8 lg:col-span-2">
+            <div>
+              <span className="font-mono-ui text-[9px] uppercase tracking-[.2em] text-[#193f3e]/60 mb-6 block">Navigation</span>
+              <ul className="flex flex-col gap-4 text-[13px] font-medium text-[#193f3e]">
+                <li><button onClick={jump} className="hover:text-[#f6f1e8] transition-colors">Reserve</button></li>
+                <li><a href="#services" className="hover:text-[#f6f1e8] transition-colors">Services</a></li>
+                <li><button onClick={(e) => e.preventDefault()} className="hover:text-[#f6f1e8] transition-colors">Vehicles</button></li>
+                <li><button onClick={(e) => e.preventDefault()} className="hover:text-[#f6f1e8] transition-colors">Coverage</button></li>
+                <li><button onClick={(e) => e.preventDefault()} className="hover:text-[#f6f1e8] transition-colors">About</button></li>
+              </ul>
+            </div>
+            <div>
+              <span className="font-mono-ui text-[9px] uppercase tracking-[.2em] text-[#193f3e]/60 mb-6 block">Services</span>
+              <ul className="flex flex-col gap-4 text-[13px] font-medium text-[#193f3e]">
+                <li><button onClick={(e) => e.preventDefault()} className="hover:text-[#f6f1e8] transition-colors">Airport Transfers</button></li>
+                <li><button onClick={(e) => e.preventDefault()} className="hover:text-[#f6f1e8] transition-colors">Corporate</button></li>
+                <li><button onClick={(e) => e.preventDefault()} className="hover:text-[#f6f1e8] transition-colors">Hourly Charter</button></li>
+                <li><button onClick={(e) => e.preventDefault()} className="hover:text-[#f6f1e8] transition-colors">Weddings</button></li>
+                <li><button onClick={(e) => e.preventDefault()} className="hover:text-[#f6f1e8] transition-colors">Wine Tours</button></li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="lg:col-span-1">
+            <span className="font-mono-ui text-[9px] uppercase tracking-[.2em] text-[#193f3e]/60 mb-6 block">Contact</span>
+            <address className="not-italic text-[13px] leading-relaxed text-[#193f3e] font-medium flex flex-col gap-4">
+              <p>TuranEliteLimo<br/>501 Broadway, #251<br/>Millbrae, CA 94030</p>
+              <a href="tel:6506723520" className="hover:text-[#f6f1e8] transition-colors">(650) 672-3520</a>
+              <a href="mailto:support@turanelitelimo.com" className="hover:text-[#f6f1e8] transition-colors">support@turanelitelimo.com</a>
+            </address>
+          </div>
+        </div>
+        
+        <div className="mt-20 flex flex-col justify-between gap-6 border-t border-[#193f3e]/10 pt-8 sm:flex-row items-center font-mono-ui text-[9px] uppercase tracking-[.15em] text-[#193f3e]/70 font-medium">
+          <span>© 2026 TuranEliteLimo. All rights reserved.</span>
+          <span className="flex items-center gap-2"><ShieldCheck size={12} /> All Rides Licensed & Insured</span>
         </div>
       </div>
     </footer>
@@ -784,20 +945,34 @@ function Home() {
       <Hero />
       <div className="border-b border-[#193f3e]/15 bg-[#e9dfcf]">
         <div className="container-edge grid gap-5 py-6 font-mono-ui text-[9px] uppercase tracking-[.14em] text-[#193f3e]/55 sm:grid-cols-3 sm:gap-3">
-          <span className="flex items-center gap-2"><Globe2 size={12} className="text-[#bc754e]" /> One standard, any city</span>
-          <span className="flex items-center gap-2"><UserRound size={12} className="text-[#bc754e]" /> A real person, always</span>
-          <span className="flex items-center gap-2"><Sparkles size={12} className="text-[#bc754e]" /> Thoughtful by default</span>
+          <span className="flex items-center gap-2"><ShieldCheck size={12} className="text-[#bc754e]" /> All rides licensed & insured</span>
+          <span className="flex items-center gap-2"><UserRound size={12} className="text-[#bc754e]" /> Professional chauffeurs</span>
+          <span className="flex items-center gap-2"><Globe2 size={12} className="text-[#bc754e]" /> 24/7 live dispatch</span>
         </div>
       </div>
       <ServiceSlider />
+      <AppSection />
       <StackedStory />
       <Process />
       <Standard />
-      <section className="bg-[#193f3e] text-[#f6f1e8] py-28 sm:py-40">
+      <section className="bg-[#193f3e] text-[#f6f1e8] py-28 sm:py-40 border-t border-white/5">
         <div className="container-edge reveal flex flex-col items-center text-center">
-          <div className="flex gap-1.5 text-[#d19a5c] mb-8">{[1, 2, 3, 4, 5].map((item) => <Star key={item} size={16} fill="currentColor" />)}</div>
-          <blockquote className="max-w-[800px] font-display text-[clamp(2rem,4vw,3.2rem)] leading-[1.15] text-[#f6f1e8]">“It is the rare service that makes a 5am departure feel like a privilege.”</blockquote>
-          <cite className="mt-8 block font-mono-ui text-[10px] uppercase tracking-[.2em] text-[#dbe0d6]/75 not-italic">— A. Rahman, global strategy</cite>
+          <span className="font-mono-ui text-[10px] uppercase tracking-[.25em] text-[#d19a5c] font-medium mb-6 block">Reviews</span>
+          <h2 className="max-w-[800px] font-display text-[clamp(3.5rem,7vw,5.5rem)] leading-[.9] tracking-[-.02em] text-[#f6f1e8]">Real riders,<br /><i>real words.</i></h2>
+          <p className="mt-8 text-[15px] md:text-[16px] leading-[1.8] text-[#dbe0d6]/80 max-w-[480px] font-medium">On Google and Yelp — where our clients can leave their honest, verified impressions of our chauffeurs.</p>
+          
+          <div className="mt-12 flex flex-col sm:flex-row items-center gap-4 sm:gap-6 w-full sm:w-auto">
+            <button type="button" onClick={(e) => e.preventDefault()} className="w-full sm:w-[220px] h-[60px] rounded-full border border-[#d19a5c]/30 bg-[#d19a5c]/10 text-[#d19a5c] flex items-center justify-center gap-3 hover:bg-[#d19a5c] hover:text-[#102a29] transition-colors" data-testid="button-google-reviews">
+               <span className="font-mono-ui text-[11px] uppercase tracking-[.15em] font-medium">Google Reviews</span>
+               <ArrowRight size={14} />
+            </button>
+            <button type="button" onClick={(e) => e.preventDefault()} className="w-full sm:w-[220px] h-[60px] rounded-full border border-white/20 bg-white/5 text-[#f6f1e8] flex items-center justify-center gap-3 hover:bg-white hover:text-[#102a29] transition-colors" data-testid="button-yelp-reviews">
+               <span className="font-mono-ui text-[11px] uppercase tracking-[.15em] font-medium">Yelp Reviews</span>
+               <ArrowRight size={14} />
+            </button>
+          </div>
+          
+          <span className="mt-10 block font-mono-ui text-[9px] uppercase tracking-[.2em] text-[#dbe0d6]/50">Every review read personally by our team</span>
         </div>
       </section>
       <Footer />

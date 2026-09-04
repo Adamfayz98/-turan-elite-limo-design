@@ -1,0 +1,807 @@
+You are refining the EXISTING TuranEliteLimo homepage.
+
+IMPORTANT:
+This is NOT a redesign from scratch.
+
+The current Replit visual system is approved:
+- muted deep green
+- warm ivory
+- terracotta/rust
+- editorial serif typography
+- current service carousel
+- current 3-image stacked storytelling section
+- current Three Steps section
+- current Turan Standard section
+- current final CTA/footer direction
+
+This pass is specifically for:
+
+1. content cleanup
+2. section architecture
+3. adding a prominent TuranEliteLimo app section
+4. replacing fake/unsupported content
+5. improving small labels/numbers/badges
+6. a small hero-text positioning correction
+
+DO NOT add the new page-wide scroll-animation system in this pass.
+That will be a separate final polish pass.
+
+Do NOT redesign the booking section again.
+Do NOT touch the approved stacked-image scroll behavior.
+Do NOT build Step 2 or Step 3.
+
+==================================================
+1. SOURCE OF TRUTH FOR CONTENT
+==================================================
+
+I am attaching a PDF of the CURRENT LIVE TuranEliteLimo website.
+
+Use that PDF as the SOURCE OF TRUTH for factual claims, service wording, operational claims, coverage, policies, trust statements, and brand messaging.
+
+The current live-site content was already carefully reviewed.
+
+Do NOT invent:
+- testimonials
+- statistics
+- awards
+- partnerships
+- ratings
+- response times
+- punctuality metrics
+- app-download counts
+- client/company affiliations
+- service promises not present in the current site
+
+You may improve wording slightly to fit the new editorial design, but do NOT change the factual meaning.
+
+Use only the IMPORTANT, DISPLAY-WORTHY content from the existing live website.
+
+Do NOT copy every section from the old site.
+
+The goal is:
+cleaner homepage,
+less content,
+better content,
+stronger hierarchy.
+
+==================================================
+2. DO NOT COPY BLACKLANE CONTENT
+==================================================
+
+I am also attaching a Blacklane app-section screenshot.
+
+Use it ONLY to understand:
+- how prominently an app can be promoted
+- app-section visual hierarchy
+- device mockup placement
+- App Store / Google Play CTA prominence
+
+Do NOT copy:
+- Blacklane wording
+- Blacklane blue color
+- Blacklane branding
+- exact layout dimensions
+- exact typography
+- their UI screenshots
+- their claims
+
+The final section must be clearly TuranEliteLimo.
+
+==================================================
+3. HERO — SMALL POSITIONING CORRECTION ONLY
+==================================================
+
+Do NOT redesign the hero.
+
+Keep:
+- current muted-green background
+- existing hero layout
+- current booking section
+- “Arrive in unspoken luxury.”
+
+Current issue:
+the main hero text grouping feels slightly too low.
+
+The small eyebrow/location text above the headline contributes to this.
+
+Move the hero editorial text group upward modestly.
+
+Target:
+approximately 20–30 px upward on desktop, adjusted visually rather than blindly.
+
+Do NOT move it so close to the header that it feels crowded.
+
+Also reduce the vertical gap slightly between:
+
+“NORTHERN CALIFORNIA · BAY AREA · SFO · OAK · SJC”
+
+and:
+
+“Arrive in unspoken luxury.”
+
+The eyebrow should feel connected to the headline rather than floating far above it.
+
+Do NOT change hero height.
+
+==================================================
+4. IMPROVE SECONDARY TYPOGRAPHY SITE-WIDE
+==================================================
+
+Several small pieces of typography are currently too faint.
+
+Examples:
+- 01 / 02 / 03
+- eyebrows
+- small labels
+- badges
+- metrics
+- micro-copy
+- section labels
+- CTA micro-text
+
+Increase their visibility slightly.
+
+Use:
+- slightly stronger contrast
+- slightly stronger font weight where needed
+- small size increase where appropriate
+
+Do NOT make them compete with headlines.
+
+They should remain secondary, but clearly intentional and readable.
+
+==================================================
+5. KEEP THE 4-SERVICE CAROUSEL
+==================================================
+
+Keep the current 4-service carousel.
+
+Do NOT redesign it.
+
+Keep the supplied images.
+
+Keep the existing Turan service direction.
+
+Do not add more homepage service cards.
+
+The current homepage should remain selective and editorial.
+
+==================================================
+6. ADD A PROMINENT TURANELITELIMO APP SECTION
+==================================================
+
+Add a substantial TuranEliteLimo app section.
+
+This should NOT be a tiny footer banner.
+
+The app is important for repeat clients and should receive real homepage prominence.
+
+Place it:
+
+AFTER the 4-service carousel
+and BEFORE the 3 stacked storytelling images.
+
+New homepage order near the top should become:
+
+Hero + Booking
+→ 4-service carousel
+→ TuranEliteLimo App
+→ 3 stacked storytelling images
+→ Three Steps
+→ Turan Standard
+→ Reviews
+→ Final CTA
+→ Footer
+
+==================================================
+7. APP SECTION — DESIGN DIRECTION
+==================================================
+
+Use the attached Blacklane screenshot only as a structural reference for prominence.
+
+Create a Turan-specific app chapter.
+
+Recommended composition on desktop:
+
+LEFT:
+- eyebrow
+- major editorial headline
+- short body copy
+- App Store button
+- Google Play button
+
+RIGHT:
+- large visual showing the TuranEliteLimo app
+- preferably phone + secondary interface/device composition
+- generous scale
+
+The app visual should feel like a product, not a tiny phone floating in whitespace.
+
+Do NOT use Blacklane screenshots.
+
+If Turan app screenshots/assets already exist in the Replit project, use those.
+
+If no final screenshots are available:
+create a clean placeholder DEVICE MOCKUP area using Turan styling and existing prototype UI.
+
+Do NOT invent product functionality.
+
+==================================================
+8. APP COPY
+==================================================
+
+Use copy in this direction:
+
+Eyebrow:
+THE TURANELITELIMO APP
+
+Headline:
+TuranEliteLimo,
+wherever you go.
+
+Supporting copy:
+Book and manage your rides from one place. Your chauffeur service stays within reach whenever you need it.
+
+Alternative line if needed for layout:
+Your rides. Your schedule. One place.
+
+Do NOT mention:
+- download counts
+- ratings
+- features we have not verified
+- unsupported tracking claims
+- fake reviews
+
+==================================================
+9. APP STORE BUTTONS
+==================================================
+
+Show clear:
+
+- Download on the App Store
+- Get it on Google Play
+
+For this Replit prototype:
+the links may remain placeholders.
+
+Do NOT invent URLs.
+
+We will connect the real store links later during production integration.
+
+The buttons should still look complete and obvious.
+
+==================================================
+10. KEEP THE 3 STACKED STORY IMAGES EXACTLY AS THEY ARE
+==================================================
+
+The stacked-image opacity/layer behavior has already been corrected.
+
+DO NOT TOUCH:
+
+- opacity
+- scroll behavior
+- sticky behavior
+- z-index
+- image order
+- captions
+- motion
+- transitions
+
+Keep this section exactly as currently implemented.
+
+==================================================
+11. THREE STEPS — KEEP THE DESIGN, CLEAN UP CONTENT
+==================================================
+
+Keep the current:
+
+“Three steps.
+Nothing more.”
+
+Keep the existing editorial layout.
+
+Do NOT turn these into cards.
+
+Strengthen:
+- 01 / 02 / 03 visibility
+- body text contrast
+- small labels
+
+Use concise copy based on the current live website.
+
+STEP 01
+
+Headline:
+Tell us where and when
+
+Body:
+Choose your pickup, destination, date and time.
+
+STEP 02
+
+Headline:
+Choose your ride
+
+Body:
+Select from sedans, SUVs and specialty vehicles tailored to your trip.
+
+STEP 03
+
+Headline:
+We handle the rest
+
+Body:
+A professional chauffeur arrives on time and gets you there safely.
+
+Do not claim anything beyond that.
+
+==================================================
+12. TURAN STANDARD — KEEP THE VISUAL STRUCTURE
+==================================================
+
+Keep the current Turan Standard layout:
+
+- green quote panel on the left
+- editorial headline/content on the right
+- metric grid beneath
+
+Keep:
+
+THE TURAN STANDARD
+
+Headline:
+Nothing loud.
+Everything ready.
+
+The current overall visual composition is strong.
+
+Do NOT redesign it.
+
+==================================================
+13. TURAN STANDARD BODY COPY
+==================================================
+
+Replace any generic Replit copy with factual Turan positioning drawn from the live site.
+
+Use this direction:
+
+TuranEliteLimo is a boutique chauffeur service built around professional chauffeurs, licensed and insured carriers, and live dispatch from booking to drop-off.
+
+You may refine line breaks for design.
+
+Do not add unsupported promises.
+
+==================================================
+14. REPLACE FAKE METRICS
+==================================================
+
+Remove unsupported metrics such as:
+
+- 04:12 Average Reply
+- 12 min Early to You
+- ∞ Small Details
+
+Replace them with facts supported by the current live website.
+
+Use:
+
+30+
+NORCAL CITIES
+
+24/7
+LIVE DISPATCH
+
+45 MIN
+AIRPORT GRACE PERIOD
+
+15 MIN
+STANDARD PICKUP GRACE PERIOD
+
+These should be displayed with strong editorial hierarchy.
+
+Make the numbers noticeably more visible than they are currently.
+
+The labels remain secondary but readable.
+
+==================================================
+15. TURAN STANDARD LEFT QUOTE PANEL
+==================================================
+
+The current quote:
+
+“The luxury is the lack of friction.”
+
+can remain as a brand statement if desired.
+
+Do NOT attribute it to a fake person.
+
+Keep the small label:
+
+OUR OPERATING PRINCIPLE
+
+or another non-person attribution.
+
+No fake customer attribution.
+
+==================================================
+16. REMOVE THE CURRENT FAKE TESTIMONIAL
+==================================================
+
+Remove the entire fake testimonial content:
+
+“It is the rare service that makes a 5am departure feel like a privilege.”
+
+and:
+
+“A. Rahman, Global Strategy”
+
+This is not approved Turan content.
+
+Do NOT replace it with another invented customer quote.
+
+==================================================
+17. REPLACE TESTIMONIAL SECTION WITH REAL REVIEWS CHAPTER
+==================================================
+
+Keep the strong full-width green section architecture, but convert it into a Turan reviews/trust section.
+
+Use the current live-site content direction:
+
+Eyebrow:
+REVIEWS
+
+Headline:
+Real riders,
+real words.
+
+Supporting copy:
+On Google and Yelp — where our clients can leave their honest, verified impressions of our chauffeurs.
+
+Optional micro-copy:
+EVERY REVIEW READ PERSONALLY BY OUR TEAM
+
+==================================================
+18. GOOGLE / YELP BUTTONS
+==================================================
+
+Add two visually prominent CTA buttons:
+
+Google Reviews
+Yelp Reviews
+
+These should be obvious, polished, premium buttons.
+
+For the Replit prototype:
+the buttons may use placeholder href values.
+
+Do NOT invent ratings.
+
+Do NOT invent review counts.
+
+Do NOT show fake review cards.
+
+Do NOT use fake customer names.
+
+The real URLs/API integration will be connected later.
+
+==================================================
+19. REVIEW SECTION VISUAL DIRECTION
+==================================================
+
+Keep the full-width muted-green treatment.
+
+Do NOT make this look like a generic review widget.
+
+It should feel like an editorial trust chapter.
+
+Possible composition:
+
+centered:
+small eyebrow
+large headline
+one short paragraph
+two strong review buttons
+
+You may retain subtle gold accent details.
+
+No fake stars are necessary.
+
+If stars are used decoratively:
+do not attach a numerical rating unless real data is supplied.
+
+==================================================
+20. KEEP THE TERRACOTTA FINAL CTA
+==================================================
+
+Keep the current terracotta/rust section:
+
+“Book in a few
+simple steps.”
+
+This section works and should remain a major closing chapter.
+
+Do NOT redesign the entire composition.
+
+==================================================
+21. FINAL CTA COPY
+==================================================
+
+Keep:
+
+YOUR RIDE STARTS HERE
+
+Headline:
+Book in a few
+simple steps.
+
+Keep the current editorial visual treatment.
+
+The right-side CTA should remain obvious.
+
+Use:
+
+BOOK YOUR RIDE
+
+or:
+
+START YOUR RIDE
+
+instead of vague copy if needed.
+
+Do NOT add unsupported claims.
+
+==================================================
+22. FOOTER — USE REAL LIVE-SITE CONTENT
+==================================================
+
+Keep the current new visual footer styling, but use factual footer content from the current website.
+
+Primary navigation:
+
+Vehicles
+Services
+Coverage
+About
+Reserve
+
+Service links:
+
+Airport Transfers
+Weddings
+Corporate
+Hourly Charter
+Wine Tours
+
+Contact:
+
+TuranEliteLimo
+501 Broadway, #251
+Millbrae, CA 94030
+
+(650) 672-3520
+
+support@turanelitelimo.com
+
+Include:
+
+All Rides Licensed & Insured
+
+Do not invent additional locations or phone numbers.
+
+==================================================
+23. LOGO IN THE TERRACOTTA FOOTER
+==================================================
+
+The current shiny old gold logo treatment clashes with the new editorial color system.
+
+Do NOT redesign the actual Turan logo symbol in this pass.
+
+Instead:
+adjust how the existing brand mark is presented against the terracotta background.
+
+Aim for something flatter and more harmonious.
+
+Possible direction:
+- deep muted green wordmark/logo treatment
+- restrained warm cream/gold micro-accent
+- remove overly shiny metallic appearance
+
+Preserve TuranEliteLimo identity.
+
+Do NOT create a new logo symbol.
+
+==================================================
+24. CONTENT WE SHOULD NOT CARRY TO THIS HOMEPAGE
+==================================================
+
+Do NOT add the entire old website onto the new homepage.
+
+Do NOT add giant new sections for:
+
+- full city list
+- full airport list
+- full events calendar
+- Outside Lands
+- BottleRock
+- Dreamforce
+- TechCrunch Disrupt
+- Things To See & Do
+- Alcatraz
+- Pier 39
+- Cable Cars
+- every fleet class
+- every policy
+- every old service detail
+- long legal/payment explanations
+- full concierge contact form
+
+Those can remain elsewhere in the production website.
+
+This homepage should remain selective.
+
+==================================================
+25. CONTENT WE DO WANT TO RETAIN
+==================================================
+
+The homepage should communicate only the strongest important truths:
+
+- premium private chauffeur service
+- Bay Area / Northern California
+- airport transfers
+- corporate/executive transportation
+- hourly chauffeur
+- premium vehicle choices
+- professional chauffeurs
+- licensed and insured carriers
+- 24/7 live dispatch
+- 30+ NorCal cities
+- airport wait-time support
+- real Google/Yelp reviews
+- TuranEliteLimo app
+- easy booking
+
+Do not overload the page.
+
+==================================================
+26. SECTION ORDER — FINAL TARGET FOR THIS PASS
+==================================================
+
+The homepage should flow approximately as:
+
+1. Header
+2. Hero + Booking
+3. Service carousel
+4. TuranEliteLimo App
+5. 3 stacked storytelling images
+6. Three Steps
+7. Turan Standard
+8. Real Reviews / Google + Yelp
+9. Terracotta final booking CTA
+10. Footer
+
+Do not add unnecessary extra chapters.
+
+==================================================
+27. NO NEW PAGE-WIDE ANIMATIONS YET
+==================================================
+
+IMPORTANT:
+
+Do NOT implement the new Blacklane-inspired scroll animation system yet.
+
+Do not add:
+- new parallax
+- new sideways scroll exits
+- page-wide scroll-linked transforms
+- new section pinning
+- new large entrance/exit animations
+
+Keep existing working animations intact.
+
+We will do a dedicated motion pass AFTER this content/layout pass is approved.
+
+==================================================
+28. RESPONSIVE BEHAVIOR
+==================================================
+
+Desktop:
+keep the strong editorial scale.
+
+Tablet/mobile:
+stack the app section intelligently.
+
+Recommended mobile app order:
+- eyebrow
+- headline
+- copy
+- device visual
+- App Store / Google Play buttons
+
+Do not shrink device artwork until it becomes meaningless.
+
+For reviews:
+stack Google and Yelp buttons cleanly if necessary.
+
+For metrics:
+2x2 grid on smaller screens is acceptable.
+
+No horizontal overflow.
+
+==================================================
+29. DO NOT TOUCH APPROVED BOOKING LOGIC
+==================================================
+
+Do NOT modify the current booking behavior during this pass unless required to prevent layout breakage.
+
+The latest booking interaction is separately being refined.
+
+Do not reset it.
+
+==================================================
+30. FINAL QA
+==================================================
+
+Before finishing, verify:
+
+HERO:
+- text group slightly higher
+- eyebrow closer to headline
+- no header crowding
+- booking unchanged
+
+APP:
+- prominent section added
+- positioned after service carousel
+- strong device visual
+- App Store / Google Play buttons
+- no fake stats/features
+
+STACKED STORIES:
+- completely untouched
+
+THREE STEPS:
+- stronger 01/02/03 visibility
+- verified concise copy
+
+TURAN STANDARD:
+- layout preserved
+- fake metrics removed
+- real metrics inserted
+- micro-copy more readable
+
+REVIEWS:
+- fake testimonial removed
+- Real riders, real words section added
+- Google Reviews / Yelp Reviews obvious
+- no fake rating
+- no fake names
+
+FINAL CTA:
+- preserved
+
+FOOTER:
+- factual Turan links/contact
+- logo presentation better matched to new design
+
+GENERAL:
+- no unnecessary content added
+- no unsupported claims
+- no new global animation pass
+- no Step 2 / Step 3 work
+
+==================================================
+31. REPORT BACK
+==================================================
+
+At the end, report:
+
+1. exactly what content was removed
+2. exactly what live-site content was carried over
+3. where the new app section was inserted
+4. how the app section was designed
+5. what metrics replaced the fake metrics
+6. how the testimonial section was converted into reviews
+7. what hero typography adjustments were made
+8. what secondary typography was strengthened
+9. what footer/logo treatment changed
+10. confirmation that the stacked storytelling section and booking interaction were not redesigned
