@@ -63,20 +63,20 @@ function Nav({ onBook }: { onBook: () => void }) {
     <header className="absolute inset-x-0 top-0 z-40">
       <div className="container-edge flex h-[82px] items-center justify-between border-b border-white/15">
         <a href="#top" data-testid="link-brand-home" aria-label="Turan Elite home"><TextBrand /></a>
-        <nav className="hidden items-center gap-8 md:flex" aria-label="Main navigation">
+        <nav className="hidden items-center gap-8 lg:flex" aria-label="Main navigation">
           {links.map(([label, id]) => <button key={id} onClick={() => go(id)} className="font-mono-ui text-[10px] uppercase tracking-[.16em] text-[#e7e2d8]/70 hover:text-[#d19a5c]" data-testid={`button-nav-${id}`}>{label}</button>)}
         </nav>
-        <div className="hidden items-center gap-5 md:flex">
+        <div className="hidden items-center gap-5 lg:flex">
           <a href="tel:+16506723520" className="font-mono-ui text-[10px] tracking-[.12em] text-[#e7e2d8]/70 hover:text-[#f6f1e8]" data-testid="link-call">+1 (650) 672-3520</a>
           <button onClick={onBook} className="group flex items-center gap-3 rounded-full border border-[#d19a5c] px-4 py-2.5 font-mono-ui text-[10px] uppercase tracking-[.13em] text-[#f6f1e8] hover:bg-[#d19a5c] hover:text-[#193f3e]" data-testid="button-nav-quote">
             Request a car <ArrowRight size={13} className="transition-transform group-hover:translate-x-1" />
           </button>
         </div>
-        <button onClick={() => setOpen((value) => !value)} className="rounded-full border border-white/25 p-2 text-[#f6f1e8] md:hidden" aria-label="Toggle menu" data-testid="button-mobile-menu">
+        <button onClick={() => setOpen((value) => !value)} className="rounded-full border border-white/25 p-2 text-[#f6f1e8] lg:hidden" aria-label="Toggle menu" data-testid="button-mobile-menu">
           {open ? <X size={19} /> : <Menu size={19} />}
         </button>
       </div>
-      {open && <div className="container-edge border-b border-white/15 bg-[#193f3e] py-5 md:hidden">
+      {open && <div className="container-edge border-b border-white/15 bg-[#193f3e] py-5 lg:hidden">
         {links.map(([label, id]) => <button key={id} onClick={() => go(id)} className="block w-full border-b border-white/10 py-3 text-left font-mono-ui text-[10px] uppercase tracking-[.16em] text-[#f6f1e8]/75" data-testid={`button-mobile-nav-${id}`}>{label}</button>)}
         <button onClick={onBook} className="mt-4 flex items-center gap-2 font-mono-ui text-[10px] uppercase tracking-[.16em] text-[#d19a5c]" data-testid="button-mobile-quote">Request a car <ArrowRight size={13} /></button>
       </div>}
@@ -509,7 +509,7 @@ function Hero() {
   const [isBookingActive, setIsBookingActive] = useState(false);
 
   return (
-    <section id="top" className={`relative lg:h-screen lg:min-h-0 lg:flex lg:flex-col overflow-hidden pt-[82px] text-[#f6f1e8] transition-colors duration-500 ease-out ${isBookingActive ? 'bg-[#102a29]' : 'bg-[#193f3e]'}`}>
+    <section id="top" className={`relative min-h-[100svh] flex flex-col lg:h-screen lg:min-h-0 overflow-hidden pt-[82px] text-[#f6f1e8] transition-colors duration-500 ease-out ${isBookingActive ? 'bg-[#102a29]' : 'bg-[#193f3e]'}`}>
       <div className={`hero-grid absolute inset-0 pointer-events-none transition-opacity duration-500 ease-out ${isBookingActive ? 'opacity-20' : 'opacity-50'}`} />
       <div className={`absolute -right-32 top-20 h-[600px] w-[600px] rounded-full border border-[#d19a5c]/20 sm:h-[800px] sm:w-[800px] pointer-events-none transition-opacity duration-500 ease-out ${isBookingActive ? 'opacity-30' : 'opacity-100'}`} />
       <div className={`absolute -right-16 top-36 h-[390px] w-[390px] rounded-full border border-[#d19a5c]/15 sm:h-[590px] sm:w-[590px] pointer-events-none transition-opacity duration-500 ease-out ${isBookingActive ? 'opacity-30' : 'opacity-100'}`} />
@@ -520,7 +520,7 @@ function Hero() {
         <div className={`w-full max-w-[700px] transition-all duration-300 ease-out overflow-hidden lg:-translate-y-9 ${isBookingActive ? 'opacity-0 max-h-0 mb-0' : 'opacity-100 max-h-[500px] mb-12 lg:mb-16'}`}>
           <div className="reveal">
             <p className="flex items-center gap-3 font-mono-ui text-[10px] uppercase tracking-[.22em] text-[#d19a5c] font-medium"><span className="h-px w-7 bg-[#d19a5c]" />Northern California · Bay Area · SFO · OAK · SJC</p>
-            <h1 className="mt-5 font-display text-[clamp(3.8rem,8.5vw,8.2rem)] leading-[.84] tracking-[-.05em]">Arrive in<br /><i className="text-[#d19a5c]">unspoken<br />luxury.</i></h1>
+            <h1 className="mt-5 font-display text-[clamp(3.2rem,10vw,8.2rem)] leading-[.84] tracking-[-.05em]">Arrive in<br /><i className="text-[#d19a5c]">unspoken<br />luxury.</i></h1>
             <p className="mt-6 max-w-[390px] text-[15px] leading-[1.8] text-[#dbe0d6]/80 font-medium">From SFO to Napa, your chauffeur handles the details so the ride feels effortless.</p>
           </div>
         </div>
@@ -531,7 +531,7 @@ function Hero() {
         </div>
       </div>
       
-      <div className={`container-edge absolute bottom-6 left-1/2 flex -translate-x-1/2 items-center justify-between font-mono-ui text-[9px] uppercase tracking-[.16em] text-[#dbe0d6]/45 w-full pointer-events-none transition-opacity duration-300 ease-out ${isBookingActive ? 'opacity-0' : 'opacity-100'}`}>
+      <div className={`container-edge absolute bottom-6 left-1/2 flex -translate-x-1/2 items-center justify-center sm:justify-between font-mono-ui text-[9px] uppercase tracking-[.16em] text-[#dbe0d6]/45 w-full pointer-events-none transition-opacity duration-300 ease-out ${isBookingActive ? 'opacity-0' : 'opacity-100'}`}>
         <span className="hidden sm:block">SFO · OAK · SJC · Napa · Sonoma</span>
         <span className="flex items-center gap-2"><span className="pulse-ring h-2 w-2 rounded-full bg-[#d19a5c]" />Available around the clock</span>
       </div>
@@ -582,7 +582,7 @@ function ServiceSlider() {
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {services.map((service) => (
-              <article key={service.id} className="w-full md:w-[calc(50%-12px)] lg:w-[calc(50%-16px)] shrink-0 snap-start group">
+              <article key={service.id} className="w-[85vw] sm:w-[80vw] md:w-[calc(50%-12px)] lg:w-[calc(50%-16px)] shrink-0 snap-start group">
                 <div className="aspect-[4/3] w-full overflow-hidden bg-[#e1e8e0] rounded-sm mb-6 relative lg:aspect-[1.1]">
                   <img src={service.image} alt={service.headline} className="w-full h-full object-cover object-center transition-transform duration-1000 group-hover:scale-105" />
                 </div>
@@ -608,7 +608,7 @@ function ServiceSlider() {
 function AppSection() {
   return (
     <section className="bg-[#f6f1e8] py-28 sm:py-40 border-t border-[#193f3e]/10 overflow-hidden relative">
-      <div className="container-edge grid gap-16 lg:grid-cols-[1fr_1.2fr] lg:gap-24 lg:items-center">
+      <div className="container-edge grid gap-12 lg:grid-cols-[1fr_1.2fr] lg:gap-24 lg:items-center">
         <div className="reveal">
           <span className="font-mono-ui text-[10px] uppercase tracking-[.2em] text-[#bc754e] font-medium">The TuranEliteLimo App</span>
           <h2 className="mt-5 max-w-[500px] font-display text-[clamp(3.2rem,5vw,4.5rem)] leading-[1.05] tracking-[-.03em]">TuranEliteLimo,<br /><i>wherever you go.</i></h2>
@@ -777,11 +777,15 @@ function StackedStory() {
       <section className="bg-black text-[#f6f1e8]">
         {stories.map((story, index) => (
           <div key={story.id} className="relative h-screen w-full flex items-end bg-black">
-            <img src={story.image} alt={story.headline} className="absolute inset-0 w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/10" />
-            <div className="relative z-10 w-full p-8 md:p-16 lg:p-24 pb-16 md:pb-24 max-w-4xl">
-              <h3 className="font-display text-4xl md:text-5xl lg:text-[4rem] text-[#f6f1e8] mb-6 leading-tight">{story.headline}</h3>
-              <p className="text-[15px] md:text-[17px] leading-[1.7] text-[#dbe0d6]/90 max-w-2xl">{story.copy}</p>
+            <img 
+              src={story.image} 
+              alt={story.headline} 
+              className={`absolute inset-0 w-full h-full object-cover ${index === 1 ? 'object-[center_50%] sm:object-[center_70%]' : 'object-[center_center]'}`} 
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-black/10 sm:from-black/90 sm:via-black/30" />
+            <div className="relative z-10 w-full p-6 md:p-16 lg:p-24 pb-20 sm:pb-16 md:pb-24 max-w-4xl">
+              <h3 className="font-display text-4xl md:text-5xl lg:text-[4rem] text-[#f6f1e8] mb-4 sm:mb-6 leading-tight drop-shadow-md">{story.headline}</h3>
+              <p className="text-[15px] md:text-[17px] leading-[1.7] text-[#dbe0d6]/90 max-w-2xl drop-shadow-sm">{story.copy}</p>
             </div>
           </div>
         ))}
@@ -812,12 +816,11 @@ function StackedStory() {
               <img 
                 src={story.image} 
                 alt={story.headline} 
-                className="absolute inset-0 w-full h-full object-cover" 
-                style={{ objectPosition: index === 1 ? 'center 70%' : 'center center' }} 
+                className={`absolute inset-0 w-full h-full object-cover ${index === 1 ? 'object-[center_50%] sm:object-[center_70%]' : 'object-[center_center]'}`} 
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/10" />
-              <div className="absolute bottom-0 left-0 w-full p-8 md:p-16 lg:p-24 pb-16 md:pb-24 max-w-4xl">
-                <h3 className="font-display text-4xl md:text-5xl lg:text-[4rem] text-[#f6f1e8] mb-6 leading-tight tracking-tight drop-shadow-md">{story.headline}</h3>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-black/10 sm:from-black/90 sm:via-black/30" />
+              <div className="absolute bottom-0 left-0 w-full p-6 md:p-16 lg:p-24 pb-20 sm:pb-16 md:pb-24 max-w-4xl">
+                <h3 className="font-display text-4xl md:text-5xl lg:text-[4rem] text-[#f6f1e8] mb-4 sm:mb-6 leading-tight tracking-tight drop-shadow-md">{story.headline}</h3>
                 <p className="text-[15px] md:text-[17px] leading-[1.7] text-[#dbe0d6]/90 max-w-2xl drop-shadow-sm">{story.copy}</p>
               </div>
             </div>
@@ -834,12 +837,12 @@ function Process() {
       <div className="container-edge">
         <div className="reveal flex flex-col items-center text-center"><span className="font-mono-ui text-[9px] uppercase tracking-[.2em] text-[#bc754e]">How it works</span><h2 className="mt-5 max-w-[650px] font-display text-[clamp(3.2rem,6vw,5.5rem)] leading-[.95] tracking-[-.03em]">Three steps.<br /><i>Nothing more.</i></h2></div>
         
-        <div className="mt-[86px] grid gap-16 lg:grid-cols-3 lg:gap-12 relative max-w-[1000px] mx-auto">
+        <div className="mt-[86px] flex flex-col lg:grid lg:grid-cols-3 gap-16 lg:gap-12 relative max-w-[1000px] mx-auto">
           {[['01', 'Tell us where and when', 'Choose your pickup, destination, date and time.'], 
             ['02', 'Choose your ride', 'Select from sedans, SUVs and specialty vehicles tailored to your trip.'], 
             ['03', 'We handle the rest', 'A professional chauffeur arrives on time and gets you there safely.']
            ].map(([num, title, copy], index) => (
-            <div key={num} className={`reveal delay-${index + 1} flex flex-col items-center text-center`}>
+            <div key={num} className={`reveal delay-${index + 1} flex flex-col items-start text-left lg:items-center lg:text-center`}>
               <span className="font-display text-6xl text-[#193f3e]/60 mb-6 font-medium">{num}</span>
               <h3 className="font-display text-2xl mb-4">{title}</h3>
               <p className="text-[15px] leading-[1.7] text-[#193f3e]/80 max-w-[280px] font-medium">{copy}</p>
@@ -855,9 +858,9 @@ function Standard() {
   return (
     <section id="standard" className="bg-[#f6f1e8] py-28 sm:py-40 border-t border-[#193f3e]/10 overflow-hidden">
       <div className="container-edge grid gap-16 lg:grid-cols-[1fr_1fr] lg:gap-24 lg:items-center">
-        <div className="reveal relative min-h-[500px] w-full overflow-hidden bg-[#193f3e] p-10 sm:p-14 text-[#f6f1e8] flex flex-col justify-between shadow-xl">
-          <div className="absolute -right-20 top-10 h-[400px] w-[400px] rounded-full border border-[#d19a5c]/20 pointer-events-none" />
-          <div className="absolute -right-4 top-24 h-[250px] w-[250px] rounded-full border border-[#d19a5c]/20 pointer-events-none" />
+        <div className="reveal relative min-h-[400px] sm:min-h-[500px] w-full overflow-hidden bg-[#193f3e] p-8 sm:p-14 text-[#f6f1e8] flex flex-col justify-between shadow-xl">
+          <div className="absolute -right-20 top-10 h-[300px] w-[300px] sm:h-[400px] sm:w-[400px] rounded-full border border-[#d19a5c]/20 pointer-events-none" />
+          <div className="absolute -right-4 top-24 h-[180px] w-[180px] sm:h-[250px] sm:w-[250px] rounded-full border border-[#d19a5c]/20 pointer-events-none" />
           <span className="relative font-mono-ui text-[10px] uppercase tracking-[.2em] text-[#d19a5c]">Step in. Breathe out.</span>
           <div className="relative z-10 mt-auto">
             <p className="font-display text-[clamp(2.5rem,4vw,3.5rem)] leading-[1.05]">“The luxury is<br /><i>the lack of friction.”</i></p>
@@ -892,17 +895,17 @@ function Footer() {
     <footer className="bg-[#bc754e] text-[#193f3e] relative overflow-hidden">
       <div className="absolute top-0 right-0 w-[800px] h-[800px] rounded-full border border-[#193f3e]/10 -translate-y-1/2 translate-x-1/3 pointer-events-none" />
       <div className="container-edge py-24 sm:py-32 relative z-10">
-        <div className="reveal flex flex-col justify-between gap-12 lg:flex-row lg:items-end">
+        <div className="reveal flex flex-col justify-between gap-10 sm:gap-12 lg:flex-row lg:items-end">
           <div>
             <span className="font-mono-ui text-[10px] uppercase tracking-[.2em] font-medium">Your ride starts here</span>
-            <h2 className="mt-6 max-w-[700px] font-display text-[clamp(4rem,8vw,7rem)] leading-[.85] tracking-[-.04em]">Book in a few<br /><i>simple steps.</i></h2>
+            <h2 className="mt-6 max-w-[700px] font-display text-[clamp(3.5rem,8vw,7rem)] leading-[.85] tracking-[-.04em]">Book in a few<br /><i>simple steps.</i></h2>
           </div>
-          <button onClick={jump} className="group flex items-center gap-4 border-b-2 border-[#193f3e] pb-3 text-left font-mono-ui text-[12px] uppercase tracking-[.16em] font-bold hover:text-[#f6f1e8] hover:border-[#f6f1e8] transition-colors" data-testid="button-footer-book">
-            Book Your Ride <ArrowRight size={18} className="transition-transform group-hover:translate-x-2" />
+          <button onClick={jump} className="group flex w-full justify-between sm:w-auto sm:justify-start items-center gap-4 border-b-2 border-[#193f3e] pb-3 sm:pb-3 text-left font-mono-ui text-[12px] uppercase tracking-[.16em] font-bold hover:text-[#f6f1e8] hover:border-[#f6f1e8] transition-colors" data-testid="button-footer-book">
+            <span>Book Your Ride</span> <ArrowRight size={18} className="transition-transform group-hover:translate-x-2" />
           </button>
         </div>
         
-        <div className="mt-28 grid gap-12 lg:grid-cols-4 border-t border-[#193f3e]/20 pt-16">
+        <div className="mt-20 sm:mt-28 grid gap-12 lg:grid-cols-4 border-t border-[#193f3e]/20 pt-16">
           <div className="lg:col-span-1">
              <TextBrand descriptor footer />
              <p className="mt-8 text-[13px] leading-relaxed text-[#193f3e]/80 max-w-[280px] font-medium">

@@ -1,0 +1,101 @@
+IMPORTANT RESPONSIVE CORRECTION:
+
+Everything we are redesigning on this homepage applies to BOTH DESKTOP AND MOBILE.
+
+The only major behavioral exception is the booking section.
+
+DESKTOP BOOKING:
+- keep the approved horizontal booking bar
+- keep the expanded hero-takeover interaction
+
+MOBILE BOOKING:
+- keep/use the existing mobile-friendly stacked booking flow
+- do NOT force the desktop hero-takeover interaction onto mobile
+
+For ALL OTHER HOMEPAGE SECTIONS, the desktop design direction must have a deliberate mobile equivalent.
+
+This includes:
+
+- header / brand treatment
+- hero typography and colors
+- service carousel
+- TuranEliteLimo app section
+- 3 stacked storytelling images
+- Three Steps
+- Turan Standard
+- reviews section
+- final terracotta CTA
+- footer
+- all typography
+- colors
+- labels
+- metrics
+- buttons
+- later animation/motion behavior where appropriate
+
+Do NOT simply shrink desktop layouts.
+
+Design each section responsively for mobile.
+
+MOBILE REQUIREMENTS:
+
+APP SECTION:
+- stack text and device visual cleanly
+- keep the phone/device image large enough to remain visually important
+- App Store and Google Play buttons must remain obvious
+- no horizontal overflow
+
+THREE STEPS:
+- convert to a clean vertical sequence if necessary
+- preserve 01 / 02 / 03 hierarchy
+- keep editorial spacing
+- maintain strong readability
+
+TURAN STANDARD:
+- stack the green principle panel and content area
+- preserve the quote as a visually strong block
+- metrics may use a 2x2 grid
+- keep labels legible
+
+REVIEWS:
+- preserve the green chapter
+- Google Reviews and Yelp Reviews buttons may stack vertically
+- maintain generous spacing
+- do not make them tiny
+
+FINAL CTA:
+- preserve the terracotta chapter
+- keep “Book in a few simple steps.”
+- CTA must remain obvious and thumb-friendly
+
+FOOTER:
+- reorganize columns vertically
+- maintain clear hierarchy
+- preserve all important contact information
+- avoid overcrowding
+
+STACKED STORY IMAGES:
+- preserve the storytelling concept
+- use appropriate mobile image cropping/aspect ratios
+- captions must remain readable
+- do not allow desktop crops to cut off important subjects
+
+HEADER:
+- brand must remain legible
+- navigation should collapse appropriately
+- no overcrowding
+- keep premium spacing
+
+GENERAL MOBILE:
+- no horizontal scrolling
+- no tiny desktop text
+- no compressed columns
+- touch targets should be comfortable
+- preserve the editorial luxury feel
+- maintain the same content hierarchy as desktop
+
+When making future homepage changes, always check BOTH:
+1. desktop
+2. mobile
+
+Do not consider a homepage change complete until both layouts are visually reviewed.
