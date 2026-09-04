@@ -79,6 +79,10 @@ function BookingCard({ onActiveChange }: { onActiveChange?: (active: boolean) =>
   // Desktop active mode state
   const [activeField, setActiveField] = useState<'pickup' | 'dropoff' | 'date' | 'time' | null>(null);
   const [flightNumber, setFlightNumber] = useState('');
+  const [calendarMonth, setCalendarMonth] = useState(() => {
+    const today = new Date();
+    return new Date(today.getFullYear(), today.getMonth(), 1);
+  });
 
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -167,6 +171,19 @@ function BookingCard({ onActiveChange }: { onActiveChange?: (active: boolean) =>
     setActiveField(null);
     setFlightNumber('');
   };
+
+  const calendarMonthLabel = calendarMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  const calendarCells: Array<number | null> = [
+    ...Array.from({ length: calendarMonth.getDay() }, () => null),
+    ...Array.from(
+      { length: new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() + 1, 0).getDate() },
+      (_, index) => index + 1,
+    ),
+  ];
+  const MOCK_TIMES = [
+    '07:00 AM', '08:00 AM', '09:00 AM', '10:00 AM', '10:30 AM', '11:00 AM',
+    '01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM', '05:00 PM', '06:00 PM'
+  ];
 
   if (confirmed) {
     return (
@@ -288,65 +305,67 @@ function BookingCard({ onActiveChange }: { onActiveChange?: (active: boolean) =>
 
       <div 
         ref={containerRef}
-        className={`hidden lg:block relative z-10 w-full bg-[#f6f1e8] shadow-[0_22px_70px_rgba(8,28,28,.28)] rounded-[2px] transition-all duration-300 overflow-hidden ${activeField ? 'h-[380px]' : 'h-[90px]'}`} 
+        className={`hidden lg:block relative z-20 w-full rounded-[2px] transition-all duration-300 ease-out overflow-hidden shadow-[0_22px_70px_rgba(8,28,28,.35)] ${activeField ? 'h-[460px]' : 'h-[100px]'}`} 
         id="booking-desktop" 
         data-testid="card-booking-desktop"
       >
         <form onSubmit={submit} className="flex flex-col w-full h-full">
-          <div className="flex items-center w-full h-[90px] shrink-0 border-b border-[#193f3e]/10 relative z-20">
-            <div className={`relative min-w-0 flex-1 h-full border-r border-[#193f3e]/15 group transition-colors ${activeField === 'pickup' ? 'bg-white' : 'hover:bg-white/50'}`}>
-              <button type="button" onClick={() => setActiveField('pickup')} className="w-full min-w-0 h-full px-7 pr-10 flex flex-col justify-center text-left focus:outline-none">
-                <span className={`font-mono-ui text-[8px] uppercase tracking-[.15em] mb-1.5 flex items-center gap-2 transition-colors ${activeField === 'pickup' ? 'text-[#bc754e]' : 'text-[#193f3e]/50'}`}><Plane size={10} /> Pickup</span>
-                <span title={from || 'Select location'} className={`block max-w-full text-[13px] font-semibold truncate ${from ? 'text-[#193f3e]' : 'text-[#193f3e]/40 font-normal'}`}>{from || 'Select location'}</span>
+          {/* Top Row */}
+          <div className="absolute top-0 left-0 flex items-center w-full h-[100px] bg-[#f6f1e8] z-20">
+            <div className={`relative min-w-0 flex-1 h-full border-r border-[#193f3e]/15 group transition-colors ${activeField === 'pickup' ? 'bg-[#e9dfcf]/40 shadow-[inset_0_-3px_0_0_#bc754e]' : 'hover:bg-white/50'}`}>
+              <button type="button" onClick={() => setActiveField('pickup')} className="w-full min-w-0 h-full px-8 pr-12 flex flex-col justify-center text-left focus:outline-none">
+                <span className={`font-mono-ui text-[9px] uppercase tracking-[.15em] mb-2 flex items-center gap-2 transition-colors ${activeField === 'pickup' ? 'text-[#bc754e]' : 'text-[#193f3e]/50'}`}><Plane size={12} /> Pickup</span>
+                <span title={from || 'Select location'} className={`block max-w-full text-[15px] truncate transition-all ${from || activeField === 'pickup' ? 'text-[#193f3e] font-bold' : 'text-[#193f3e]/50 font-medium'}`}>{from || 'Select location'}</span>
               </button>
-              <span className={`absolute right-6 top-1/2 -translate-y-1/2 h-2 w-2 rounded-full border-[1.5px] transition-colors ${activeField === 'pickup' ? 'border-[#bc754e] bg-[#bc754e]' : 'border-[#bc754e]'}`} />
+              <span className={`absolute right-6 top-1/2 -translate-y-1/2 h-2.5 w-2.5 rounded-full border-[1.5px] transition-colors ${activeField === 'pickup' || from ? 'border-[#bc754e] bg-[#bc754e]' : 'border-[#bc754e]'}`} />
             </div>
 
-            <div className={`relative min-w-0 flex-1 h-full border-r border-[#193f3e]/15 group transition-colors ${activeField === 'dropoff' ? 'bg-white' : 'hover:bg-white/50'}`}>
-              <button type="button" onClick={() => setActiveField('dropoff')} className="w-full min-w-0 h-full px-7 pr-10 flex flex-col justify-center text-left focus:outline-none">
-                <span className={`font-mono-ui text-[8px] uppercase tracking-[.15em] mb-1.5 flex items-center gap-2 transition-colors ${activeField === 'dropoff' ? 'text-[#bc754e]' : 'text-[#193f3e]/50'}`}><MapPin size={10} /> Drop-off</span>
-                <span title={to || 'Select destination'} className={`block max-w-full text-[13px] font-semibold truncate ${to ? 'text-[#193f3e]' : 'text-[#193f3e]/40 font-normal'}`}>{to || 'Select destination'}</span>
+            <div className={`relative min-w-0 flex-1 h-full border-r border-[#193f3e]/15 group transition-colors ${activeField === 'dropoff' ? 'bg-[#e9dfcf]/40 shadow-[inset_0_-3px_0_0_#bc754e]' : 'hover:bg-white/50'}`}>
+              <button type="button" onClick={() => setActiveField('dropoff')} className="w-full min-w-0 h-full px-8 pr-12 flex flex-col justify-center text-left focus:outline-none">
+                <span className={`font-mono-ui text-[9px] uppercase tracking-[.15em] mb-2 flex items-center gap-2 transition-colors ${activeField === 'dropoff' ? 'text-[#bc754e]' : 'text-[#193f3e]/50'}`}><MapPin size={12} /> Drop-off</span>
+                <span title={to || 'Select destination'} className={`block max-w-full text-[15px] truncate transition-all ${to || activeField === 'dropoff' ? 'text-[#193f3e] font-bold' : 'text-[#193f3e]/50 font-medium'}`}>{to || 'Select destination'}</span>
               </button>
-              <span className={`absolute right-6 top-1/2 -translate-y-1/2 h-2 w-2 rounded-full transition-colors ${activeField === 'dropoff' ? 'bg-[#bc754e]' : 'bg-[#193f3e]'}`} />
+              <span className={`absolute right-6 top-1/2 -translate-y-1/2 h-2.5 w-2.5 rounded-full transition-colors ${activeField === 'dropoff' || to ? 'bg-[#bc754e]' : 'bg-[#193f3e]'}`} />
             </div>
 
-            <div className={`relative w-[160px] shrink-0 h-full border-r border-[#193f3e]/15 group transition-colors ${activeField === 'date' ? 'bg-white' : 'hover:bg-white/50'}`}>
-              <label className="flex w-full h-full flex-col justify-center px-6 cursor-pointer" onClick={() => setActiveField('date')}>
-                <span className={`font-mono-ui text-[8px] uppercase tracking-[.15em] mb-1.5 flex items-center gap-2 transition-colors ${activeField === 'date' ? 'text-[#bc754e]' : 'text-[#193f3e]/50'}`}><CalendarDays size={10} /> Date</span>
-                <input required type="date" value={date} onChange={(e) => setDate(e.target.value)} onClick={() => setActiveField('date')} onFocus={() => setActiveField('date')} className="w-full bg-transparent text-[13px] font-semibold text-[#193f3e] outline-none cursor-pointer [color-scheme:light]" data-testid="input-date-desktop" />
-              </label>
+            <div className={`relative w-[180px] shrink-0 h-full border-r border-[#193f3e]/15 group transition-colors ${activeField === 'date' ? 'bg-[#e9dfcf]/40 shadow-[inset_0_-3px_0_0_#bc754e]' : 'hover:bg-white/50'}`}>
+              <button type="button" onClick={() => setActiveField('date')} className="w-full min-w-0 h-full px-8 flex flex-col justify-center text-left focus:outline-none">
+                <span className={`font-mono-ui text-[9px] uppercase tracking-[.15em] mb-2 flex items-center gap-2 transition-colors ${activeField === 'date' ? 'text-[#bc754e]' : 'text-[#193f3e]/50'}`}><CalendarDays size={12} /> Date</span>
+                <span className={`block max-w-full text-[15px] truncate transition-all ${date || activeField === 'date' ? 'text-[#193f3e] font-bold' : 'text-[#193f3e]/50 font-medium'}`}>{date || 'Select date'}</span>
+              </button>
             </div>
 
-            <div className={`relative w-[140px] shrink-0 h-full group transition-colors ${activeField === 'time' ? 'bg-white' : 'hover:bg-white/50'}`}>
-              <label className="flex w-full h-full flex-col justify-center px-6 cursor-pointer" onClick={() => setActiveField('time')}>
-                <span className={`font-mono-ui text-[8px] uppercase tracking-[.15em] mb-1.5 flex items-center gap-2 transition-colors ${activeField === 'time' ? 'text-[#bc754e]' : 'text-[#193f3e]/50'}`}><Clock3 size={10} /> Time</span>
-                <input required type="time" value={time} onChange={(e) => setTime(e.target.value)} onClick={() => setActiveField('time')} onFocus={() => setActiveField('time')} className="w-full bg-transparent text-[13px] font-semibold text-[#193f3e] outline-none cursor-pointer [color-scheme:light]" data-testid="input-time-desktop" />
-              </label>
+            <div className={`relative w-[160px] shrink-0 h-full group transition-colors ${activeField === 'time' ? 'bg-[#e9dfcf]/40 shadow-[inset_0_-3px_0_0_#bc754e]' : 'hover:bg-white/50'}`}>
+              <button type="button" onClick={() => setActiveField('time')} className="w-full min-w-0 h-full px-8 flex flex-col justify-center text-left focus:outline-none">
+                <span className={`font-mono-ui text-[9px] uppercase tracking-[.15em] mb-2 flex items-center gap-2 transition-colors ${activeField === 'time' ? 'text-[#bc754e]' : 'text-[#193f3e]/50'}`}><Clock3 size={12} /> Time</span>
+                <span className={`block max-w-full text-[15px] truncate transition-all ${time || activeField === 'time' ? 'text-[#193f3e] font-bold' : 'text-[#193f3e]/50 font-medium'}`}>{time || 'Select time'}</span>
+              </button>
             </div>
 
-            <button type="submit" disabled={!from || !to || !date || !time} className="h-full px-10 bg-[#193f3e] text-[#f6f1e8] hover:bg-[#bc754e] transition-colors disabled:opacity-50 disabled:cursor-not-allowed group flex items-center gap-3 shrink-0 rounded-r-[2px]" data-testid="button-see-vehicles-desktop">
-              <span className="font-mono-ui text-[10px] uppercase tracking-[.16em]">See Vehicles</span>
-              <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+            <button type="submit" disabled={!from || !to || !date || !time} className="h-full px-12 bg-[#193f3e] text-[#f6f1e8] hover:bg-[#bc754e] hover:text-[#193f3e] transition-colors disabled:opacity-50 disabled:cursor-not-allowed group flex items-center gap-4 shrink-0 rounded-r-[2px]" data-testid="button-see-vehicles-desktop">
+              <span className="font-mono-ui text-[11px] uppercase tracking-[.16em] font-medium">See Vehicles</span>
+              <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
             </button>
           </div>
 
+          {/* Lower Stage */}
           <div 
-            className={`flex-1 flex w-full bg-white relative transition-opacity duration-300 ${activeField ? 'opacity-100 delay-100' : 'opacity-0'}`} 
+            className={`absolute top-[100px] left-0 flex w-full h-[360px] bg-[#102a29] text-[#f6f1e8] transition-opacity duration-300 ease-out ${activeField ? 'opacity-100 delay-100' : 'opacity-0 pointer-events-none'}`} 
             data-testid="active-booking-surface"
           >
             {activeField && (
               <button 
                 type="button" 
                 onClick={() => setActiveField(null)} 
-                className="absolute top-4 right-4 text-[#193f3e]/40 hover:text-[#193f3e] transition-colors p-2 z-10" 
+                className="absolute top-6 right-6 text-[#f6f1e8]/40 hover:text-[#f6f1e8] transition-colors p-2 z-10" 
                 aria-label="Close"
                 data-testid="button-close-active"
               >
-                <X size={20} strokeWidth={1.5} />
+                <X size={24} strokeWidth={1.5} />
               </button>
             )}
 
-            <div className="w-1/2 p-10 flex flex-col justify-center border-r border-[#193f3e]/5 relative overflow-hidden">
+            <div className="w-[45%] p-12 flex flex-col justify-center border-r border-[#f6f1e8]/10 relative overflow-hidden">
               {(() => {
                 let context = helperContent.pickup;
                 if (activeField === 'dropoff') context = helperContent.dropoff;
@@ -361,35 +380,35 @@ function BookingCard({ onActiveChange }: { onActiveChange?: (active: boolean) =>
                 
                 return (
                   <div key={activeField + (from === MOCK_AIRPORT ? 'sfo' : '')} className="animate-in fade-in slide-in-from-left-4 duration-300">
-                    <div className="w-10 h-10 rounded-full border border-[#193f3e]/10 flex items-center justify-center mb-6 bg-[#f6f1e8]/50">
-                      <Icon size={16} className="text-[#bc754e]" />
+                    <div className="w-12 h-12 rounded-full border border-[#d19a5c]/20 flex items-center justify-center mb-8 bg-[#d19a5c]/10">
+                      <Icon size={18} className="text-[#d19a5c]" />
                     </div>
-                    <h3 className="font-display text-3xl text-[#193f3e] mb-3">{context.title}</h3>
-                    <p className="text-[14px] text-[#193f3e]/60 leading-relaxed max-w-[320px]">{context.text}</p>
+                    <h3 className="font-display text-4xl text-[#f6f1e8] mb-4">{context.title}</h3>
+                    <p className="text-[15px] text-[#f6f1e8]/70 leading-relaxed max-w-[340px]">{context.text}</p>
                   </div>
                 );
               })()}
             </div>
 
-            <div className="w-1/2 p-10 flex flex-col justify-center relative overflow-hidden">
+            <div className="w-[55%] p-12 flex flex-col justify-center relative overflow-hidden">
               {(activeField === 'pickup' || activeField === 'dropoff') && (
-                <div key={activeField + (from === MOCK_AIRPORT ? 'sfo' : '')} className="animate-in fade-in slide-in-from-right-4 duration-300 w-full max-w-[360px]">
+                <div key={activeField + (from === MOCK_AIRPORT ? 'sfo' : '')} className="animate-in fade-in slide-in-from-right-4 duration-300 w-full max-w-[420px]">
                   {activeField === 'pickup' && from === MOCK_AIRPORT ? (
                     <div>
-                      <label className="block font-mono-ui text-[10px] uppercase tracking-[.15em] text-[#193f3e]/60 mb-3">Flight Number</label>
+                      <label className="block font-mono-ui text-[10px] uppercase tracking-[.15em] text-[#f6f1e8]/60 mb-4">Flight Number</label>
                       <input 
                         type="text" 
                         value={flightNumber} 
                         onChange={(e) => setFlightNumber(e.target.value)} 
                         placeholder="e.g. UA 1234" 
-                        className="w-full bg-[#f6f1e8]/50 border border-[#193f3e]/15 rounded-[2px] px-4 py-3 text-[14px] outline-none focus:border-[#bc754e] focus:bg-white transition-colors"
+                        className="w-full bg-[#f6f1e8]/5 border border-[#f6f1e8]/20 rounded-[2px] px-5 py-4 text-[15px] text-[#f6f1e8] outline-none focus:border-[#d19a5c] focus:bg-[#f6f1e8]/10 transition-colors placeholder:text-[#f6f1e8]/30"
                         data-testid="input-flight-number"
                       />
-                      <button type="button" onClick={() => setActiveField('dropoff')} className="mt-4 w-full bg-[#193f3e] text-[#f6f1e8] py-3 text-[11px] font-mono-ui uppercase tracking-[.15em] hover:bg-[#bc754e] transition-colors rounded-[2px]">Continue to destination</button>
+                      <button type="button" onClick={() => setActiveField('dropoff')} className="mt-6 w-full bg-[#d19a5c] text-[#102a29] py-4 text-[11px] font-mono-ui uppercase tracking-[.15em] font-bold hover:bg-[#bc754e] transition-colors rounded-[2px]">Continue to destination</button>
                     </div>
                   ) : (
                     <div>
-                      <span className="block font-mono-ui text-[10px] uppercase tracking-[.15em] text-[#193f3e]/60 mb-4">Suggested Locations</span>
+                      <span className="block font-mono-ui text-[10px] uppercase tracking-[.15em] text-[#f6f1e8]/60 mb-5">Suggested Locations</span>
                       <ul className="flex flex-col gap-1">
                         {MOCK_SUGGESTIONS.map(suggestion => (
                           <li key={suggestion}>
@@ -404,10 +423,10 @@ function BookingCard({ onActiveChange }: { onActiveChange?: (active: boolean) =>
                                   setActiveField('date');
                                 }
                               }}
-                              className="w-full text-left px-4 py-2.5 rounded-[2px] hover:bg-[#f6f1e8] text-[13px] text-[#193f3e] transition-colors flex items-center gap-3 group"
+                              className="w-full text-left px-5 py-3.5 rounded-[2px] hover:bg-[#f6f1e8]/10 text-[14px] text-[#f6f1e8]/80 hover:text-[#f6f1e8] transition-colors flex items-center gap-4 group"
                               data-testid="suggestion-option"
                             >
-                              <MapPin size={12} className="text-[#193f3e]/40 group-hover:text-[#bc754e] transition-colors shrink-0" />
+                              <MapPin size={14} className="text-[#f6f1e8]/30 group-hover:text-[#d19a5c] transition-colors shrink-0" />
                               <span className="truncate">{suggestion}</span>
                             </button>
                           </li>
@@ -419,30 +438,46 @@ function BookingCard({ onActiveChange }: { onActiveChange?: (active: boolean) =>
               )}
               
               {activeField === 'date' && (
-                <div key="date" className="animate-in fade-in slide-in-from-right-4 duration-300 flex items-center h-full max-w-[360px]">
-                   <div className="w-full p-8 bg-[#f6f1e8]/50 border border-[#193f3e]/10 rounded-[2px] text-center">
-                     <CalendarDays size={24} className="mx-auto text-[#193f3e]/30 mb-4" />
-                     <p className="text-[13px] text-[#193f3e]/60 mb-6">Select your date from the top menu.</p>
-                     {date ? (
-                       <button type="button" onClick={() => setActiveField('time')} className="bg-[#193f3e] text-[#f6f1e8] px-6 py-2.5 text-[10px] font-mono-ui uppercase tracking-[.15em] hover:bg-[#bc754e] transition-colors rounded-[2px]">Next: Time</button>
-                     ) : (
-                       <span className="inline-block px-6 py-2.5 text-[10px] font-mono-ui uppercase tracking-[.15em] text-[#193f3e]/30 border border-[#193f3e]/10 rounded-[2px]">Waiting for selection...</span>
-                     )}
+                <div key="date" className="animate-in fade-in slide-in-from-right-4 duration-300 flex flex-col justify-center h-full w-full max-w-[440px]">
+                   <div className="flex justify-between items-center mb-6">
+                     <span className="font-display text-2xl text-[#f6f1e8]" data-testid="calendar-month-label">{calendarMonthLabel}</span>
+                     <div className="flex gap-2">
+                        <button type="button" onClick={() => setCalendarMonth((month) => new Date(month.getFullYear(), month.getMonth() - 1, 1))} aria-label="Previous month" data-testid="calendar-previous-month" className="w-8 h-8 rounded-full border border-[#f6f1e8]/20 flex items-center justify-center hover:bg-[#f6f1e8]/10 text-[#f6f1e8]"><ChevronLeft size={14}/></button>
+                        <button type="button" onClick={() => setCalendarMonth((month) => new Date(month.getFullYear(), month.getMonth() + 1, 1))} aria-label="Next month" data-testid="calendar-next-month" className="w-8 h-8 rounded-full border border-[#f6f1e8]/20 flex items-center justify-center hover:bg-[#f6f1e8]/10 text-[#f6f1e8]"><ChevronRight size={14}/></button>
+                     </div>
+                   </div>
+                   <div className="grid grid-cols-7 gap-2 mb-3 text-center font-mono-ui text-[9px] uppercase tracking-[.15em] text-[#f6f1e8]/40">
+                     {['Su','Mo','Tu','We','Th','Fr','Sa'].map(d => <span key={d}>{d}</span>)}
+                   </div>
+                   <div className="grid grid-cols-7 gap-y-2 gap-x-2">
+                       {calendarCells.map((day, index) => {
+                          if (day === null) return <span key={`empty-${index}`} aria-hidden="true" />;
+                          const selectedDate = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth(), day);
+                          const dStr = selectedDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                          const isSel = date === dStr;
+                          return (
+                            <button type="button" key={dStr} onClick={() => { setDate(dStr); setActiveField('time'); }} className={`h-10 w-full rounded-[2px] text-[13px] transition-colors flex items-center justify-center ${isSel ? 'bg-[#d19a5c] text-[#102a29] font-bold' : 'text-[#f6f1e8]/80 hover:bg-[#f6f1e8]/10 hover:text-[#f6f1e8]'}`} data-testid={`calendar-choice-${day}`} aria-label={`Select ${dStr}`}>
+                              {day}
+                            </button>
+                          );
+                      })}
                    </div>
                 </div>
               )}
 
               {activeField === 'time' && (
-                <div key="time" className="animate-in fade-in slide-in-from-right-4 duration-300 flex items-center h-full max-w-[360px]">
-                   <div className="w-full p-8 bg-[#f6f1e8]/50 border border-[#193f3e]/10 rounded-[2px] text-center">
-                     <Clock3 size={24} className="mx-auto text-[#193f3e]/30 mb-4" />
-                     <p className="text-[13px] text-[#193f3e]/60 mb-6">Select your time from the top menu.</p>
-                     {time ? (
-                       <button type="button" onClick={() => setActiveField(null)} className="bg-[#193f3e] text-[#f6f1e8] px-6 py-2.5 text-[10px] font-mono-ui uppercase tracking-[.15em] hover:bg-[#bc754e] transition-colors rounded-[2px]">Done</button>
-                     ) : (
-                       <span className="inline-block px-6 py-2.5 text-[10px] font-mono-ui uppercase tracking-[.15em] text-[#193f3e]/30 border border-[#193f3e]/10 rounded-[2px]">Waiting for selection...</span>
-                     )}
-                   </div>
+                <div key="time" className="animate-in fade-in slide-in-from-right-4 duration-300 flex flex-col justify-center h-full w-full max-w-[440px]">
+                  <span className="block font-mono-ui text-[10px] uppercase tracking-[.15em] text-[#f6f1e8]/60 mb-6">Available Times</span>
+                  <div className="grid grid-cols-3 gap-3">
+                     {MOCK_TIMES.map(t => {
+                        const isSel = time === t;
+                        return (
+                          <button type="button" key={t} onClick={() => { setTime(t); setActiveField(null); }} className={`p-4 rounded-[2px] text-[13px] border transition-colors ${isSel ? 'border-[#d19a5c] bg-[#d19a5c]/10 text-[#d19a5c] font-bold' : 'border-[#f6f1e8]/10 text-[#f6f1e8]/80 hover:border-[#f6f1e8]/30 hover:bg-[#f6f1e8]/5'}`} data-testid={`time-choice-${t.replace(/[: ]/g, '')}`}>
+                            {t}
+                          </button>
+                        )
+                     })}
+                  </div>
                 </div>
               )}
             </div>
@@ -458,23 +493,25 @@ function Hero() {
   const [isBookingActive, setIsBookingActive] = useState(false);
 
   return (
-    <section id="top" className={`relative lg:min-h-screen lg:flex lg:flex-col overflow-hidden pt-[82px] text-[#f6f1e8] transition-colors duration-500 ease-out ${isBookingActive ? 'bg-[#102a29]' : 'bg-[#193f3e]'}`}>
+    <section id="top" className={`relative lg:h-screen lg:min-h-0 lg:flex lg:flex-col overflow-hidden pt-[82px] text-[#f6f1e8] transition-colors duration-500 ease-out ${isBookingActive ? 'bg-[#102a29]' : 'bg-[#193f3e]'}`}>
       <div className={`hero-grid absolute inset-0 pointer-events-none transition-opacity duration-500 ease-out ${isBookingActive ? 'opacity-20' : 'opacity-50'}`} />
       <div className={`absolute -right-32 top-20 h-[600px] w-[600px] rounded-full border border-[#d19a5c]/20 sm:h-[800px] sm:w-[800px] pointer-events-none transition-opacity duration-500 ease-out ${isBookingActive ? 'opacity-30' : 'opacity-100'}`} />
       <div className={`absolute -right-16 top-36 h-[390px] w-[390px] rounded-full border border-[#d19a5c]/15 sm:h-[590px] sm:w-[590px] pointer-events-none transition-opacity duration-500 ease-out ${isBookingActive ? 'opacity-30' : 'opacity-100'}`} />
       <div className={`floating-line absolute right-[18%] top-[28%] h-[1px] w-[310px] origin-right bg-[#d19a5c]/60 pointer-events-none transition-opacity duration-500 ease-out ${isBookingActive ? 'opacity-30' : 'opacity-100'}`} />
       <Nav onBook={jump} />
       
-      <div className="container-edge relative flex-1 flex flex-col justify-end lg:justify-center pb-24 pt-20 lg:pt-32">
-        <div className={`w-full max-w-[700px] transition-all duration-300 ease-out overflow-hidden ${isBookingActive ? 'opacity-0 max-h-0 mb-0' : 'opacity-100 max-h-[500px] mb-12 lg:mb-20'}`}>
+      <div className="container-edge relative flex-1 flex flex-col justify-end lg:justify-center pb-16 lg:pb-24 pt-20 lg:pt-32">
+        <div className={`w-full max-w-[700px] transition-all duration-300 ease-out overflow-hidden ${isBookingActive ? 'opacity-0 max-h-0 mb-0' : 'opacity-100 max-h-[500px] mb-12 lg:mb-16'}`}>
           <div className="reveal">
             <p className="flex items-center gap-3 font-mono-ui text-[9px] uppercase tracking-[.25em] text-[#d19a5c]"><span className="h-px w-7 bg-[#d19a5c]" />Bay Area & Northern California</p>
             <h1 className="mt-8 font-display text-[clamp(3.8rem,8.5vw,8.2rem)] leading-[.84] tracking-[-.05em]">Arrive in<br /><i className="text-[#d19a5c]">unspoken<br />luxury.</i></h1>
             <p className="mt-8 max-w-[390px] text-[14px] leading-[1.8] text-[#dbe0d6]/72">From SFO to Napa, your chauffeur handles the details so the ride feels effortless.</p>
           </div>
         </div>
-        <div className="reveal delay-2 w-full max-w-[1000px] relative z-20">
-          <BookingCard onActiveChange={setIsBookingActive} />
+        <div className={`w-full flex justify-center z-20 transition-[top,transform] duration-300 ease-out ${isBookingActive ? 'lg:absolute lg:inset-x-0 lg:top-1/2 lg:-translate-y-1/2' : 'relative'}`}>
+          <div className="w-full lg:w-[84vw] max-w-[1240px] lg:flex-none">
+            <BookingCard onActiveChange={setIsBookingActive} />
+          </div>
         </div>
       </div>
       

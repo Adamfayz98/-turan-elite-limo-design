@@ -1,0 +1,570 @@
+You are refining ONLY the TuranEliteLimo DESKTOP HOMEPAGE BOOKING SECTION.
+
+IMPORTANT:
+Do NOT redesign the rest of the homepage.
+Do NOT touch the service carousel.
+Do NOT touch the stacked 3-image section — that opacity/layering issue is now fixed.
+Do NOT touch Three Steps, Turan Standard, testimonial, CTA, footer, or mobile unless required to preserve existing responsive behavior.
+Do NOT build Step 2 or Step 3.
+Do NOT add real APIs.
+
+This pass is strictly about correcting the desktop booking section’s:
+- width
+- centering
+- relationship to the hero
+- active-state behavior
+- field interaction
+- visual hierarchy
+
+==================================================
+1. REFERENCE MATERIAL
+==================================================
+
+I am attaching:
+
+1. screenshots/video of the CURRENT TuranEliteLimo Replit booking section
+2. Blacklane screenshots showing:
+   - resting booking state
+   - Pickup active state
+   - Drop-off active state
+   - Date / schedule active state
+
+Use the Blacklane references ONLY to understand:
+- booking section proportions
+- centering
+- field focus behavior
+- expanded booking-stage behavior
+- how the active field controls the lower helper area
+- how the booking experience temporarily takes over the hero
+
+Do NOT copy:
+- Blacklane branding
+- Blacklane colors
+- Blacklane wording
+- Blacklane typography
+- exact component styling
+
+The final result must stay TuranEliteLimo.
+
+==================================================
+2. CURRENT PROBLEMS TO FIX
+==================================================
+
+The current Turan booking implementation is functionally on the right track, but visually still wrong.
+
+Current issues:
+
+1. The booking section is too far toward the left side of the hero.
+2. It is slightly too narrow / small on desktop.
+3. It still feels visually tied to the left headline column instead of centered across the hero.
+4. When expanded, it does not feel like the booking experience has fully become the hero.
+5. The bright white expanded surface feels disconnected from the muted-green Turan hero.
+6. Active field states are not strong enough.
+7. The lower expanded area feels compressed.
+8. Pickup → Drop-off → Date → Time changes feel too much like separate layouts instead of one persistent booking stage changing content.
+
+Fix these issues without redesigning the rest of the page.
+
+==================================================
+3. RESTING BOOKING POSITION — DESKTOP
+==================================================
+
+In the normal/resting hero state:
+
+Keep:
+- current muted green hero
+- existing headline and subcopy
+- compact horizontal booking bar
+- current general hero structure
+
+But reposition the booking section.
+
+The booking bar should:
+
+- be visually centered horizontally across the hero
+- not align mainly with the left headline column
+- span noticeably more of the desktop width
+- feel more balanced between left and right hero edges
+- feel slightly larger than it currently does
+- remain elegant and restrained
+
+It should feel like the MAIN interactive element of the hero, not a secondary form.
+
+Recommended desktop width:
+approximately 78–86% of the usable hero content width.
+
+Do not make it full browser width.
+
+Use the Blacklane screenshots only as proportional inspiration.
+
+==================================================
+4. RESTING BOOKING SCALE
+==================================================
+
+Increase the booking section size modestly.
+
+Do NOT make it bulky.
+
+Improve:
+- horizontal width
+- field spacing
+- field label readability
+- CTA presence
+- vertical breathing room
+
+The bar should feel substantial enough to anchor the hero.
+
+Do not increase the overall hero height.
+
+==================================================
+5. HERO RELATIONSHIP
+==================================================
+
+The current hero text is good.
+
+In RESTING STATE:
+
+Keep:
+“Arrive in unspoken luxury.”
+
+Keep the current hero copy and muted green background.
+
+The booking bar should sit as a centered independent layer within the hero, not look like it belongs to the left text column.
+
+Think:
+
+headline = editorial statement
+
+booking bar = centered functional anchor
+
+They belong to the same hero but should have separate visual roles.
+
+==================================================
+6. ACTIVE BOOKING MODE — SAME HERO FOOTPRINT
+==================================================
+
+When Pickup, Drop-off, Date, or Time is clicked:
+
+Do NOT make the whole page taller.
+
+Do NOT increase the hero height.
+
+Instead:
+
+the booking experience should take over the current hero area.
+
+Transition:
+
+RESTING HERO
+→ field clicked
+→ large hero headline/subcopy fades away
+→ booking stage expands within same hero footprint
+
+The muted green hero atmosphere can remain faintly visible behind the active booking interface.
+
+Do NOT leave hero typography readable behind the active booking content.
+
+==================================================
+7. ACTIVE BOOKING SURFACE COLOR
+==================================================
+
+The current bright white expanded booking surface is too disconnected from the hero.
+
+Change the active booking surface to a darker Turan-compatible treatment.
+
+Use something like:
+- dark muted green
+- charcoal-green
+- deep translucent green
+- near-black green with restrained transparency
+
+It should visually belong to the muted green hero.
+
+Use:
+- light cream / warm white text
+- subtle Turan gold only for micro-accents if helpful
+- restrained borders
+- no heavy shadows
+
+Do NOT make it look like a white card floating on top of the hero.
+
+==================================================
+8. PERSISTENT TOP BOOKING ROW
+==================================================
+
+This is important.
+
+In active mode, the top booking row should remain visually stable.
+
+The following fields stay anchored across the top:
+
+- Pickup
+- Drop-off
+- Date
+- Time
+- CTA / See Vehicles
+
+The lower large content area changes based on the active field.
+
+Do NOT visually rebuild the entire booking component every time a new field is clicked.
+
+The user should feel like:
+
+“the same booking system is changing context”
+
+not:
+
+“a new layout appeared”
+
+==================================================
+9. ACTIVE FIELD TREATMENT
+==================================================
+
+The currently active field needs stronger visual focus.
+
+Use restrained treatment such as:
+
+- brighter underline
+- slightly stronger label contrast
+- subtle gold/cream/green accent
+- clear focus ring only where appropriate
+
+Do NOT use oversized borders.
+
+Do NOT make inactive fields disappear.
+
+The active field should be obvious at a glance.
+
+==================================================
+10. PICKUP ACTIVE STATE
+==================================================
+
+When Pickup is clicked:
+
+Keep the top row fixed.
+
+In the large lower area:
+
+Left or center area:
+show Turan helper content:
+
+Headline:
+Set your pickup.
+
+Supporting text:
+Choose an airport, hotel, residence, or meeting point. Your chauffeur will be ready where you need them.
+
+Show mocked local suggestions only.
+
+NO API.
+
+Use local hardcoded examples:
+
+- San Francisco International Airport (SFO)
+- Four Seasons Hotel San Francisco
+- Palace Hotel San Francisco
+- The St. Regis San Francisco
+- Union Square, San Francisco
+
+The suggestions should live INSIDE the expanded booking stage.
+
+Do NOT allow them to spill outside and overlap unrelated sections.
+
+==================================================
+11. SFO / AIRPORT PICKUP STATE
+==================================================
+
+When SFO is selected:
+
+Keep SFO visible in Pickup.
+
+Add a Flight Number field.
+
+Do NOT increase overall hero height.
+
+Do NOT increase overall booking-stage height.
+
+Internally reflow the booking row/content so the Flight Number field fits naturally.
+
+The helper content should change to:
+
+Headline:
+Flying into SFO?
+
+Supporting text:
+Add your flight number so your chauffeur can be prepared for your arrival.
+
+Flight Number is mocked only.
+
+No flight API.
+
+==================================================
+12. DROP-OFF ACTIVE STATE
+==================================================
+
+When Drop-off is clicked:
+
+Top row remains fixed.
+
+Lower helper stage changes.
+
+Headline:
+Choose your destination.
+
+Supporting text:
+Tell us where you’re headed and we’ll prepare the ride around your journey.
+
+Show mocked SF destination suggestions inside the expanded stage.
+
+Again:
+- no real API
+- no overflow
+- no unrelated page overlap
+
+==================================================
+13. DATE ACTIVE STATE
+==================================================
+
+When Date is clicked:
+
+Top row stays visually stable.
+
+Show the calendar in the large expanded lower stage.
+
+Helper copy:
+
+Headline:
+Set the schedule.
+
+Supporting text:
+Choose the day that works for you. We’ll take care of the timing from there.
+
+The calendar should have enough space.
+
+Do not squeeze it into a tiny popover if the expanded stage is available.
+
+After selection:
+- selected date remains visible
+- calendar closes or transitions cleanly
+- active stage remains usable
+
+==================================================
+14. TIME ACTIVE STATE
+==================================================
+
+When Time is clicked:
+
+Top row remains stable.
+
+Show time selection inside the expanded stage.
+
+Helper copy:
+
+Headline:
+Choose your pickup time.
+
+Supporting text:
+Select when you’d like your chauffeur to arrive.
+
+After selection:
+- chosen time persists
+- selector closes cleanly
+
+==================================================
+15. FIELD-TO-FIELD TRANSITIONS
+==================================================
+
+Pickup → Drop-off → Date → Time should feel like content changing within ONE booking stage.
+
+Use smooth transitions:
+approximately 200–350ms.
+
+Preferred:
+- fade/slide helper content
+- subtle transform
+- consistent stage size
+
+Avoid:
+- full layout rebuild
+- hard jumps
+- white flashes
+- resizing the hero
+- resetting the booking bar
+
+==================================================
+16. CLICK-OUTSIDE / COLLAPSE
+==================================================
+
+When the user clicks outside the active booking system:
+
+- collapse the expanded stage
+- restore the normal hero headline/subcopy
+- keep the compact centered booking bar visible
+- preserve all selected values
+- return background to normal contrast
+
+The resting booking bar must return to the exact same centered position and width.
+
+Do NOT reset the form.
+
+==================================================
+17. POSITION DURING ACTIVE MODE
+==================================================
+
+The expanded booking stage should use approximately the same centered width as the resting booking bar.
+
+Do NOT shift left when expanded.
+
+Do NOT leave large unused empty space on the right side.
+
+The active booking stage should feel visually centered in the hero.
+
+This is a major correction.
+
+==================================================
+18. HEIGHT / SPACING
+==================================================
+
+Use the available hero area more confidently.
+
+The expanded stage should have:
+- generous internal vertical space
+- enough room for helper text
+- enough room for mocked suggestions
+- enough room for calendar/time controls
+
+But:
+- do NOT increase overall hero height
+- do NOT create a huge empty card
+- do NOT make it feel oversized
+
+Balance the content within the existing hero footprint.
+
+==================================================
+19. CTA
+==================================================
+
+Keep the CTA at the right end of the top booking row.
+
+It should remain clearly visible in both:
+- resting state
+- active state
+
+Keep Turan styling.
+
+Do not copy Blacklane blue.
+
+==================================================
+20. MOBILE
+==================================================
+
+Do NOT force this desktop takeover behavior onto mobile.
+
+Keep the existing mobile-friendly stacked booking structure.
+
+Only ensure desktop changes do not break mobile.
+
+==================================================
+21. DO NOT TOUCH THE STACKED STORY IMAGES
+==================================================
+
+The 3 large stacked-image opacity/layering issue has already been fixed.
+
+DO NOT modify that section.
+
+Do not change:
+- animation
+- opacity
+- image order
+- captions
+- z-index
+- scroll behavior
+
+It is approved for now.
+
+==================================================
+22. DO NOT TOUCH THE REST OF THE HOMEPAGE
+==================================================
+
+Do NOT redesign:
+- service carousel
+- Three Steps
+- Turan Standard
+- testimonial
+- rust CTA
+- footer
+
+This pass is BOOKING HERO ONLY.
+
+==================================================
+23. QA
+==================================================
+
+Before declaring this done, verify:
+
+RESTING DESKTOP:
+- booking bar centered horizontally
+- noticeably wider than before
+- slightly larger
+- not tied to left headline column
+- hero height unchanged
+
+ACTIVE PICKUP:
+- hero text fades away
+- booking stage takes over hero
+- dark Turan-compatible surface
+- Pickup clearly active
+- helper content visible
+- mocked suggestions contained inside stage
+- no page jump
+
+SFO SELECTED:
+- SFO persists
+- Flight Number appears
+- no hero height increase
+- no stage-height jump
+- internal layout remains clean
+
+DROP-OFF:
+- active underline/focus changes
+- helper text changes
+- suggestions appear inside stage
+
+DATE:
+- calendar has enough room
+- selection works
+- selected date persists
+
+TIME:
+- selector has enough room
+- selected time persists
+
+FIELD SWITCHING:
+- same top row remains stable
+- only lower content changes
+- smooth transitions
+
+COLLAPSE:
+- clicking outside restores normal hero
+- headline/subcopy return
+- centered booking bar returns
+- values remain selected
+
+MOBILE:
+- no breakage
+- existing stacked booking retained
+
+==================================================
+24. REPORT BACK
+==================================================
+
+At the end tell me:
+
+1. exact width/centering changes made
+2. how active state is positioned inside the hero
+3. how the persistent top row works
+4. how field-specific lower content changes
+5. how SFO Flight Number reflow works
+6. how click-outside collapse works
+7. confirmation that the stacked 3-image section was not touched
+8. any remaining booking interaction issues you think need review

@@ -1,2 +1,3 @@
 - [Sticky scroll containers](sticky-scroll-containers.md) — layered stories need a vertical ancestor chain without hidden overflow or the sticky frames disappear.
 - [Native picker Escape](native-picker-escape.md) — capture Escape before native date/time inputs consume it, then blur and collapse the takeover.
+- [Booking takeover geometry](booking-takeover-geometry.md) — share one viewport-centered frame and absolutely center expansion inside a fixed-height hero.
