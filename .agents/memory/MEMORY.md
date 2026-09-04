@@ -1,0 +1,1 @@
+- [Sticky scroll containers](sticky-scroll-containers.md) — layered stories need a vertical ancestor chain without hidden overflow or the sticky frames disappear.

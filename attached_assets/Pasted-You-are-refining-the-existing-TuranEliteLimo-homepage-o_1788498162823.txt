@@ -1,0 +1,565 @@
+You are refining the existing TuranEliteLimo homepage only.
+
+IMPORTANT:
+Do NOT redesign the homepage from scratch.
+The overall direction is approved.
+
+Keep:
+- the deep muted green hero
+- the editorial typography
+- the warm ivory / stone content sections
+- the service carousel
+- the Three Steps section
+- the 3-image storytelling section
+- the Turan Standard section
+- the testimonial
+- the terracotta/rust final CTA section
+
+This pass is about fixing interaction behavior and polishing hierarchy.
+
+Do NOT move on to Step 2 or Step 3 yet.
+
+==================================================
+1. USE THE ATTACHED BLACKLANE HERO SCREENSHOT AS STRUCTURAL REFERENCE ONLY
+==================================================
+
+I will attach a screenshot of Blacklane’s hero / desktop booking section.
+
+Use it ONLY to understand:
+
+- desktop booking proportions
+- compact horizontal layout
+- how the booking bar relates to the hero
+- field density
+- visual hierarchy
+- how much space the booking interface occupies
+
+Do NOT copy:
+- Blacklane colors
+- Blacklane branding
+- exact typography
+- exact text
+- exact spacing
+- exact component styling
+
+The final design must remain TuranEliteLimo.
+
+==================================================
+2. HERO — KEEP THE GREEN EDITORIAL DIRECTION
+==================================================
+
+Keep the current deep muted green hero.
+
+Keep the large editorial headline:
+
+“Arrive in unspoken luxury.”
+
+Do NOT replace the hero with a photographic background.
+
+Keep the visual tone:
+- editorial
+- restrained
+- premium
+- spacious
+- sophisticated
+
+However, refine the top composition carefully.
+
+The hero should feel like one designed composition rather than:
+headline on one side + a separate white form dropped onto the other side.
+
+Pay special attention to:
+- vertical alignment
+- booking position
+- hero height
+- headline scale
+- negative space
+- navigation spacing
+- relationship between headline and booking bar
+
+==================================================
+3. DESKTOP BOOKING — CHANGE THE STRUCTURE
+==================================================
+
+This is the biggest hero change.
+
+On DESKTOP ONLY:
+
+Do NOT keep the large stacked booking card currently used on the right side.
+
+Replace it with a much more compact horizontal booking interface inspired structurally by the attached Blacklane reference.
+
+The desktop booking should feel closer to a premium booking BAR rather than a large form.
+
+Recommended fields:
+
+Pickup
+Drop-off
+Date
+Time
+SEE VEHICLES
+
+The booking bar should be integrated into the hero composition.
+
+Possible placement:
+- along the lower part of the hero
+OR
+- directly below the headline area if that creates the stronger composition
+
+Choose the placement that best preserves the current Replit editorial hero.
+
+The booking bar should:
+- feel compact
+- feel serious and functional
+- not dominate the hero
+- have clear field separation
+- avoid oversized input boxes
+- avoid excessive borders
+- use restrained radius
+- have strong typography hierarchy
+- use the existing Turan palette
+
+==================================================
+4. MOBILE BOOKING — KEEP THE MOBILE-FRIENDLY VERSION
+==================================================
+
+Do NOT force the compact desktop booking bar onto mobile.
+
+For MOBILE:
+
+Keep the current mobile-style booking treatment where fields stack vertically and remain easy to tap.
+
+The mobile booking can remain a card / expanded form.
+
+Requirements:
+- clear From / Destination structure
+- date and time accessible without horizontal squeezing
+- full-width primary CTA
+- comfortable tap targets
+- no overflow
+- no tiny text
+- keep the strong compact mobile proportions already established
+
+Desktop and mobile booking DO NOT need to use the same physical layout.
+
+They should use the same data and logic, but different responsive presentation.
+
+==================================================
+5. BOOKING PROTOTYPE FUNCTIONALITY
+==================================================
+
+Continue using the controlled prototype route only.
+
+Pickup:
+San Francisco International Airport (SFO)
+
+Drop-off:
+Four Seasons Hotel San Francisco
+757 Market Street, San Francisco, CA
+
+No real address API.
+
+No maps API.
+
+No backend booking submission.
+
+No Stripe.
+
+Use mocked local data.
+
+The prototype should still support:
+
+- pickup selection
+- drop-off selection
+- date
+- time
+- CTA state
+- smooth field interactions
+- selected values remaining visible
+- dropdown/popover closing after selection
+- no fake loading
+- no broken keyboard/focus behavior
+
+When the route is complete and SEE VEHICLES is pressed:
+show the existing polished temporary completion/transition state.
+
+Do NOT build Step 2 yet.
+
+==================================================
+6. FIX THE 3-IMAGE STACKED SCROLL SECTION
+==================================================
+
+The current implementation is WRONG.
+
+Right now the 3 images render as normal consecutive sections one after another.
+
+That is NOT the intended behavior.
+
+This section must behave like a true stacked scroll story.
+
+There are exactly 3 supplied images:
+
+1. businessman working on laptop in luxury rear cabin
+2. phone charging in luxury rear cabin
+3. chauffeur assisting guest with brown leather travel bag
+
+Desired behavior:
+
+- one large image dominates the visual area
+- image 1 appears first
+- while the user scrolls, image 1 remains visually pinned / sticky
+- continued scroll causes image 1 to lift upward
+- image 2 is revealed underneath
+- continued scroll causes image 2 to lift upward
+- image 3 is revealed underneath
+- after image 3, normal page scrolling resumes
+
+This should feel like stacked cards/images being peeled upward through scroll.
+
+DO NOT simply place the 3 images vertically one after another.
+
+Implementation can use:
+- sticky positioning
+- stacked layers
+- controlled scroll progress
+- transforms
+- IntersectionObserver
+- Framer Motion if already available
+- another clean existing solution in the project
+
+But do not unnecessarily add a heavy dependency.
+
+The effect should:
+- be smooth
+- not jitter
+- not snap harshly
+- not create blank spaces
+- not make the user feel trapped
+- not replay unnecessarily
+- work well on common desktop viewport sizes
+
+==================================================
+7. STACKED IMAGE TEXT
+==================================================
+
+Each stacked image should keep its own live HTML/CSS caption panel.
+
+Do NOT bake text into the images.
+
+IMAGE 1
+Use:
+businessman working on laptop in rear luxury cabin with bottled water
+
+Headline:
+Make the ride work for you.
+
+Description:
+Stay productive or simply unwind while you travel, with a quiet cabin, charging access, and complimentary bottled water.
+
+IMAGE 2
+Use:
+phone charging in luxury rear cabin
+
+Headline:
+Stay connected along the way.
+
+Description:
+Keep your devices powered during the journey with convenient in-vehicle charging.
+
+IMAGE 3
+Use:
+chauffeur assisting guest with brown leather travel bag
+
+Headline:
+Every detail, handled.
+
+Description:
+From opening the door to assisting with your belongings, your chauffeur is there to make the journey effortless.
+
+Caption styling:
+- dark translucent panel
+- premium, restrained appearance
+- strong legibility
+- not oversized
+- consistent position
+- panel should feel integrated into image, not pasted on
+
+==================================================
+8. SERVICE CAROUSEL — KEEP IT, POLISH IT
+==================================================
+
+Keep the 4-card horizontal service carousel.
+
+The supplied images and mapping are already correct.
+
+CARD 1
+Airport Transfers
+Use the airport arrivals Escalade image.
+
+CARD 2
+Hourly Chauffeur
+Use the woman approaching the Escalade outside the upscale building.
+
+CARD 3
+Corporate / Executive Travel
+Use the S-Class office-tower image.
+
+CARD 4
+Long-Distance / Bay Area Transfers
+Use the Escalade vineyard / estate image.
+
+Do not substitute or regenerate images.
+
+Polish this section:
+
+- images should feel slightly more visually dominant
+- cards should feel editorial rather than generic UI cards
+- keep generous spacing
+- navigation arrows should be clearly usable but visually restrained
+- maintain two visible cards on desktop when space allows
+- one card at a time on mobile
+- horizontal movement should be smooth
+- no bouncing
+- no excessive shadows
+
+Keep the existing Turan copy.
+
+==================================================
+9. THREE STEPS SECTION — INCREASE PRESENCE
+==================================================
+
+Keep:
+
+“Three steps.
+Nothing more.”
+
+Keep the 3 existing steps and messaging.
+
+But visually strengthen the section.
+
+Current issue:
+the section feels too quiet and compressed relative to the surrounding editorial sections.
+
+Improve:
+
+- larger step numbers
+- stronger spacing
+- stronger typographic hierarchy
+- more breathing room
+- cleaner alignment
+- make the three steps feel intentionally composed
+
+Do NOT turn them into three heavy cards.
+
+The section should still feel editorial and minimal.
+
+==================================================
+10. TURAN STANDARD SECTION — STRENGTHEN THE HIERARCHY
+==================================================
+
+Keep:
+
+“Nothing loud.
+Everything ready.”
+
+Keep the current Turan Standard content and metrics.
+
+Current issue:
+the section feels slightly washed out and less confident than the hero and final CTA.
+
+Improve:
+
+- headline hierarchy
+- metric presentation
+- spacing
+- contrast
+- overall composition
+
+Keep it restrained.
+
+Do NOT add more decorative UI.
+
+The metrics should feel premium and intentional.
+
+==================================================
+11. TESTIMONIAL / BOTTOM SECTIONS
+==================================================
+
+Keep the testimonial section.
+
+Keep the general composition.
+
+Keep the terracotta/rust final CTA chapter.
+
+Keep:
+
+“Book in a few simple steps.”
+
+This ending works.
+
+Only refine:
+- spacing
+- typography
+- vertical rhythm
+- footer alignment
+- transition into the final CTA
+
+Do not redesign the bottom unnecessarily.
+
+==================================================
+12. ONE-TIME SCROLL REVEALS
+==================================================
+
+Keep the one-time scroll reveal behavior.
+
+For normal content:
+
+- subtle fade
+- slight vertical movement
+- optional restrained stagger
+
+Once revealed:
+- remain visible
+- do NOT replay every time the user scrolls back
+
+The 3-image stacked section is a separate scroll-linked interaction and should behave according to Section 6 above.
+
+==================================================
+13. IMAGE RULES
+==================================================
+
+Use the exact supplied homepage images.
+
+Do NOT:
+- regenerate them
+- replace them
+- edit faces
+- change vehicles
+- change luggage
+- bake text into them
+- distort them
+- crop out important subjects
+- substitute stock images
+
+Use object-fit/object-position carefully per asset.
+
+==================================================
+14. RESPONSIVE RULES
+==================================================
+
+DESKTOP:
+- compact Blacklane-inspired booking bar
+- editorial hero composition
+- 2 carousel cards visible where appropriate
+- full stacked-scroll storytelling effect
+
+MOBILE:
+- keep stacked/mobile-friendly booking card
+- one carousel card at a time
+- stacked-image story can use a simplified sticky or sequential reveal if the desktop interaction becomes unstable
+- maintain image prominence
+- no horizontal overflow
+- no tiny controls
+- no broken typography
+
+Do not sacrifice mobile usability just to mimic desktop.
+
+==================================================
+15. DO NOT TOUCH STEP 2 OR STEP 3
+==================================================
+
+Do NOT build:
+
+- vehicle selection
+- vehicle-detail modals
+- map rail
+- payment
+- passenger details
+- pricing engine
+- Stripe
+- production booking logic
+
+We will work on Step 2 only after the homepage is approved.
+
+==================================================
+16. QA CHECKLIST
+==================================================
+
+Before declaring this pass finished, test:
+
+HERO:
+- desktop hero proportions
+- headline alignment
+- booking integration
+- navigation spacing
+- no unnecessary hero height
+
+DESKTOP BOOKING:
+- compact horizontal layout
+- fields readable
+- correct SFO → Four Seasons mocked flow
+- dropdown/popover behavior
+- CTA state
+- no giant form card
+
+MOBILE BOOKING:
+- stacked form retained
+- no overflow
+- comfortable tap targets
+- date/time usable
+
+SERVICE CAROUSEL:
+- correct 4 images
+- correct order
+- arrows work
+- horizontal movement smooth
+- 2 visible on desktop where appropriate
+- mobile works
+
+STACKED SCROLL:
+- image 1 appears
+- image 1 lifts/reveals image 2
+- image 2 lifts/reveals image 3
+- all three are NOT simply consecutive normal blocks
+- no blank gaps
+- no jitter
+- text panels stay attached correctly
+- normal page resumes after image 3
+
+THREE STEPS:
+- stronger hierarchy
+- improved spacing
+- no heavy cards
+
+TURAN STANDARD:
+- stronger composition
+- metrics readable
+- contrast improved
+
+BOTTOM:
+- testimonial clean
+- rust CTA polished
+- footer aligned
+
+GENERAL:
+- one-time reveals
+- no broken images
+- no text baked into images
+- no horizontal overflow
+- desktop responsive sanity check
+- mobile sanity check
+- reduced-motion behavior
+
+==================================================
+17. AT THE END
+==================================================
+
+Do NOT move on to Step 2.
+
+Report back with:
+
+1. exactly what you changed
+2. how you implemented the stacked-scroll behavior
+3. what changes you made specifically to desktop booking
+4. confirmation that mobile retained its stacked booking layout
+5. any remaining visual or interaction concerns you think need review
