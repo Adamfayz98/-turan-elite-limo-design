@@ -68,7 +68,7 @@ function Nav({ onBook }: { onBook: () => void }) {
   );
 }
 
-function BookingCard() {
+function BookingCard({ onActiveChange }: { onActiveChange?: (active: boolean) => void }) {
   const [step, setStep] = useState(0);
   const [from, setFrom] = useState('');
   const [to, setTo] = useState('');
@@ -76,17 +76,97 @@ function BookingCard() {
   const [time, setTime] = useState('');
   const [confirmed, setConfirmed] = useState(false);
 
+  // Desktop active mode state
+  const [activeField, setActiveField] = useState<'pickup' | 'dropoff' | 'date' | 'time' | null>(null);
+  const [flightNumber, setFlightNumber] = useState('');
+
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!activeField) return;
+    
+    const handleClickOutside = (e: PointerEvent) => {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setActiveField(null);
+      }
+    };
+    
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return;
+      e.preventDefault();
+      (document.activeElement as HTMLElement | null)?.blur();
+      setActiveField(null);
+    };
+    
+    document.addEventListener('pointerdown', handleClickOutside, true);
+    window.addEventListener('keydown', handleEsc, true);
+    return () => {
+      document.removeEventListener('pointerdown', handleClickOutside, true);
+      window.removeEventListener('keydown', handleEsc, true);
+    };
+  }, [activeField]);
+
+  useEffect(() => {
+    onActiveChange?.(!!activeField);
+  }, [activeField, onActiveChange]);
+
   const MOCK_AIRPORT = 'San Francisco International Airport (SFO)';
-  const MOCK_HOTEL = 'Four Seasons Hotel San Francisco, 757 Market Street, San Francisco, CA';
+  const MOCK_HOTEL = 'Four Seasons Hotel San Francisco';
+
+  const MOCK_SUGGESTIONS = [
+    MOCK_AIRPORT,
+    MOCK_HOTEL,
+    'Palace Hotel San Francisco',
+    'The St. Regis San Francisco',
+    'Union Square, San Francisco'
+  ];
+
+  const helperContent = {
+    pickup: {
+      title: 'Set your pickup.',
+      text: 'Choose an airport, hotel, residence, or meeting point. Your chauffeur will be ready where you need them.',
+      icon: MapPin,
+    },
+    dropoff: {
+      title: 'Choose your destination.',
+      text: 'Tell us where you’re headed and we’ll prepare the ride around your journey.',
+      icon: MapPin,
+    },
+    date: {
+      title: 'Set the schedule.',
+      text: 'Choose the day that works for you. We’ll take care of the timing from there.',
+      icon: CalendarDays,
+    },
+    time: {
+      title: 'Choose your pickup time.',
+      text: 'Select when you’d like your chauffeur to arrive.',
+      icon: Clock3,
+    },
+    sfo: {
+      title: 'Flying into SFO?',
+      text: 'Add your flight number so your chauffeur can be prepared for your arrival.',
+      icon: Plane,
+    }
+  };
 
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (from && to && date && time) {
       setConfirmed(true);
+      setActiveField(null);
     }
   };
 
-  const reset = () => { setConfirmed(false); setStep(0); setFrom(''); setTo(''); setDate(''); setTime(''); };
+  const reset = () => { 
+    setConfirmed(false); 
+    setStep(0); 
+    setFrom(''); 
+    setTo(''); 
+    setDate(''); 
+    setTime(''); 
+    setActiveField(null);
+    setFlightNumber('');
+  };
 
   if (confirmed) {
     return (
@@ -206,42 +286,167 @@ function BookingCard() {
         </form>
       </div>
 
-      <div className="hidden lg:block relative z-10 w-full bg-[#f6f1e8] shadow-[0_22px_70px_rgba(8,28,28,.28)] rounded-[2px] overflow-hidden" id="booking-desktop" data-testid="card-booking-desktop">
-        <form onSubmit={submit} className="flex items-center w-full h-[90px]">
-          <div className="relative min-w-0 flex-1 h-full border-r border-[#193f3e]/15 group">
-            <button type="button" onClick={() => setFrom(MOCK_AIRPORT)} className="w-full min-w-0 h-full px-7 pr-10 flex flex-col justify-center text-left hover:bg-white/50 transition-colors focus:outline-none">
-              <span className="font-mono-ui text-[8px] uppercase tracking-[.15em] text-[#193f3e]/50 mb-1.5 flex items-center gap-2"><Plane size={10} /> Pickup</span>
-              <span title={from || 'Select location'} className={`block max-w-full text-[13px] font-semibold truncate ${from ? 'text-[#193f3e]' : 'text-[#193f3e]/40 font-normal'}`}>{from || 'Select location'}</span>
+      <div 
+        ref={containerRef}
+        className={`hidden lg:block relative z-10 w-full bg-[#f6f1e8] shadow-[0_22px_70px_rgba(8,28,28,.28)] rounded-[2px] transition-all duration-300 overflow-hidden ${activeField ? 'h-[380px]' : 'h-[90px]'}`} 
+        id="booking-desktop" 
+        data-testid="card-booking-desktop"
+      >
+        <form onSubmit={submit} className="flex flex-col w-full h-full">
+          <div className="flex items-center w-full h-[90px] shrink-0 border-b border-[#193f3e]/10 relative z-20">
+            <div className={`relative min-w-0 flex-1 h-full border-r border-[#193f3e]/15 group transition-colors ${activeField === 'pickup' ? 'bg-white' : 'hover:bg-white/50'}`}>
+              <button type="button" onClick={() => setActiveField('pickup')} className="w-full min-w-0 h-full px-7 pr-10 flex flex-col justify-center text-left focus:outline-none">
+                <span className={`font-mono-ui text-[8px] uppercase tracking-[.15em] mb-1.5 flex items-center gap-2 transition-colors ${activeField === 'pickup' ? 'text-[#bc754e]' : 'text-[#193f3e]/50'}`}><Plane size={10} /> Pickup</span>
+                <span title={from || 'Select location'} className={`block max-w-full text-[13px] font-semibold truncate ${from ? 'text-[#193f3e]' : 'text-[#193f3e]/40 font-normal'}`}>{from || 'Select location'}</span>
+              </button>
+              <span className={`absolute right-6 top-1/2 -translate-y-1/2 h-2 w-2 rounded-full border-[1.5px] transition-colors ${activeField === 'pickup' ? 'border-[#bc754e] bg-[#bc754e]' : 'border-[#bc754e]'}`} />
+            </div>
+
+            <div className={`relative min-w-0 flex-1 h-full border-r border-[#193f3e]/15 group transition-colors ${activeField === 'dropoff' ? 'bg-white' : 'hover:bg-white/50'}`}>
+              <button type="button" onClick={() => setActiveField('dropoff')} className="w-full min-w-0 h-full px-7 pr-10 flex flex-col justify-center text-left focus:outline-none">
+                <span className={`font-mono-ui text-[8px] uppercase tracking-[.15em] mb-1.5 flex items-center gap-2 transition-colors ${activeField === 'dropoff' ? 'text-[#bc754e]' : 'text-[#193f3e]/50'}`}><MapPin size={10} /> Drop-off</span>
+                <span title={to || 'Select destination'} className={`block max-w-full text-[13px] font-semibold truncate ${to ? 'text-[#193f3e]' : 'text-[#193f3e]/40 font-normal'}`}>{to || 'Select destination'}</span>
+              </button>
+              <span className={`absolute right-6 top-1/2 -translate-y-1/2 h-2 w-2 rounded-full transition-colors ${activeField === 'dropoff' ? 'bg-[#bc754e]' : 'bg-[#193f3e]'}`} />
+            </div>
+
+            <div className={`relative w-[160px] shrink-0 h-full border-r border-[#193f3e]/15 group transition-colors ${activeField === 'date' ? 'bg-white' : 'hover:bg-white/50'}`}>
+              <label className="flex w-full h-full flex-col justify-center px-6 cursor-pointer" onClick={() => setActiveField('date')}>
+                <span className={`font-mono-ui text-[8px] uppercase tracking-[.15em] mb-1.5 flex items-center gap-2 transition-colors ${activeField === 'date' ? 'text-[#bc754e]' : 'text-[#193f3e]/50'}`}><CalendarDays size={10} /> Date</span>
+                <input required type="date" value={date} onChange={(e) => setDate(e.target.value)} onClick={() => setActiveField('date')} onFocus={() => setActiveField('date')} className="w-full bg-transparent text-[13px] font-semibold text-[#193f3e] outline-none cursor-pointer [color-scheme:light]" data-testid="input-date-desktop" />
+              </label>
+            </div>
+
+            <div className={`relative w-[140px] shrink-0 h-full group transition-colors ${activeField === 'time' ? 'bg-white' : 'hover:bg-white/50'}`}>
+              <label className="flex w-full h-full flex-col justify-center px-6 cursor-pointer" onClick={() => setActiveField('time')}>
+                <span className={`font-mono-ui text-[8px] uppercase tracking-[.15em] mb-1.5 flex items-center gap-2 transition-colors ${activeField === 'time' ? 'text-[#bc754e]' : 'text-[#193f3e]/50'}`}><Clock3 size={10} /> Time</span>
+                <input required type="time" value={time} onChange={(e) => setTime(e.target.value)} onClick={() => setActiveField('time')} onFocus={() => setActiveField('time')} className="w-full bg-transparent text-[13px] font-semibold text-[#193f3e] outline-none cursor-pointer [color-scheme:light]" data-testid="input-time-desktop" />
+              </label>
+            </div>
+
+            <button type="submit" disabled={!from || !to || !date || !time} className="h-full px-10 bg-[#193f3e] text-[#f6f1e8] hover:bg-[#bc754e] transition-colors disabled:opacity-50 disabled:cursor-not-allowed group flex items-center gap-3 shrink-0 rounded-r-[2px]" data-testid="button-see-vehicles-desktop">
+              <span className="font-mono-ui text-[10px] uppercase tracking-[.16em]">See Vehicles</span>
+              <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
             </button>
-            <span className="absolute right-6 top-1/2 -translate-y-1/2 h-2 w-2 rounded-full border-[1.5px] border-[#bc754e]" />
           </div>
 
-          <div className="relative min-w-0 flex-1 h-full border-r border-[#193f3e]/15 group">
-            <button type="button" onClick={() => setTo(MOCK_HOTEL)} className="w-full min-w-0 h-full px-7 pr-10 flex flex-col justify-center text-left hover:bg-white/50 transition-colors focus:outline-none">
-              <span className="font-mono-ui text-[8px] uppercase tracking-[.15em] text-[#193f3e]/50 mb-1.5 flex items-center gap-2"><MapPin size={10} /> Drop-off</span>
-              <span title={to || 'Select destination'} className={`block max-w-full text-[13px] font-semibold truncate ${to ? 'text-[#193f3e]' : 'text-[#193f3e]/40 font-normal'}`}>{to || 'Select destination'}</span>
-            </button>
-            <span className="absolute right-6 top-1/2 -translate-y-1/2 h-2 w-2 rounded-full bg-[#193f3e]" />
-          </div>
+          <div 
+            className={`flex-1 flex w-full bg-white relative transition-opacity duration-300 ${activeField ? 'opacity-100 delay-100' : 'opacity-0'}`} 
+            data-testid="active-booking-surface"
+          >
+            {activeField && (
+              <button 
+                type="button" 
+                onClick={() => setActiveField(null)} 
+                className="absolute top-4 right-4 text-[#193f3e]/40 hover:text-[#193f3e] transition-colors p-2 z-10" 
+                aria-label="Close"
+                data-testid="button-close-active"
+              >
+                <X size={20} strokeWidth={1.5} />
+              </button>
+            )}
 
-          <div className="relative w-[160px] shrink-0 h-full border-r border-[#193f3e]/15 group hover:bg-white/50 transition-colors">
-            <label className="flex w-full h-full flex-col justify-center px-6 cursor-pointer">
-              <span className="font-mono-ui text-[8px] uppercase tracking-[.15em] text-[#193f3e]/50 mb-1.5 flex items-center gap-2"><CalendarDays size={10} /> Date</span>
-              <input required type="date" value={date} onChange={(e) => setDate(e.target.value)} className="w-full bg-transparent text-[13px] font-semibold text-[#193f3e] outline-none cursor-pointer [color-scheme:light]" data-testid="input-date-desktop" />
-            </label>
-          </div>
+            <div className="w-1/2 p-10 flex flex-col justify-center border-r border-[#193f3e]/5 relative overflow-hidden">
+              {(() => {
+                let context = helperContent.pickup;
+                if (activeField === 'dropoff') context = helperContent.dropoff;
+                else if (activeField === 'date') context = helperContent.date;
+                else if (activeField === 'time') context = helperContent.time;
+                
+                if (activeField === 'pickup' && from === MOCK_AIRPORT) {
+                  context = helperContent.sfo;
+                }
 
-          <div className="relative w-[140px] shrink-0 h-full group hover:bg-white/50 transition-colors">
-            <label className="flex w-full h-full flex-col justify-center px-6 cursor-pointer">
-              <span className="font-mono-ui text-[8px] uppercase tracking-[.15em] text-[#193f3e]/50 mb-1.5 flex items-center gap-2"><Clock3 size={10} /> Time</span>
-              <input required type="time" value={time} onChange={(e) => setTime(e.target.value)} className="w-full bg-transparent text-[13px] font-semibold text-[#193f3e] outline-none cursor-pointer [color-scheme:light]" data-testid="input-time-desktop" />
-            </label>
-          </div>
+                const Icon = context.icon;
+                
+                return (
+                  <div key={activeField + (from === MOCK_AIRPORT ? 'sfo' : '')} className="animate-in fade-in slide-in-from-left-4 duration-300">
+                    <div className="w-10 h-10 rounded-full border border-[#193f3e]/10 flex items-center justify-center mb-6 bg-[#f6f1e8]/50">
+                      <Icon size={16} className="text-[#bc754e]" />
+                    </div>
+                    <h3 className="font-display text-3xl text-[#193f3e] mb-3">{context.title}</h3>
+                    <p className="text-[14px] text-[#193f3e]/60 leading-relaxed max-w-[320px]">{context.text}</p>
+                  </div>
+                );
+              })()}
+            </div>
 
-          <button type="submit" disabled={!from || !to || !date || !time} className="h-full px-10 bg-[#193f3e] text-[#f6f1e8] hover:bg-[#bc754e] transition-colors disabled:opacity-50 disabled:cursor-not-allowed group flex items-center gap-3 shrink-0 rounded-r-[2px]" data-testid="button-see-vehicles-desktop">
-            <span className="font-mono-ui text-[10px] uppercase tracking-[.16em]">See Vehicles</span>
-            <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
-          </button>
+            <div className="w-1/2 p-10 flex flex-col justify-center relative overflow-hidden">
+              {(activeField === 'pickup' || activeField === 'dropoff') && (
+                <div key={activeField + (from === MOCK_AIRPORT ? 'sfo' : '')} className="animate-in fade-in slide-in-from-right-4 duration-300 w-full max-w-[360px]">
+                  {activeField === 'pickup' && from === MOCK_AIRPORT ? (
+                    <div>
+                      <label className="block font-mono-ui text-[10px] uppercase tracking-[.15em] text-[#193f3e]/60 mb-3">Flight Number</label>
+                      <input 
+                        type="text" 
+                        value={flightNumber} 
+                        onChange={(e) => setFlightNumber(e.target.value)} 
+                        placeholder="e.g. UA 1234" 
+                        className="w-full bg-[#f6f1e8]/50 border border-[#193f3e]/15 rounded-[2px] px-4 py-3 text-[14px] outline-none focus:border-[#bc754e] focus:bg-white transition-colors"
+                        data-testid="input-flight-number"
+                      />
+                      <button type="button" onClick={() => setActiveField('dropoff')} className="mt-4 w-full bg-[#193f3e] text-[#f6f1e8] py-3 text-[11px] font-mono-ui uppercase tracking-[.15em] hover:bg-[#bc754e] transition-colors rounded-[2px]">Continue to destination</button>
+                    </div>
+                  ) : (
+                    <div>
+                      <span className="block font-mono-ui text-[10px] uppercase tracking-[.15em] text-[#193f3e]/60 mb-4">Suggested Locations</span>
+                      <ul className="flex flex-col gap-1">
+                        {MOCK_SUGGESTIONS.map(suggestion => (
+                          <li key={suggestion}>
+                            <button 
+                              type="button" 
+                              onClick={() => {
+                                if (activeField === 'pickup') {
+                                  setFrom(suggestion);
+                                  if (suggestion !== MOCK_AIRPORT) setActiveField('dropoff');
+                                } else {
+                                  setTo(suggestion);
+                                  setActiveField('date');
+                                }
+                              }}
+                              className="w-full text-left px-4 py-2.5 rounded-[2px] hover:bg-[#f6f1e8] text-[13px] text-[#193f3e] transition-colors flex items-center gap-3 group"
+                              data-testid="suggestion-option"
+                            >
+                              <MapPin size={12} className="text-[#193f3e]/40 group-hover:text-[#bc754e] transition-colors shrink-0" />
+                              <span className="truncate">{suggestion}</span>
+                            </button>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              )}
+              
+              {activeField === 'date' && (
+                <div key="date" className="animate-in fade-in slide-in-from-right-4 duration-300 flex items-center h-full max-w-[360px]">
+                   <div className="w-full p-8 bg-[#f6f1e8]/50 border border-[#193f3e]/10 rounded-[2px] text-center">
+                     <CalendarDays size={24} className="mx-auto text-[#193f3e]/30 mb-4" />
+                     <p className="text-[13px] text-[#193f3e]/60 mb-6">Select your date from the top menu.</p>
+                     {date ? (
+                       <button type="button" onClick={() => setActiveField('time')} className="bg-[#193f3e] text-[#f6f1e8] px-6 py-2.5 text-[10px] font-mono-ui uppercase tracking-[.15em] hover:bg-[#bc754e] transition-colors rounded-[2px]">Next: Time</button>
+                     ) : (
+                       <span className="inline-block px-6 py-2.5 text-[10px] font-mono-ui uppercase tracking-[.15em] text-[#193f3e]/30 border border-[#193f3e]/10 rounded-[2px]">Waiting for selection...</span>
+                     )}
+                   </div>
+                </div>
+              )}
+
+              {activeField === 'time' && (
+                <div key="time" className="animate-in fade-in slide-in-from-right-4 duration-300 flex items-center h-full max-w-[360px]">
+                   <div className="w-full p-8 bg-[#f6f1e8]/50 border border-[#193f3e]/10 rounded-[2px] text-center">
+                     <Clock3 size={24} className="mx-auto text-[#193f3e]/30 mb-4" />
+                     <p className="text-[13px] text-[#193f3e]/60 mb-6">Select your time from the top menu.</p>
+                     {time ? (
+                       <button type="button" onClick={() => setActiveField(null)} className="bg-[#193f3e] text-[#f6f1e8] px-6 py-2.5 text-[10px] font-mono-ui uppercase tracking-[.15em] hover:bg-[#bc754e] transition-colors rounded-[2px]">Done</button>
+                     ) : (
+                       <span className="inline-block px-6 py-2.5 text-[10px] font-mono-ui uppercase tracking-[.15em] text-[#193f3e]/30 border border-[#193f3e]/10 rounded-[2px]">Waiting for selection...</span>
+                     )}
+                   </div>
+                </div>
+              )}
+            </div>
+          </div>
         </form>
       </div>
     </>
@@ -250,26 +455,30 @@ function BookingCard() {
 
 function Hero() {
   const jump = () => document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' });
+  const [isBookingActive, setIsBookingActive] = useState(false);
+
   return (
-    <section id="top" className="relative lg:min-h-screen lg:flex lg:flex-col overflow-hidden bg-[#193f3e] pt-[82px] text-[#f6f1e8]">
-      <div className="hero-grid absolute inset-0 opacity-50 pointer-events-none" />
-      <div className="absolute -right-32 top-20 h-[600px] w-[600px] rounded-full border border-[#d19a5c]/20 sm:h-[800px] sm:w-[800px] pointer-events-none" />
-      <div className="absolute -right-16 top-36 h-[390px] w-[390px] rounded-full border border-[#d19a5c]/15 sm:h-[590px] sm:w-[590px] pointer-events-none" />
-      <div className="floating-line absolute right-[18%] top-[28%] h-[1px] w-[310px] origin-right bg-[#d19a5c]/60 pointer-events-none" />
+    <section id="top" className={`relative lg:min-h-screen lg:flex lg:flex-col overflow-hidden pt-[82px] text-[#f6f1e8] transition-colors duration-500 ease-out ${isBookingActive ? 'bg-[#102a29]' : 'bg-[#193f3e]'}`}>
+      <div className={`hero-grid absolute inset-0 pointer-events-none transition-opacity duration-500 ease-out ${isBookingActive ? 'opacity-20' : 'opacity-50'}`} />
+      <div className={`absolute -right-32 top-20 h-[600px] w-[600px] rounded-full border border-[#d19a5c]/20 sm:h-[800px] sm:w-[800px] pointer-events-none transition-opacity duration-500 ease-out ${isBookingActive ? 'opacity-30' : 'opacity-100'}`} />
+      <div className={`absolute -right-16 top-36 h-[390px] w-[390px] rounded-full border border-[#d19a5c]/15 sm:h-[590px] sm:w-[590px] pointer-events-none transition-opacity duration-500 ease-out ${isBookingActive ? 'opacity-30' : 'opacity-100'}`} />
+      <div className={`floating-line absolute right-[18%] top-[28%] h-[1px] w-[310px] origin-right bg-[#d19a5c]/60 pointer-events-none transition-opacity duration-500 ease-out ${isBookingActive ? 'opacity-30' : 'opacity-100'}`} />
       <Nav onBook={jump} />
       
       <div className="container-edge relative flex-1 flex flex-col justify-end lg:justify-center pb-24 pt-20 lg:pt-32">
-        <div className="reveal w-full max-w-[700px] mb-12 lg:mb-20">
-          <p className="flex items-center gap-3 font-mono-ui text-[9px] uppercase tracking-[.25em] text-[#d19a5c]"><span className="h-px w-7 bg-[#d19a5c]" />Bay Area & Northern California</p>
-          <h1 className="mt-8 font-display text-[clamp(3.8rem,8.5vw,8.2rem)] leading-[.84] tracking-[-.05em]">Arrive in<br /><i className="text-[#d19a5c]">unspoken<br />luxury.</i></h1>
-          <p className="mt-8 max-w-[390px] text-[14px] leading-[1.8] text-[#dbe0d6]/72">From SFO to Napa, your chauffeur handles the details so the ride feels effortless.</p>
+        <div className={`w-full max-w-[700px] transition-all duration-300 ease-out overflow-hidden ${isBookingActive ? 'opacity-0 max-h-0 mb-0' : 'opacity-100 max-h-[500px] mb-12 lg:mb-20'}`}>
+          <div className="reveal">
+            <p className="flex items-center gap-3 font-mono-ui text-[9px] uppercase tracking-[.25em] text-[#d19a5c]"><span className="h-px w-7 bg-[#d19a5c]" />Bay Area & Northern California</p>
+            <h1 className="mt-8 font-display text-[clamp(3.8rem,8.5vw,8.2rem)] leading-[.84] tracking-[-.05em]">Arrive in<br /><i className="text-[#d19a5c]">unspoken<br />luxury.</i></h1>
+            <p className="mt-8 max-w-[390px] text-[14px] leading-[1.8] text-[#dbe0d6]/72">From SFO to Napa, your chauffeur handles the details so the ride feels effortless.</p>
+          </div>
         </div>
-        <div className="reveal delay-2 w-full max-w-[1000px]">
-          <BookingCard />
+        <div className="reveal delay-2 w-full max-w-[1000px] relative z-20">
+          <BookingCard onActiveChange={setIsBookingActive} />
         </div>
       </div>
       
-      <div className="container-edge absolute bottom-6 left-1/2 flex -translate-x-1/2 items-center justify-between font-mono-ui text-[9px] uppercase tracking-[.16em] text-[#dbe0d6]/45 w-full pointer-events-none">
+      <div className={`container-edge absolute bottom-6 left-1/2 flex -translate-x-1/2 items-center justify-between font-mono-ui text-[9px] uppercase tracking-[.16em] text-[#dbe0d6]/45 w-full pointer-events-none transition-opacity duration-300 ease-out ${isBookingActive ? 'opacity-0' : 'opacity-100'}`}>
         <span className="hidden sm:block">SFO · OAK · SJC · Napa · Sonoma</span>
         <span className="flex items-center gap-2"><span className="pulse-ring h-2 w-2 rounded-full bg-[#d19a5c]" />Available around the clock</span>
       </div>
@@ -391,8 +600,8 @@ function StackedStory() {
     return (
       <section className="bg-black text-[#f6f1e8]">
         {stories.map((story, index) => (
-          <div key={story.id} className="relative h-screen w-full flex items-end">
-            <img src={story.image} alt={story.headline} className="absolute inset-0 w-full h-full object-cover opacity-80" />
+          <div key={story.id} className="relative h-screen w-full flex items-end bg-black">
+            <img src={story.image} alt={story.headline} className="absolute inset-0 w-full h-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/10" />
             <div className="relative z-10 w-full p-8 md:p-16 lg:p-24 pb-16 md:pb-24 max-w-4xl">
               <h3 className="font-display text-4xl md:text-5xl lg:text-[4rem] text-[#f6f1e8] mb-6 leading-tight">{story.headline}</h3>
@@ -418,7 +627,7 @@ function StackedStory() {
           return (
             <div 
               key={story.id} 
-              className="absolute inset-0 w-full h-full will-change-transform"
+              className="absolute inset-0 w-full h-full will-change-transform bg-black"
               style={{
                 zIndex: 30 - index * 10,
                 transform: `translateY(${translateY}%)`
@@ -427,7 +636,7 @@ function StackedStory() {
               <img 
                 src={story.image} 
                 alt={story.headline} 
-                className="absolute inset-0 w-full h-full object-cover opacity-90" 
+                className="absolute inset-0 w-full h-full object-cover" 
                 style={{ objectPosition: index === 1 ? 'center 70%' : 'center center' }} 
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-black/10" />

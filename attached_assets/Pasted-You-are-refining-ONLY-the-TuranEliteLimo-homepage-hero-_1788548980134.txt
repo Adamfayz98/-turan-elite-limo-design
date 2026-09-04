@@ -1,0 +1,613 @@
+You are refining ONLY the TuranEliteLimo homepage hero/booking interaction and the 3-image stacked-scroll section.
+
+IMPORTANT:
+Do NOT redesign the rest of the homepage.
+Do NOT change Step 2 or Step 3.
+Do NOT add real APIs.
+Do NOT connect Google Maps, address autocomplete APIs, Stripe, pricing logic, or backend services.
+Do NOT change the approved visual direction.
+
+The homepage visual direction is already approved.
+
+Your task is to make two interaction systems behave correctly and more like the reference behavior we studied:
+
+1. the desktop hero booking experience
+2. the 3-image stacked scroll reveal
+
+==================================================
+PART 1 — KEEP THE APPROVED HERO VISUAL DIRECTION
+==================================================
+
+Keep the current TuranEliteLimo hero:
+
+- deep muted green background
+- large editorial headline
+- premium serif/sans-serif typography
+- existing header/navigation
+- current overall proportions
+- compact desktop booking bar
+- TuranEliteLimo colors and styling
+
+Do NOT replace the hero background.
+
+Do NOT use Blacklane’s branding, colors, text, or exact visual styling.
+
+We are borrowing the STRUCTURE and interaction concept only.
+
+==================================================
+PART 2 — NORMAL / RESTING HERO STATE
+==================================================
+
+The normal desktop hero should remain the current approved Turan state.
+
+It should show:
+
+- TuranEliteLimo header
+- “Arrive in unspoken luxury.”
+- supporting hero copy
+- compact horizontal booking bar
+- current muted green background
+
+The booking bar should be visually centered and integrated into the hero.
+
+It should feel slightly larger and more centered horizontally than it currently does, but do not make it oversized.
+
+The booking bar should feel like part of the hero, not like a detached white form.
+
+==================================================
+PART 3 — ACTIVE BOOKING MODE
+==================================================
+
+This is the most important change.
+
+When the user clicks into ANY main booking field:
+
+- Pickup
+- Drop-off
+- Date
+- Time
+
+the interface should enter an ACTIVE BOOKING MODE.
+
+IMPORTANT:
+Do NOT make the overall hero taller.
+
+Instead, the expanded booking experience should TAKE OVER the existing hero area.
+
+Think of it as:
+
+NORMAL HERO
+→ user clicks a field
+→ hero content fades away
+→ booking experience expands inside the SAME hero footprint
+
+The overall page height of the hero should remain approximately the same.
+
+==================================================
+PART 4 — WHAT HAPPENS TO THE HERO DURING ACTIVE BOOKING MODE
+==================================================
+
+When active booking mode starts:
+
+Temporarily fade/hide:
+
+- “Arrive in unspoken luxury.”
+- supporting hero text
+- any large decorative hero typography
+- any other hero copy that could interfere visually
+
+Do NOT completely remove the hero atmosphere.
+
+Keep the current muted-green hero background faintly visible behind the expanded booking surface.
+
+The background should become:
+
+- darker
+- softer
+- lower contrast
+- slightly blurred or visually subdued if useful
+
+But:
+
+- no readable hero text should remain behind the expanded booking UI
+- no typography should overlap the booking copy
+- do not make the background transparent enough to create visual noise
+
+The active booking interface should become the dominant foreground element.
+
+==================================================
+PART 5 — ACTIVE BOOKING SURFACE
+==================================================
+
+In active booking mode, the compact booking bar should remain at the top portion of the booking area.
+
+Below it, create a large contextual content area.
+
+This area should visually feel connected to the booking bar.
+
+Do NOT make it look like a separate modal floating above the hero.
+
+It should feel like the booking bar has expanded into a larger guided booking experience.
+
+The active booking area should:
+
+- use the same horizontal width as the booking bar
+- occupy a substantial portion of the hero
+- have restrained border/radius treatment
+- use subtle transparency if appropriate
+- remain highly legible
+- feel elegant and intentional
+- not feel like a giant card dropped onto the page
+
+==================================================
+PART 6 — CONTEXTUAL HELPER CONTENT
+==================================================
+
+The large expanded area should change based on which field is active.
+
+This is a key part of the interaction.
+
+Do NOT use generic placeholder text.
+
+Use Turan-specific helper copy.
+
+------------------------------------------
+PICKUP ACTIVE
+------------------------------------------
+
+When Pickup is active:
+
+Headline:
+Set your pickup.
+
+Supporting text:
+Choose an airport, hotel, residence, or meeting point. Your chauffeur will be ready where you need them.
+
+Optional visual:
+small elegant location/pickup icon
+
+------------------------------------------
+DROP-OFF ACTIVE
+------------------------------------------
+
+When Drop-off is active:
+
+Headline:
+Choose your destination.
+
+Supporting text:
+Tell us where you’re headed and we’ll prepare the ride around your journey.
+
+Optional visual:
+small destination/location icon
+
+------------------------------------------
+DATE ACTIVE
+------------------------------------------
+
+When Date is active:
+
+Headline:
+Set the schedule.
+
+Supporting text:
+Choose the day that works for you. We’ll take care of the timing from there.
+
+Optional visual:
+small calendar icon
+
+------------------------------------------
+TIME ACTIVE
+------------------------------------------
+
+When Time is active:
+
+Headline:
+Choose your pickup time.
+
+Supporting text:
+Select when you’d like your chauffeur to arrive.
+
+Optional visual:
+small clock icon
+
+------------------------------------------
+AIRPORT PICKUP ACTIVE
+------------------------------------------
+
+If the selected pickup is SFO:
+
+Show an additional Flight Number input within the active booking area.
+
+Do NOT increase the overall hero height.
+
+The active booking surface should internally reflow to make room.
+
+The helper copy can change to:
+
+Headline:
+Flying into SFO?
+
+Supporting text:
+Add your flight number so your chauffeur can be prepared for your arrival.
+
+Flight Number field:
+mocked local field only
+
+Do NOT connect to a flight API.
+
+==================================================
+PART 7 — MOCK ADDRESS SUGGESTIONS ONLY
+==================================================
+
+Do NOT add a real address API.
+
+For this Replit prototype, use local mocked suggestions only.
+
+Pickup suggestions can include:
+
+- San Francisco International Airport (SFO)
+- Four Seasons Hotel San Francisco
+- Palace Hotel San Francisco
+- The St. Regis San Francisco
+- Union Square, San Francisco
+
+Drop-off suggestions can include the same local SF destinations.
+
+Use local hardcoded data.
+
+Autocomplete behavior should feel real:
+
+- user clicks Pickup or Drop-off
+- suggestion list appears inside the expanded booking zone
+- suggestions are easy to select
+- selected value remains visible
+- list closes after selection
+
+Do NOT let the suggestion list overflow outside the expanded booking surface.
+
+Do NOT let it cover unrelated sections of the homepage.
+
+This is one reason the active booking mode exists.
+
+==================================================
+PART 8 — FIELD INTERACTION FLOW
+==================================================
+
+The flow should feel guided.
+
+Example:
+
+1. User clicks Pickup
+2. Hero enters active booking mode
+3. Hero headline fades away
+4. Pickup helper content appears
+5. Mock address suggestions appear
+6. User selects SFO
+7. Flight Number field appears
+8. Pickup value remains selected
+9. User clicks Drop-off
+10. Helper content changes to Drop-off message
+11. Mock destination suggestions appear
+12. User selects Four Seasons
+13. User clicks Date
+14. Calendar appears
+15. User selects date
+16. Calendar closes
+17. User clicks Time
+18. Time selector appears
+19. User selects time
+20. Selected time remains visible
+
+At every step:
+- active content should transition smoothly
+- no jumpy layout changes
+- no page shift
+- no hero height change
+
+==================================================
+PART 9 — COLLAPSE BACK TO NORMAL HERO
+==================================================
+
+When the user:
+
+- clicks outside the booking area
+OR
+- finishes interacting
+OR
+- presses Escape
+OR
+- explicitly closes the active state if a close interaction is provided
+
+the booking experience should collapse back to the resting hero state.
+
+Collapse behavior:
+
+- expanded content area closes smoothly
+- hero headline and supporting copy fade back in
+- compact booking bar remains visible
+- selected booking values remain preserved
+- background returns to normal opacity/contrast
+
+This should feel polished and reversible.
+
+Do NOT reset selected booking values when the active state collapses.
+
+==================================================
+PART 10 — ANIMATION TIMING
+==================================================
+
+Normal UI transitions:
+
+approximately 200–350ms
+
+Use:
+
+- opacity
+- transform
+- height/clip-path where appropriate
+
+Avoid:
+
+- bouncing
+- dramatic zoom
+- springy motion
+- exaggerated easing
+- fake loading
+
+The hero should feel calm and premium.
+
+Respect reduced-motion preferences.
+
+==================================================
+PART 11 — DESKTOP ONLY FOR THIS BEHAVIOR
+==================================================
+
+This active takeover booking mode is primarily for desktop.
+
+Do NOT force this exact interaction onto mobile.
+
+Mobile can keep the current stacked/mobile-friendly booking structure.
+
+Mobile behavior can remain simpler:
+
+- stacked fields
+- dropdown/popover interaction
+- full-width CTA
+- no hero takeover required
+
+Do not break the mobile layout.
+
+==================================================
+PART 12 — STACKED 3-IMAGE SCROLL SECTION
+==================================================
+
+The current stacked image motion is conceptually correct, but the opacity/layering is wrong.
+
+Current issue:
+
+- the next image can be seen faintly through the current image
+- this creates a ghosted / transparent effect
+- it looks like cross-fading layers
+
+That is NOT desired.
+
+We want a clean stacked reveal.
+
+==================================================
+PART 13 — CORRECT STACKED IMAGE BEHAVIOR
+==================================================
+
+There are exactly 3 supplied images.
+
+The intended effect:
+
+- image 1 is visible
+- image 1 stays fully opaque
+- image 2 sits underneath but is NOT visible through image 1
+- as the user scrolls, image 1 physically lifts upward
+- image 2 is revealed from underneath
+- image 2 remains fully opaque
+- image 3 sits underneath but is NOT visible early
+- image 2 lifts upward
+- image 3 is revealed
+- after image 3, normal page scrolling resumes
+
+This should feel like solid physical panels/cards stacked vertically.
+
+==================================================
+PART 14 — NO OPACITY CROSS-FADE
+==================================================
+
+Very important:
+
+Do NOT animate opacity between the 3 images.
+
+Each active image should remain:
+
+opacity: 1
+
+Each incoming image should also be:
+
+opacity: 1
+
+The reveal should happen through:
+
+- positioning
+- transform
+- clipping
+- stacking
+- sticky behavior
+- z-index
+- overflow control
+
+NOT through transparency.
+
+The outgoing image may move upward, but should not fade out.
+
+==================================================
+PART 15 — STACKED IMAGE LAYERING
+==================================================
+
+Use clean layer control.
+
+Recommended concept:
+
+- parent section with controlled scroll height
+- sticky viewport container
+- images absolutely or relatively stacked
+- current image highest z-index
+- next image below
+- outgoing image translates upward
+- next image becomes visible only as the current image physically leaves the viewport
+
+Important:
+the next image must not bleed through early.
+
+If needed:
+- give every image layer an opaque background
+- ensure no inherited opacity
+- remove any opacity animation
+- inspect pseudo-elements/overlays that may be causing transparency
+
+==================================================
+PART 16 — STACKED IMAGE CAPTIONS
+==================================================
+
+Keep the current HTML/CSS captions.
+
+Do NOT bake text into images.
+
+Captions should remain attached to each respective image.
+
+Use:
+
+IMAGE 1
+Headline:
+Make the ride work for you.
+
+Description:
+Stay productive or simply unwind while you travel, with a quiet cabin, charging access, and complimentary bottled water.
+
+IMAGE 2
+Headline:
+Stay connected along the way.
+
+Description:
+Keep your devices powered during the journey with convenient in-vehicle charging.
+
+IMAGE 3
+Headline:
+Every detail, handled.
+
+Description:
+From opening the door to assisting with your belongings, your chauffeur is there to make the journey effortless.
+
+Make sure:
+- no caption from the next image becomes visible early
+- each caption belongs visually to its own image
+- caption opacity stays stable
+
+==================================================
+PART 17 — DO NOT CHANGE OTHER HOMEPAGE SECTIONS
+==================================================
+
+Do NOT redesign:
+
+- service carousel
+- Three Steps
+- Turan Standard
+- testimonial
+- final terracotta CTA
+- footer
+- mobile layout outside the required booking compatibility
+
+Only adjust these if a technical fix is required to prevent breakage.
+
+This pass is specifically:
+
+1. desktop hero booking interaction
+2. mocked field suggestions
+3. contextual booking helper state
+4. airport/flight-number reflow
+5. correct stacked-image opacity/layer behavior
+
+==================================================
+PART 18 — FINAL QA
+==================================================
+
+Before declaring this pass complete, test:
+
+HERO RESTING STATE:
+- hero headline visible
+- supporting copy visible
+- compact booking bar visible
+- muted green hero unchanged
+
+PICKUP ACTIVE:
+- hero headline fades away
+- booking area expands within same hero height
+- helper copy changes
+- mocked suggestions appear
+- no page jump
+
+SFO SELECTED:
+- SFO remains selected
+- Flight Number field appears
+- active surface reflows internally
+- hero does NOT become taller
+
+DROP-OFF ACTIVE:
+- helper content changes correctly
+- mocked destination suggestions appear
+- suggestions stay inside booking area
+
+DATE:
+- calendar appears
+- selection closes correctly
+- selected date persists
+
+TIME:
+- time selector works
+- selected time persists
+
+COLLAPSE:
+- click outside collapses active state
+- hero content returns
+- selected values remain
+- no reset
+
+STACKED IMAGES:
+- image 1 fully opaque
+- next image not visible through image 1
+- image 1 lifts upward
+- image 2 is revealed
+- image 2 remains fully opaque
+- image 2 lifts upward
+- image 3 is revealed
+- no fading between layers
+- no ghosting
+- no blank gaps
+- no jitter
+- normal scrolling resumes after image 3
+
+MOBILE:
+- existing mobile booking remains usable
+- no horizontal overflow
+- no desktop takeover behavior forced onto mobile
+
+==================================================
+PART 19 — REPORT BACK
+==================================================
+
+At the end, tell me:
+
+1. how the hero active booking mode was implemented
+2. how mocked suggestions were implemented
+3. how airport/Flight Number reflow was handled
+4. how click-outside collapse works
+5. what caused the stacked-image transparency problem
+6. exactly what you changed to eliminate the ghosting
+7. any remaining issues you think need review
+
+Do NOT move on to Step 2.
