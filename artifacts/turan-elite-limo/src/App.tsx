@@ -36,6 +36,22 @@ function Logo({ light = false }: { light?: boolean }) {
   );
 }
 
+function TextBrand({ descriptor = false, footer = false }: { descriptor?: boolean; footer?: boolean }) {
+  return (
+    <span className="inline-flex flex-col justify-center leading-none" data-testid={descriptor ? 'brand-wordmark-descriptor' : 'brand-wordmark'}>
+      <span className="font-display text-[26px] sm:text-[29px] tracking-[-.045em]">
+        <span className={footer ? 'text-[#193f3e]' : 'text-[#f3ebdd]'}>Turan</span>{' '}
+        <span className={`italic ${footer ? 'text-[#f3ebdd]' : 'text-[#c59b5a]'}`}>Elite</span>
+      </span>
+      {descriptor && (
+        <span className={`mt-2 font-mono-ui text-[7px] uppercase tracking-[.24em] ${footer ? 'text-[#193f3e]/60' : 'text-[#f3ebdd]/45'}`}>
+          Luxury Chauffeur Service
+        </span>
+      )}
+    </span>
+  );
+}
+
 function Nav({ onBook }: { onBook: () => void }) {
   const [open, setOpen] = useState(false);
   const links = [['Services', 'services'], ['Our standard', 'standard'], ['How it works', 'process']];
@@ -46,12 +62,12 @@ function Nav({ onBook }: { onBook: () => void }) {
   return (
     <header className="absolute inset-x-0 top-0 z-40">
       <div className="container-edge flex h-[82px] items-center justify-between border-b border-white/15">
-        <a href="#top" data-testid="link-brand-home"><Logo light /></a>
+        <a href="#top" data-testid="link-brand-home" aria-label="Turan Elite home"><TextBrand /></a>
         <nav className="hidden items-center gap-8 md:flex" aria-label="Main navigation">
           {links.map(([label, id]) => <button key={id} onClick={() => go(id)} className="font-mono-ui text-[10px] uppercase tracking-[.16em] text-[#e7e2d8]/70 hover:text-[#d19a5c]" data-testid={`button-nav-${id}`}>{label}</button>)}
         </nav>
         <div className="hidden items-center gap-5 md:flex">
-          <a href="tel:+12125550184" className="font-mono-ui text-[10px] tracking-[.12em] text-[#e7e2d8]/70 hover:text-[#f6f1e8]" data-testid="link-call">+1 212 555 0184</a>
+          <a href="tel:+16506723520" className="font-mono-ui text-[10px] tracking-[.12em] text-[#e7e2d8]/70 hover:text-[#f6f1e8]" data-testid="link-call">+1 (650) 672-3520</a>
           <button onClick={onBook} className="group flex items-center gap-3 rounded-full border border-[#d19a5c] px-4 py-2.5 font-mono-ui text-[10px] uppercase tracking-[.13em] text-[#f6f1e8] hover:bg-[#d19a5c] hover:text-[#193f3e]" data-testid="button-nav-quote">
             Request a car <ArrowRight size={13} className="transition-transform group-hover:translate-x-1" />
           </button>
@@ -501,7 +517,7 @@ function Hero() {
       <Nav onBook={jump} />
       
       <div className="container-edge relative flex-1 flex flex-col justify-end lg:justify-center pb-16 lg:pb-24 pt-20 lg:pt-32">
-        <div className={`w-full max-w-[700px] transition-all duration-300 ease-out overflow-hidden lg:-translate-y-6 ${isBookingActive ? 'opacity-0 max-h-0 mb-0' : 'opacity-100 max-h-[500px] mb-12 lg:mb-16'}`}>
+        <div className={`w-full max-w-[700px] transition-all duration-300 ease-out overflow-hidden lg:-translate-y-9 ${isBookingActive ? 'opacity-0 max-h-0 mb-0' : 'opacity-100 max-h-[500px] mb-12 lg:mb-16'}`}>
           <div className="reveal">
             <p className="flex items-center gap-3 font-mono-ui text-[10px] uppercase tracking-[.22em] text-[#d19a5c] font-medium"><span className="h-px w-7 bg-[#d19a5c]" />Northern California · Bay Area · SFO · OAK · SJC</p>
             <h1 className="mt-5 font-display text-[clamp(3.8rem,8.5vw,8.2rem)] leading-[.84] tracking-[-.05em]">Arrive in<br /><i className="text-[#d19a5c]">unspoken<br />luxury.</i></h1>
@@ -818,7 +834,7 @@ function Process() {
       <div className="container-edge">
         <div className="reveal flex flex-col items-center text-center"><span className="font-mono-ui text-[9px] uppercase tracking-[.2em] text-[#bc754e]">How it works</span><h2 className="mt-5 max-w-[650px] font-display text-[clamp(3.2rem,6vw,5.5rem)] leading-[.95] tracking-[-.03em]">Three steps.<br /><i>Nothing more.</i></h2></div>
         
-        <div className="mt-24 grid gap-16 lg:grid-cols-3 lg:gap-12 relative max-w-[1000px] mx-auto">
+        <div className="mt-[86px] grid gap-16 lg:grid-cols-3 lg:gap-12 relative max-w-[1000px] mx-auto">
           {[['01', 'Tell us where and when', 'Choose your pickup, destination, date and time.'], 
             ['02', 'Choose your ride', 'Select from sedans, SUVs and specialty vehicles tailored to your trip.'], 
             ['03', 'We handle the rest', 'A professional chauffeur arrives on time and gets you there safely.']
@@ -854,10 +870,10 @@ function Standard() {
         <div className="reveal delay-2 lg:py-10">
           <span className="font-mono-ui text-[10px] uppercase tracking-[.2em] text-[#bc754e] font-medium">The Turan standard</span>
           <h2 className="mt-5 max-w-[500px] font-display text-[clamp(3.2rem,5vw,4.5rem)] leading-[1] tracking-[-.03em]">Nothing loud.<br /><i>Everything ready.</i></h2>
-          <p className="mt-8 text-[15px] leading-[1.8] text-[#193f3e]/80 max-w-[440px] font-medium">TuranEliteLimo is a boutique chauffeur service built around professional chauffeurs, licensed and insured carriers, and live dispatch from booking to drop-off.</p>
+          <p className="mt-8 text-[15px] leading-[1.8] text-[#193f3e]/80 max-w-[440px] font-medium">Professional chauffeurs, licensed and insured carriers, and live dispatch from booking to drop-off — every part of the journey is handled with care.</p>
           
           <div className="mt-12 grid grid-cols-2 gap-x-8 gap-y-10 border-t border-[#193f3e]/20 pt-10">
-            {[['30+', 'NorCal Cities'], ['24/7', 'Live Dispatch'], ['45 Min', 'Airport Grace Period'], ['15 Min', 'Standard Pickup Grace Period']].map(([value, label]) => (
+            {[['30+', 'NorCal Cities'], ['24/7', 'Live Dispatch'], ['45 MIN', 'Airport Grace Period'], ['15 MIN', 'Standard Pickup Grace Period']].map(([value, label]) => (
               <div key={label}>
                 <strong className="block font-display text-4xl lg:text-5xl font-medium text-[#193f3e]">{value}</strong>
                 <span className="mt-3 block font-mono-ui text-[10px] uppercase tracking-[.15em] text-[#193f3e]/70 font-medium">{label}</span>
@@ -888,9 +904,7 @@ function Footer() {
         
         <div className="mt-28 grid gap-12 lg:grid-cols-4 border-t border-[#193f3e]/20 pt-16">
           <div className="lg:col-span-1">
-             <div className="mix-blend-multiply opacity-90 brightness-0" style={{ filter: 'brightness(0) invert(22%) sepia(21%) saturate(1831%) hue-rotate(126deg) brightness(97%) contrast(93%)' }}>
-               <Logo />
-             </div>
+             <TextBrand descriptor footer />
              <p className="mt-8 text-[13px] leading-relaxed text-[#193f3e]/80 max-w-[280px] font-medium">
                A premium private chauffeur service for the Bay Area & Northern California.
              </p>
@@ -923,7 +937,7 @@ function Footer() {
             <span className="font-mono-ui text-[9px] uppercase tracking-[.2em] text-[#193f3e]/60 mb-6 block">Contact</span>
             <address className="not-italic text-[13px] leading-relaxed text-[#193f3e] font-medium flex flex-col gap-4">
               <p>TuranEliteLimo<br/>501 Broadway, #251<br/>Millbrae, CA 94030</p>
-              <a href="tel:6506723520" className="hover:text-[#f6f1e8] transition-colors">(650) 672-3520</a>
+              <a href="tel:+16506723520" className="hover:text-[#f6f1e8] transition-colors">+1 (650) 672-3520</a>
               <a href="mailto:support@turanelitelimo.com" className="hover:text-[#f6f1e8] transition-colors">support@turanelitelimo.com</a>
             </address>
           </div>

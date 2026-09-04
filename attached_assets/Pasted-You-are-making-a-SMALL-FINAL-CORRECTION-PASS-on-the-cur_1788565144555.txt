@@ -1,0 +1,394 @@
+You are making a SMALL FINAL CORRECTION PASS on the current TuranEliteLimo homepage.
+
+IMPORTANT:
+Do NOT redesign the homepage.
+Do NOT change section order.
+Do NOT touch the approved stacked-image scroll section.
+Do NOT redesign the booking interaction.
+Do NOT redesign the app section structure.
+Do NOT add the global scroll-animation system yet.
+
+This pass is only for:
+1. minor hero positioning polish
+2. small typography cleanup
+3. correcting the support phone number
+4. improving Turan Standard copy consistency
+5. exploratory header brand-name treatment
+
+==================================================
+1. HERO TEXT POSITION
+==================================================
+
+The hero is already close.
+
+Move the entire hero editorial text group slightly upward on desktop.
+
+Only a small adjustment:
+approximately 10–15 px upward.
+
+This includes:
+- eyebrow/location line
+- “Arrive in unspoken luxury.”
+- supporting copy
+
+Do NOT move it dramatically.
+Do NOT crowd the header.
+Do NOT change hero height.
+Do NOT move the booking section.
+
+The goal is simply to make the hero text feel slightly more vertically balanced.
+
+==================================================
+2. HERO EYEBROW SPACING
+==================================================
+
+Keep:
+
+NORTHERN CALIFORNIA · BAY AREA · SFO · OAK · SJC
+
+The spacing between this eyebrow and the main headline is now much better.
+
+Only refine it if necessary after moving the group upward.
+
+It should feel clearly associated with the headline, but still have premium breathing room.
+
+==================================================
+3. REAL SUPPORT NUMBER
+==================================================
+
+Replace any placeholder/header phone number such as:
+
++1 212 555 0184
+
+with the real TuranEliteLimo support/reservations number:
+
++1 (650) 672-3520
+
+Use this consistently anywhere the visible homepage currently shows a phone number.
+
+Do NOT invent another number.
+
+==================================================
+4. APP SECTION
+==================================================
+
+Do NOT redesign the app section.
+
+The section architecture is approved.
+
+The phone/app UI shown inside the device is still a prototype placeholder and will later be replaced during production integration.
+
+Do NOT spend time correcting vehicle classes, app data, or detailed app UI content in this pass.
+
+Keep:
+- section placement
+- headline
+- copy
+- device composition
+- App Store button
+- Google Play button
+
+==================================================
+5. THREE STEPS
+==================================================
+
+Keep the current section and wording.
+
+The 01 / 02 / 03 visibility is now good.
+
+Only slightly tighten the large vertical gap between:
+
+“Three steps.
+Nothing more.”
+
+and the three steps below.
+
+Reduce that empty vertical space approximately 8–12%.
+
+Do NOT compress the whole section aggressively.
+Keep the editorial breathing room.
+
+==================================================
+6. TURAN STANDARD BODY COPY
+==================================================
+
+Keep the current layout and headline:
+
+THE TURAN STANDARD
+
+Nothing loud.
+Everything ready.
+
+Replace the current body paragraph with a more natural version while preserving the same factual claims.
+
+Use:
+
+Professional chauffeurs, licensed and insured carriers, and live dispatch from booking to drop-off — every part of the journey is handled with care.
+
+Do NOT add new service claims.
+
+==================================================
+7. TURAN STANDARD METRICS
+==================================================
+
+Keep:
+
+30+
+NORCAL CITIES
+
+24/7
+LIVE DISPATCH
+
+45 MIN
+AIRPORT GRACE PERIOD
+
+15 MIN
+STANDARD PICKUP GRACE PERIOD
+
+Change:
+“45 Min” → “45 MIN”
+“15 Min” → “15 MIN”
+
+Use consistent typographic treatment across all four metrics.
+
+Do not change the underlying numbers.
+
+==================================================
+8. REVIEWS SECTION
+==================================================
+
+Keep the current reviews section.
+
+Keep:
+
+REVIEWS
+
+Real riders,
+real words.
+
+Keep the current supporting copy.
+
+Keep both:
+- Google Reviews
+- Yelp Reviews
+
+Do NOT add fake ratings.
+Do NOT add fake reviews.
+Do NOT add fake customer names.
+
+No structural redesign required.
+
+==================================================
+9. FINAL TERRACOTTA CTA
+==================================================
+
+Keep the current:
+
+YOUR RIDE STARTS HERE
+
+Book in a few
+simple steps.
+
+Keep:
+BOOK YOUR RIDE
+
+Do NOT redesign this section.
+
+==================================================
+10. HEADER BRAND NAME — EXPLORATORY DESIGN
+==================================================
+
+The current old TuranEliteLimo logo/mark does not visually match the new editorial website.
+
+We are considering removing the logo symbol from the header entirely.
+
+Create a tasteful TEXT-ONLY brand treatment for the header.
+
+This is exploratory.
+
+Do NOT permanently remove the current logo implementation until the alternative is visibly presented and reviewed.
+
+Create a version based on:
+
+Turan Elite
+
+NOT:
+TuranEliteLimo
+
+The website itself already communicates that this is a chauffeur/limo company, so the header brand can be cleaner.
+
+==================================================
+11. BRAND WORDMARK DIRECTION
+==================================================
+
+Design the text-only “Turan Elite” wordmark so it feels native to the current header and hero.
+
+The visual language should match:
+- deep muted green background
+- warm ivory typography
+- restrained antique-gold accents
+- editorial luxury aesthetic
+- current serif typography
+
+Avoid:
+- metallic gradients
+- shiny gold
+- 3D effects
+- bevels
+- glow
+- crest effects
+- overly ornate typography
+
+==================================================
+12. WORDMARK COLOR EXPLORATION
+==================================================
+
+Try a restrained treatment such as:
+
+Turan:
+warm ivory / soft cream
+
+Elite:
+muted antique gold
+
+Suggested starting colors:
+
+Warm ivory:
+#F3EBDD
+
+Muted antique gold:
+#C59B5A
+
+You may refine slightly to fit the actual existing site colors.
+
+Do NOT introduce bright yellow gold.
+
+==================================================
+13. WORDMARK TYPOGRAPHY
+==================================================
+
+Use a refined editorial serif style that visually belongs to the current homepage.
+
+It should:
+- be easier to read than the old logo
+- have enough presence in the header
+- not overpower the hero headline
+- feel premium but minimal
+
+Do NOT use the exact Blacklane wordmark style.
+
+The goal is only the same general philosophy:
+a clean, recognizable text brand instead of a decorative logo mark.
+
+==================================================
+14. WORDMARK SIZE / POSITION
+==================================================
+
+The new text wordmark should be slightly larger and more readable than the current old logo.
+
+Keep it aligned in the same general left-header area.
+
+Do NOT enlarge it so much that it dominates the navigation.
+
+Make sure it remains vertically centered within the header.
+
+==================================================
+15. OPTIONAL MICRO-DESCRIPTOR
+==================================================
+
+You may also create ONE optional variation with a very small descriptor underneath:
+
+LUXURY CHAUFFEUR SERVICE
+
+This descriptor should be:
+- tiny
+- widely tracked
+- low contrast
+- secondary
+
+But do NOT force it.
+
+Present both versions if easy:
+
+A. Turan Elite only
+B. Turan Elite + small “LUXURY CHAUFFEUR SERVICE”
+
+The cleaner version may ultimately be preferred.
+
+==================================================
+16. FOOTER BRAND TREATMENT
+==================================================
+
+For now, do NOT fully redesign the footer branding.
+
+If possible, make the footer use the same text-brand treatment as the header so the brand language feels consistent.
+
+But do not disturb the footer layout.
+
+==================================================
+17. DO NOT TOUCH MOTION YET
+==================================================
+
+Do NOT implement the page-wide scroll motion pass yet.
+
+No new:
+- parallax
+- sideways section exits
+- scroll-linked opacity
+- reveal sequencing
+- page-wide transforms
+
+That comes next.
+
+==================================================
+18. FINAL QA
+==================================================
+
+Verify:
+
+HERO:
+- editorial text moved only slightly upward
+- no header crowding
+- booking untouched
+
+PHONE:
+- +1 (650) 672-3520 visible instead of placeholder number
+
+APP:
+- structurally untouched
+
+THREE STEPS:
+- slightly tighter vertical spacing
+- no layout redesign
+
+TURAN STANDARD:
+- improved paragraph
+- MIN capitalization consistent
+- metrics unchanged
+
+REVIEWS:
+- untouched structurally
+
+CTA:
+- untouched structurally
+
+BRAND:
+- text-only “Turan Elite” concept created
+- visually fits current header
+- no shiny logo effects
+- current logo not irreversibly deleted before comparison
+
+==================================================
+19. REPORT BACK
+==================================================
+
+At the end, tell me:
+
+1. how many pixels the hero text moved
+2. what spacing changed in Three Steps
+3. confirmation of the phone number replacement
+4. Turan Standard copy changes
+5. which text-only brand treatment you created
+6. exact font/color choices used for “Turan Elite”
+7. whether you also created the optional descriptor version
+8. confirmation that no page-wide motion pass was added
