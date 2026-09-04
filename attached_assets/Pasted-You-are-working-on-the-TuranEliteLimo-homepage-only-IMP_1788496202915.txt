@@ -1,0 +1,487 @@
+You are working on the TuranEliteLimo homepage only.
+
+IMPORTANT:
+Do not redesign the entire product.
+Do not build Step 2 or Step 3 yet.
+Do not add real production APIs, Stripe, maps, address APIs, pricing APIs, backend logic, or external integrations.
+This is a high-fidelity homepage prototype first.
+
+The goal is to make the homepage look and behave like a polished final luxury chauffeur website before we move deeper into the booking flow.
+
+==================================================
+1. KEEP THE APPROVED VISUAL DIRECTION
+==================================================
+
+Keep the visual direction already established in the current Replit homepage:
+
+- deep muted green hero
+- large editorial luxury typography
+- warm ivory / stone content sections
+- graphite / near-black body text
+- restrained use of TuranEliteLimo gold
+- generous whitespace
+- premium editorial feeling
+- clean modern layout
+- avoid returning to a black-and-gold-heavy website
+- do not make every section a dark card
+
+The homepage should feel premium, restrained, modern, and editorial.
+
+Keep the existing TuranEliteLimo brand identity/logo.
+
+==================================================
+2. HERO / TOP OF PAGE
+==================================================
+
+The top of the homepage is especially important.
+
+Keep the existing deep muted green hero concept.
+
+The hero should include:
+
+- TuranEliteLimo header/navigation
+- brand/logo treatment
+- large editorial headline:
+  “Arrive in unspoken luxury.”
+- booking interface integrated naturally into the hero
+- strong desktop spacing and proportions
+- clean transition from the hero into the light homepage content
+
+Do NOT add a photographic hero background.
+The green Replit hero is the approved direction.
+
+The hero should feel intentionally spacious and luxurious, but not unnecessarily tall.
+
+==================================================
+3. BOOKING SECTION — FUNCTIONAL PROTOTYPE
+==================================================
+
+Make the homepage booking section genuinely interactive, but only for one controlled prototype route.
+
+We do not currently have the real integrations in Replit.
+
+For this prototype, support:
+
+Pickup:
+San Francisco International Airport (SFO)
+
+Drop-off:
+Four Seasons Hotel San Francisco
+757 Market Street, San Francisco, CA
+
+The user should be able to interact with the booking fields as though this were a real booking flow.
+
+The booking interaction should include:
+
+- Pickup field
+- Drop-off field
+- Date
+- Time
+- primary CTA such as “See Vehicles”
+
+The experience should feel guided and polished.
+
+Behavior:
+
+- clicking a booking field should open/expand its appropriate selection state
+- transitions should be smooth and restrained
+- approximately 200–350ms
+- selected values should collapse into a clean summary state
+- entered values should remain visible after selection
+- dropdowns/popovers should close after selection
+- do not use a giant 1–2–3 progress indicator
+- no fake loading spinner
+- disabled states should look intentional
+- keyboard/focus behavior should not be broken
+- keep mobile responsiveness in mind even though desktop quality is the priority first
+
+For the address prototype:
+
+The pickup choices can be intentionally limited to SFO.
+
+The drop-off choices can be intentionally limited to:
+Four Seasons Hotel San Francisco, 757 Market Street, San Francisco, CA.
+
+It is okay if this is implemented as mocked local data.
+Do not pretend it is connected to a real address API.
+
+When the complete SFO → Four Seasons route is entered and the user clicks the CTA, do NOT build Step 2 yet.
+
+Instead:
+- show a polished temporary confirmation/transition state
+- clearly indicate that the homepage booking interaction is complete
+- do not create vehicle-selection logic yet
+
+==================================================
+4. ONE-TIME SCROLL REVEALS
+==================================================
+
+Use the one-time scroll reveal behavior we liked in the existing Replit work.
+
+As homepage elements first enter the viewport:
+
+- subtle fade in
+- slight vertical movement
+- restrained stagger where appropriate
+
+Once an element has appeared:
+- it stays visible
+- it should NOT replay every time the user scrolls back to it
+
+Do not overanimate.
+No flashy zooming, spinning, bouncing, or decorative motion.
+
+Respect reduced-motion preferences.
+
+==================================================
+5. FOUR-CARD HORIZONTAL SERVICE SLIDER
+==================================================
+
+Build a horizontal service carousel inspired structurally by the reference, but use TuranEliteLimo content and our original images.
+
+Desktop:
+- show two cards at once when space allows
+- each card has a large image
+- text underneath
+- small service label
+- larger headline
+- short description
+- optional “Learn more” style action
+- left/right navigation controls centered below the cards
+
+The carousel should slide smoothly horizontally.
+
+IMPORTANT IMAGE MAPPING:
+Do not substitute, regenerate, reorder, or invent images.
+Use the supplied homepage images exactly as assigned below.
+
+CARD 1 — AIRPORT TRANSFERS
+Use:
+the supplied airport arrivals image showing:
+- black Cadillac Escalade
+- airport curb
+- chauffeur beside open rear passenger door
+- traveler approaching with rolling suitcase
+- “International Arrivals” visible in the scene
+
+Small label:
+Airport transfers
+
+Headline:
+Arrive without the airport stress.
+
+Description:
+Private pickups and drop-offs across SFO, OAK, and SJC with flight-aware scheduling and professional chauffeurs.
+
+CARD 2 — HOURLY CHAUFFEUR
+Use:
+the supplied city/hotel image showing:
+- black Escalade
+- upscale urban hotel/building entrance
+- chauffeur holding rear passenger door open
+- woman in a light/cream suit approaching the vehicle
+- no airport cues
+
+Small label:
+Hourly chauffeur
+
+Headline:
+Your chauffeur, on your schedule.
+
+Description:
+Reserve a dedicated chauffeur for meetings, appointments, dinners, errands, or a full day of travel.
+
+CARD 3 — CORPORATE / EXECUTIVE TRAVEL
+Use:
+the supplied corporate image showing:
+- black Mercedes-Benz S-Class
+- modern office tower / downtown business setting
+- chauffeur holding the rear door open
+- businessman with briefcase approaching the vehicle
+
+Small label:
+Corporate travel
+
+Headline:
+Business travel, handled properly.
+
+Description:
+Professional executive transportation for offices, hotels, meetings, and important client travel.
+
+CARD 4 — LONG-DISTANCE / BAY AREA TRANSFERS
+Use:
+the supplied scenic image showing:
+- black Cadillac Escalade
+- vineyard / estate / wine-country setting
+- couple arriving
+- chauffeur handling luggage at the open rear cargo area
+- warm golden-hour environment
+
+Small label:
+Long-distance travel
+
+Headline:
+Go farther in comfort.
+
+Description:
+Private long-distance transportation throughout the Bay Area and Northern California in a quiet, premium vehicle.
+
+Do not copy Blacklane’s wording.
+
+==================================================
+6. THREE-IMAGE STACKED SCROLL STORY SECTION
+==================================================
+
+Build the large three-image stacked scroll section we discussed.
+
+This is NOT a normal carousel.
+
+Behavior:
+
+- one large image dominates the viewport
+- as the user continues scrolling, the current image lifts/slides upward
+- the next image is revealed underneath
+- repeat until all three have been shown
+- the effect should feel smooth, premium, and controlled
+- avoid jitter
+- avoid excessive parallax
+- mobile behavior should remain understandable and usable
+
+Each image should have a dark translucent caption panel over the lower portion.
+The caption panel and text should be HTML/CSS, not part of the image.
+
+IMPORTANT IMAGE MAPPING:
+Do not substitute, regenerate, reorder, or invent images.
+Use the supplied homepage images exactly as assigned below.
+
+STACKED IMAGE 1 — PRODUCTIVE / COMFORTABLE RIDE
+Use:
+the supplied image showing:
+- businessman seated in rear luxury cabin
+- businessman actively working on a laptop
+- bottled water visible
+- premium light-colored interior
+- natural daylight through the windows
+
+Headline:
+Make the ride work for you.
+
+Description:
+Stay productive or simply unwind while you travel, with a quiet cabin, charging access, and complimentary bottled water.
+
+STACKED IMAGE 2 — ONBOARD CHARGING / CONVENIENCE
+Use:
+the supplied close-up rear-cabin image showing:
+- smartphone resting on rear armrest/console
+- charging cable connected
+- charging status visible on phone
+- premium light-colored interior
+- no person required
+
+Headline:
+Stay connected along the way.
+
+Description:
+Keep your devices powered during the journey with convenient in-vehicle charging.
+
+STACKED IMAGE 3 — PERSONAL CHAUFFEUR SERVICE
+Use:
+the supplied hotel/curbside image showing:
+- chauffeur in dark suit
+- guest in light jacket
+- brown leather travel bag being handed/assisted
+- open vehicle trunk visible
+- upscale hotel/building entrance
+
+Headline:
+Every detail, handled.
+
+Description:
+From opening the door to assisting with your belongings, your chauffeur is there to make the journey effortless.
+
+Again:
+Do NOT copy Blacklane’s exact wording.
+
+==================================================
+7. IMAGE HANDLING RULES
+==================================================
+
+Use the exact homepage images supplied to this project.
+
+Important:
+
+- images should remain text-free
+- do not add text directly into image files
+- do not regenerate any supplied image
+- do not replace vehicles
+- do not alter faces
+- do not alter luggage
+- do not alter vehicle proportions
+- do not substitute stock photography
+- do not reorder the assigned images
+- do not crop out the key subject of any scene
+- use object-position carefully per image
+- preserve natural photographic proportions
+- rounded corners should be restrained and consistent
+- no excessive shadows
+
+All service labels, headings, descriptions, buttons, and stacked-image captions must be real HTML/CSS text placed by the website.
+
+==================================================
+8. OTHER HOMEPAGE SECTIONS
+==================================================
+
+Keep and refine the strongest existing Replit sections where appropriate.
+
+This includes the approved editorial direction such as:
+
+- “Three steps. Nothing more.”
+- premium service/amenity section
+- testimonial treatment
+- strong final CTA section
+- terracotta/rust chapter near the bottom if it still works with the overall composition
+
+Do not keep sections merely because they already exist if they weaken the hierarchy.
+
+The homepage should feel intentionally edited, not crowded.
+
+==================================================
+9. SECTION FLOW / COLOR RHYTHM
+==================================================
+
+Use deliberate chapter-like transitions.
+
+Recommended overall rhythm:
+
+- deep muted green hero
+- warm ivory / stone content
+- light neutral / softly tinted service carousel section
+- white or warm ivory transition
+- large stacked-image storytelling section
+- trust / amenities / testimonial content
+- terracotta/rust final CTA chapter
+- refined footer
+
+Do not use too many different colors.
+The entire page must still feel like one design system.
+
+==================================================
+10. RESPONSIVENESS
+==================================================
+
+Desktop quality is the priority first, but the homepage must remain responsive.
+
+Desktop:
+- wide editorial layout
+- two carousel cards visible when appropriate
+- booking interface integrated elegantly into hero
+
+Mobile:
+- maintain the same visual hierarchy
+- service cards can become one card at a time
+- booking interface stacks cleanly
+- stacked-scroll section must degrade gracefully if the exact desktop motion is unsuitable
+- no horizontal overflow
+- no tiny tap targets
+- no broken text wrapping
+
+==================================================
+11. MOTION
+==================================================
+
+Motion should only communicate state or hierarchy.
+
+Use:
+- subtle fade/translate reveals
+- booking expand/collapse
+- horizontal carousel slide
+- stacked image reveal
+- restrained hover states
+
+Avoid:
+- decorative bouncing
+- constant looping animation
+- dramatic zoom
+- unnecessary parallax
+- fake loading effects
+
+Animation target:
+approximately 200–350ms for normal UI transitions.
+
+The stacked-scroll section can use longer scroll-linked movement where needed.
+
+==================================================
+12. FUNCTIONALITY / SAFETY
+==================================================
+
+Do NOT:
+
+- connect production Stripe
+- connect production Maps
+- connect address APIs
+- connect the real database
+- change production domain settings
+- add real booking submissions
+- create fake real-world pricing
+- modify unrelated pages
+- modify Step 2
+- modify Step 3
+
+This phase is specifically:
+
+HOMEPAGE VISUAL DESIGN
++
+HOMEPAGE INTERACTIONS
++
+CONTROLLED SFO → FOUR SEASONS BOOKING PROTOTYPE
+
+==================================================
+13. IMPLEMENTATION APPROACH
+==================================================
+
+Before changing code:
+
+1. Inspect the existing homepage implementation.
+2. Identify reusable components already present.
+3. Preserve working architecture where possible.
+4. Do not rewrite the app unnecessarily.
+5. Use the existing design system where it helps, but update styles needed to achieve the approved homepage direction.
+
+Then implement the homepage.
+
+==================================================
+14. FINAL QA
+==================================================
+
+Before declaring the homepage finished, test:
+
+- desktop homepage from top to bottom
+- booking field interactions
+- SFO → Four Seasons mocked route
+- date/time selection
+- dropdown auto-close behavior
+- CTA state
+- service carousel arrows
+- carousel responsiveness
+- exact 4-image slider mapping
+- one-time scroll reveals
+- exact 3-image stacked-scroll mapping
+- stacked-scroll behavior
+- no animation replay after reveal
+- no horizontal overflow
+- no broken images
+- no distorted vehicles
+- no substituted images
+- text legibility over every background
+- smooth transition between color chapters
+- mobile layout sanity check
+- reduced-motion behavior
+
+Do not move on to Step 2.
+
+At the end, give me:
+
+1. a concise summary of what you changed
+2. any assumptions you made
+3. any mocked behavior used because APIs are unavailable
+4. any visual or interaction issues you still think need review
