@@ -9,9 +9,56 @@ import { Route, Switch, useLocation, Router as WouterRouter } from 'wouter';
 
 const queryClient = new QueryClient();
 
+function useScrollLinked(
+  ref: React.RefObject<HTMLElement | null>,
+  callback: (rect: DOMRect, isMobile: boolean) => void,
+  active = true
+) {
+  const callbackRef = useRef(callback);
+  callbackRef.current = callback;
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || !active) return;
+
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (mediaQuery.matches) return;
+
+    let ticking = false;
+    const update = () => {
+      if (el) callbackRef.current(el.getBoundingClientRect(), window.innerWidth < 768);
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(update);
+        ticking = true;
+      }
+    };
+
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
+  }, [ref, active]);
+}
+
 function useReveal() {
   useEffect(() => {
-    const nodes = document.querySelectorAll<HTMLElement>('.reveal');
+    const selectors = '.reveal, .reveal-right, .reveal-left, .reveal-scale';
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    
+    if (mediaQuery.matches) {
+      document.querySelectorAll<HTMLElement>(selectors).forEach(node => node.classList.add('is-visible'));
+      return;
+    }
+
+    const nodes = document.querySelectorAll<HTMLElement>(selectors);
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -507,10 +554,38 @@ function BookingCard({ onActiveChange }: { onActiveChange?: (active: boolean) =>
 function Hero() {
   const jump = () => document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' });
   const [isBookingActive, setIsBookingActive] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useScrollLinked(sectionRef, (rect, isMobile) => {
+    if (isBookingActive) {
+      if (sectionRef.current) {
+        const headline = sectionRef.current.querySelector('#hero-headline') as HTMLElement;
+        const copy = sectionRef.current.querySelector('#hero-copy') as HTMLElement;
+        const grid = sectionRef.current.querySelector('.hero-grid') as HTMLElement;
+        if (headline) headline.style.transform = '';
+        if (copy) copy.style.opacity = '';
+        if (grid) grid.style.transform = '';
+      }
+      return;
+    }
+    
+    const scrolled = Math.max(0, -rect.top);
+    const progress = Math.min(1, scrolled / 500);
+
+    if (sectionRef.current) {
+      const headline = sectionRef.current.querySelector('#hero-headline') as HTMLElement;
+      const copy = sectionRef.current.querySelector('#hero-copy') as HTMLElement;
+      const grid = sectionRef.current.querySelector('.hero-grid') as HTMLElement;
+      
+      if (headline) headline.style.transform = `translateY(${-progress * 12}px)`;
+      if (copy) copy.style.opacity = `${1 - (progress * 0.15)}`;
+      if (grid) grid.style.transform = `translateY(${progress * 18}px)`;
+    }
+  });
 
   return (
-    <section id="top" className={`relative min-h-[100svh] flex flex-col lg:h-screen lg:min-h-0 overflow-hidden pt-[82px] text-[#f6f1e8] transition-colors duration-500 ease-out ${isBookingActive ? 'bg-[#102a29]' : 'bg-[#193f3e]'}`}>
-      <div className={`hero-grid absolute inset-0 pointer-events-none transition-opacity duration-500 ease-out ${isBookingActive ? 'opacity-20' : 'opacity-50'}`} />
+    <section ref={sectionRef} id="top" className={`relative min-h-[100svh] flex flex-col lg:h-screen lg:min-h-0 overflow-hidden pt-[82px] text-[#f6f1e8] transition-colors duration-500 ease-out ${isBookingActive ? 'bg-[#102a29]' : 'bg-[#193f3e]'}`}>
+      <div className={`hero-grid absolute inset-0 pointer-events-none transition-opacity duration-500 ease-out will-change-transform ${isBookingActive ? 'opacity-20' : 'opacity-50'}`} />
       <div className={`absolute -right-32 top-20 h-[600px] w-[600px] rounded-full border border-[#d19a5c]/20 sm:h-[800px] sm:w-[800px] pointer-events-none transition-opacity duration-500 ease-out ${isBookingActive ? 'opacity-30' : 'opacity-100'}`} />
       <div className={`absolute -right-16 top-36 h-[390px] w-[390px] rounded-full border border-[#d19a5c]/15 sm:h-[590px] sm:w-[590px] pointer-events-none transition-opacity duration-500 ease-out ${isBookingActive ? 'opacity-30' : 'opacity-100'}`} />
       <div className={`floating-line absolute right-[18%] top-[28%] h-[1px] w-[310px] origin-right bg-[#d19a5c]/60 pointer-events-none transition-opacity duration-500 ease-out ${isBookingActive ? 'opacity-30' : 'opacity-100'}`} />
@@ -518,14 +593,14 @@ function Hero() {
       
       <div className="container-edge relative flex-1 flex flex-col justify-end lg:justify-center pb-16 lg:pb-24 pt-20 lg:pt-32">
         <div className={`w-full max-w-[700px] transition-all duration-300 ease-out overflow-hidden lg:-translate-y-9 ${isBookingActive ? 'opacity-0 max-h-0 mb-0' : 'opacity-100 max-h-[500px] mb-12 lg:mb-16'}`}>
-          <div className="reveal">
-            <p className="flex items-center gap-3 font-mono-ui text-[10px] uppercase tracking-[.22em] text-[#d19a5c] font-medium"><span className="h-px w-7 bg-[#d19a5c]" />Northern California · Bay Area · SFO · OAK · SJC</p>
-            <h1 className="mt-5 font-display text-[clamp(3.2rem,10vw,8.2rem)] leading-[.84] tracking-[-.05em]">Arrive in<br /><i className="text-[#d19a5c]">unspoken<br />luxury.</i></h1>
-            <p className="mt-6 max-w-[390px] text-[15px] leading-[1.8] text-[#dbe0d6]/80 font-medium">From SFO to Napa, your chauffeur handles the details so the ride feels effortless.</p>
+          <div>
+            <p className="reveal flex items-center gap-3 font-mono-ui text-[10px] uppercase tracking-[.22em] text-[#d19a5c] font-medium"><span className="h-px w-7 bg-[#d19a5c]" />Northern California · Bay Area · SFO · OAK · SJC</p>
+            <h1 id="hero-headline" className="reveal delay-1 mt-5 font-display text-[clamp(3.2rem,10vw,8.2rem)] leading-[.84] tracking-[-.05em] will-change-transform">Arrive in<br /><i className="text-[#d19a5c]">unspoken<br />luxury.</i></h1>
+            <p id="hero-copy" className="reveal delay-2 mt-6 max-w-[390px] text-[15px] leading-[1.8] text-[#dbe0d6]/80 font-medium will-change-transform">From SFO to Napa, your chauffeur handles the details so the ride feels effortless.</p>
           </div>
         </div>
         <div className={`w-full flex justify-center z-20 transition-[top,transform] duration-300 ease-out ${isBookingActive ? 'lg:absolute lg:inset-x-0 lg:top-1/2 lg:-translate-y-1/2' : 'relative'}`}>
-          <div className="w-full lg:w-[84vw] max-w-[1240px] lg:flex-none">
+          <div className="reveal delay-3 w-full lg:w-[84vw] max-w-[1240px] lg:flex-none">
             <BookingCard onActiveChange={setIsBookingActive} />
           </div>
         </div>
@@ -566,23 +641,26 @@ function ServiceSlider() {
   return (
     <section id="services" className="bg-[#f6f1e8] py-28 sm:py-40 overflow-hidden relative">
       <div className="container-edge">
-        <div className="reveal flex flex-col justify-between gap-7 md:flex-row md:items-end mb-16 lg:mb-24">
-          <div><span className="font-mono-ui text-[9px] uppercase tracking-[.2em] text-[#bc754e]">Our services</span><h2 className="mt-5 max-w-[620px] font-display text-[clamp(2.8rem,6vw,5.5rem)] leading-[.95] tracking-[-.04em]">The ride is<br /><i>part of the occasion.</i></h2></div>
+        <div className="flex flex-col justify-between gap-7 md:flex-row md:items-end mb-16 lg:mb-24">
+          <div>
+            <span className="reveal font-mono-ui text-[9px] uppercase tracking-[.2em] text-[#bc754e]">Our services</span>
+            <h2 className="reveal delay-1 mt-5 max-w-[620px] font-display text-[clamp(2.8rem,6vw,5.5rem)] leading-[.95] tracking-[-.04em]">The ride is<br /><i>part of the occasion.</i></h2>
+          </div>
           
-          <div className="hidden md:flex gap-3 pb-2">
+          <div className="reveal delay-2 hidden md:flex gap-3 pb-2">
             <button onClick={prev} className="w-12 h-12 rounded-full border border-[#193f3e]/20 flex items-center justify-center text-[#193f3e] hover:bg-[#193f3e] hover:text-[#f6f1e8] transition-colors"><ChevronLeft size={20} strokeWidth={1.5} /></button>
             <button onClick={next} className="w-12 h-12 rounded-full border border-[#193f3e]/20 flex items-center justify-center text-[#193f3e] hover:bg-[#193f3e] hover:text-[#f6f1e8] transition-colors"><ChevronRight size={20} strokeWidth={1.5} /></button>
           </div>
         </div>
         
-        <div className="reveal delay-2 relative w-full">
+        <div className="relative w-full">
           <div 
             ref={scrollRef}
             className="flex overflow-x-auto snap-x snap-mandatory gap-6 lg:gap-8 no-scrollbar pb-8 -mb-8"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
-            {services.map((service) => (
-              <article key={service.id} className="w-[85vw] sm:w-[80vw] md:w-[calc(50%-12px)] lg:w-[calc(50%-16px)] shrink-0 snap-start group">
+            {services.map((service, index) => (
+              <article key={service.id} className={`reveal delay-${(index % 3) + 2} w-[85vw] sm:w-[80vw] md:w-[calc(50%-12px)] lg:w-[calc(50%-16px)] shrink-0 snap-start group`}>
                 <div className="aspect-[4/3] w-full overflow-hidden bg-[#e1e8e0] rounded-sm mb-6 relative lg:aspect-[1.1]">
                   <img src={service.image} alt={service.headline} className="w-full h-full object-cover object-center transition-transform duration-1000 group-hover:scale-105" />
                 </div>
@@ -606,15 +684,40 @@ function ServiceSlider() {
 }
 
 function AppSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  
+  useScrollLinked(sectionRef, (rect, isMobile) => {
+    const exitProgress = Math.max(0, Math.min(1, -rect.top / 600));
+    
+    const textCol = sectionRef.current?.querySelector('#app-text-col') as HTMLElement;
+    const deviceCol = sectionRef.current?.querySelector('#app-device-col') as HTMLElement;
+
+    if (textCol && deviceCol) {
+      if (isMobile) {
+        const drift = exitProgress * 30; // max 30px
+        textCol.style.transform = `translateY(${-drift * 0.5}px)`;
+        deviceCol.style.transform = `translateY(${-drift}px)`;
+        textCol.style.opacity = `${1 - exitProgress * 0.2}`;
+        deviceCol.style.opacity = `${1 - exitProgress * 0.2}`;
+      } else {
+        const drift = exitProgress * 50; // max 50px
+        textCol.style.transform = `translateX(${-drift}px)`;
+        deviceCol.style.transform = `translateX(${drift}px)`;
+        textCol.style.opacity = `${1 - exitProgress * 0.25}`;
+        deviceCol.style.opacity = `${1 - exitProgress * 0.25}`;
+      }
+    }
+  });
+
   return (
-    <section className="bg-[#f6f1e8] py-28 sm:py-40 border-t border-[#193f3e]/10 overflow-hidden relative">
+    <section ref={sectionRef} className="bg-[#f6f1e8] py-28 sm:py-40 border-t border-[#193f3e]/10 overflow-hidden relative">
       <div className="container-edge grid gap-12 lg:grid-cols-[1fr_1.2fr] lg:gap-24 lg:items-center">
-        <div className="reveal">
-          <span className="font-mono-ui text-[10px] uppercase tracking-[.2em] text-[#bc754e] font-medium">The TuranEliteLimo App</span>
-          <h2 className="mt-5 max-w-[500px] font-display text-[clamp(3.2rem,5vw,4.5rem)] leading-[1.05] tracking-[-.03em]">TuranEliteLimo,<br /><i>wherever you go.</i></h2>
-          <p className="mt-8 text-[15px] leading-[1.8] text-[#193f3e]/80 max-w-[400px] font-medium">Book and manage your rides from one place. Your chauffeur service stays within reach whenever you need it.</p>
+        <div id="app-text-col" className="will-change-transform">
+          <span className="reveal font-mono-ui text-[10px] uppercase tracking-[.2em] text-[#bc754e] font-medium">The TuranEliteLimo App</span>
+          <h2 className="reveal delay-1 mt-5 max-w-[500px] font-display text-[clamp(3.2rem,5vw,4.5rem)] leading-[1.05] tracking-[-.03em]">TuranEliteLimo,<br /><i>wherever you go.</i></h2>
+          <p className="reveal delay-2 mt-8 text-[15px] leading-[1.8] text-[#193f3e]/80 max-w-[400px] font-medium">Book and manage your rides from one place. Your chauffeur service stays within reach whenever you need it.</p>
           
-          <div className="mt-12 hidden lg:flex flex-col sm:flex-row gap-4">
+          <div className="reveal delay-3 mt-12 hidden lg:flex flex-col sm:flex-row gap-4">
              <button type="button" onClick={(e) => e.preventDefault()} className="w-full sm:w-[200px] h-[54px] rounded-full border border-[#193f3e]/20 bg-white text-[#193f3e] flex items-center justify-center gap-3 hover:border-[#193f3e]/50 hover:bg-[#e9dfcf] transition-colors shadow-sm" data-testid="button-app-store">
                <span className="font-mono-ui text-[10px] uppercase tracking-[.12em] font-bold">Download on the App Store</span>
              </button>
@@ -624,7 +727,8 @@ function AppSection() {
           </div>
         </div>
         
-        <div className="reveal delay-2 relative w-full h-[500px] sm:h-[600px] bg-[#e9dfcf]/60 rounded-[4px] overflow-hidden flex items-end justify-center shadow-[inset_0_2px_20px_rgba(0,0,0,0.02)] border border-[#193f3e]/5">
+        <div id="app-device-col" className="will-change-transform">
+          <div className="reveal-scale delay-2 relative w-full h-[500px] sm:h-[600px] bg-[#e9dfcf]/60 rounded-[4px] overflow-hidden flex items-end justify-center shadow-[inset_0_2px_20px_rgba(0,0,0,0.02)] border border-[#193f3e]/5">
            {/* Decorative circles */}
            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full border border-[#193f3e]/5 pointer-events-none" />
            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full border border-[#193f3e]/5 pointer-events-none" />
@@ -714,6 +818,7 @@ function AppSection() {
              </div>
            </div>
            
+          </div>
         </div>
         <div className="flex flex-col sm:flex-row gap-4 lg:hidden">
           <button type="button" onClick={(e) => e.preventDefault()} className="w-full sm:w-[220px] h-[54px] rounded-full border border-[#193f3e]/20 bg-white text-[#193f3e] flex items-center justify-center shadow-sm" data-testid="button-app-store-mobile">
@@ -835,7 +940,10 @@ function Process() {
   return (
     <section id="process" className="bg-[#e9dfcf] py-28 sm:py-40">
       <div className="container-edge">
-        <div className="reveal flex flex-col items-center text-center"><span className="font-mono-ui text-[9px] uppercase tracking-[.2em] text-[#bc754e]">How it works</span><h2 className="mt-5 max-w-[650px] font-display text-[clamp(3.2rem,6vw,5.5rem)] leading-[.95] tracking-[-.03em]">Three steps.<br /><i>Nothing more.</i></h2></div>
+        <div className="flex flex-col items-center text-center">
+          <span className="reveal font-mono-ui text-[9px] uppercase tracking-[.2em] text-[#bc754e]">How it works</span>
+          <h2 className="reveal delay-1 mt-5 max-w-[650px] font-display text-[clamp(3.2rem,6vw,5.5rem)] leading-[.95] tracking-[-.03em]">Three steps.<br /><i>Nothing more.</i></h2>
+        </div>
         
         <div className="mt-[86px] flex flex-col lg:grid lg:grid-cols-3 gap-16 lg:gap-12 relative max-w-[1000px] mx-auto">
           {[['01', 'Tell us where and when', 'Choose your pickup, destination, date and time.'], 
@@ -858,26 +966,26 @@ function Standard() {
   return (
     <section id="standard" className="bg-[#f6f1e8] py-28 sm:py-40 border-t border-[#193f3e]/10 overflow-hidden">
       <div className="container-edge grid gap-16 lg:grid-cols-[1fr_1fr] lg:gap-24 lg:items-center">
-        <div className="reveal relative min-h-[400px] sm:min-h-[500px] w-full overflow-hidden bg-[#193f3e] p-8 sm:p-14 text-[#f6f1e8] flex flex-col justify-between shadow-xl">
+        <div className="reveal-left relative min-h-[400px] sm:min-h-[500px] w-full overflow-hidden bg-[#193f3e] p-8 sm:p-14 text-[#f6f1e8] flex flex-col justify-between shadow-xl">
           <div className="absolute -right-20 top-10 h-[300px] w-[300px] sm:h-[400px] sm:w-[400px] rounded-full border border-[#d19a5c]/20 pointer-events-none" />
           <div className="absolute -right-4 top-24 h-[180px] w-[180px] sm:h-[250px] sm:w-[250px] rounded-full border border-[#d19a5c]/20 pointer-events-none" />
           <span className="relative font-mono-ui text-[10px] uppercase tracking-[.2em] text-[#d19a5c]">Step in. Breathe out.</span>
           <div className="relative z-10 mt-auto">
-            <p className="font-display text-[clamp(2.5rem,4vw,3.5rem)] leading-[1.05]">“The luxury is<br /><i>the lack of friction.”</i></p>
-            <div className="mt-10 flex items-center gap-4">
+            <p className="reveal delay-2 font-display text-[clamp(2.5rem,4vw,3.5rem)] leading-[1.05]">“The luxury is<br /><i>the lack of friction.”</i></p>
+            <div className="reveal delay-3 mt-10 flex items-center gap-4">
               <span className="flex h-10 w-10 items-center justify-center rounded-full border border-[#d19a5c]/40 bg-[#d19a5c]/10"><ShieldCheck size={16} className="text-[#d19a5c]" /></span>
               <span className="font-mono-ui text-[9px] uppercase tracking-[.15em] text-[#dbe0d6]/70">Our operating principle</span>
             </div>
           </div>
         </div>
-        <div className="reveal delay-2 lg:py-10">
-          <span className="font-mono-ui text-[10px] uppercase tracking-[.2em] text-[#bc754e] font-medium">The Turan standard</span>
-          <h2 className="mt-5 max-w-[500px] font-display text-[clamp(3.2rem,5vw,4.5rem)] leading-[1] tracking-[-.03em]">Nothing loud.<br /><i>Everything ready.</i></h2>
-          <p className="mt-8 text-[15px] leading-[1.8] text-[#193f3e]/80 max-w-[440px] font-medium">Professional chauffeurs, licensed and insured carriers, and live dispatch from booking to drop-off — every part of the journey is handled with care.</p>
+        <div className="lg:py-10">
+          <span className="reveal font-mono-ui text-[10px] uppercase tracking-[.2em] text-[#bc754e] font-medium">The Turan standard</span>
+          <h2 className="reveal delay-1 mt-5 max-w-[500px] font-display text-[clamp(3.2rem,5vw,4.5rem)] leading-[1] tracking-[-.03em]">Nothing loud.<br /><i>Everything ready.</i></h2>
+          <p className="reveal delay-2 mt-8 text-[15px] leading-[1.8] text-[#193f3e]/80 max-w-[440px] font-medium">Professional chauffeurs, licensed and insured carriers, and live dispatch from booking to drop-off — every part of the journey is handled with care.</p>
           
           <div className="mt-12 grid grid-cols-2 gap-x-8 gap-y-10 border-t border-[#193f3e]/20 pt-10">
-            {[['30+', 'NorCal Cities'], ['24/7', 'Live Dispatch'], ['45 MIN', 'Airport Grace Period'], ['15 MIN', 'Standard Pickup Grace Period']].map(([value, label]) => (
-              <div key={label}>
+            {[['30+', 'NorCal Cities'], ['24/7', 'Live Dispatch'], ['45 MIN', 'Airport Grace Period'], ['15 MIN', 'Standard Pickup Grace Period']].map(([value, label], index) => (
+              <div key={label} className={`reveal delay-${(index % 4) + 1}`}>
                 <strong className="block font-display text-4xl lg:text-5xl font-medium text-[#193f3e]">{value}</strong>
                 <span className="mt-3 block font-mono-ui text-[10px] uppercase tracking-[.15em] text-[#193f3e]/70 font-medium">{label}</span>
               </div>
@@ -891,29 +999,40 @@ function Standard() {
 
 function Footer() {
   const jump = () => document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' });
+  const footerRef = useRef<HTMLElement>(null);
+
+  useScrollLinked(footerRef, (rect, isMobile) => {
+    const visibleAmount = window.innerHeight - rect.top;
+    const progress = Math.max(0, Math.min(1, visibleAmount / window.innerHeight));
+    const ctaHeader = footerRef.current?.querySelector('#cta-header') as HTMLElement;
+    if (ctaHeader) {
+      ctaHeader.style.transform = `translateY(${(1 - progress) * 25}px)`;
+    }
+  });
+
   return (
-    <footer className="bg-[#bc754e] text-[#193f3e] relative overflow-hidden">
+    <footer ref={footerRef} className="bg-[#bc754e] text-[#193f3e] relative overflow-hidden z-10 shadow-[0_-20px_50px_rgba(0,0,0,0.15)]">
       <div className="absolute top-0 right-0 w-[800px] h-[800px] rounded-full border border-[#193f3e]/10 -translate-y-1/2 translate-x-1/3 pointer-events-none" />
       <div className="container-edge py-24 sm:py-32 relative z-10">
-        <div className="reveal flex flex-col justify-between gap-10 sm:gap-12 lg:flex-row lg:items-end">
-          <div>
-            <span className="font-mono-ui text-[10px] uppercase tracking-[.2em] font-medium">Your ride starts here</span>
-            <h2 className="mt-6 max-w-[700px] font-display text-[clamp(3.5rem,8vw,7rem)] leading-[.85] tracking-[-.04em]">Book in a few<br /><i>simple steps.</i></h2>
+        <div className="flex flex-col justify-between gap-10 sm:gap-12 lg:flex-row lg:items-end">
+          <div id="cta-header" className="will-change-transform">
+            <span className="reveal font-mono-ui text-[10px] uppercase tracking-[.2em] font-medium">Your ride starts here</span>
+            <h2 className="reveal delay-1 mt-6 max-w-[700px] font-display text-[clamp(3.5rem,8vw,7rem)] leading-[.85] tracking-[-.04em]">Book in a few<br /><i>simple steps.</i></h2>
           </div>
-          <button onClick={jump} className="group flex w-full justify-between sm:w-auto sm:justify-start items-center gap-4 border-b-2 border-[#193f3e] pb-3 sm:pb-3 text-left font-mono-ui text-[12px] uppercase tracking-[.16em] font-bold hover:text-[#f6f1e8] hover:border-[#f6f1e8] transition-colors" data-testid="button-footer-book">
+          <button onClick={jump} className="reveal delay-2 group flex w-full justify-between sm:w-auto sm:justify-start items-center gap-4 border-b-2 border-[#193f3e] pb-3 sm:pb-3 text-left font-mono-ui text-[12px] uppercase tracking-[.16em] font-bold hover:text-[#f6f1e8] hover:border-[#f6f1e8] transition-colors" data-testid="button-footer-book">
             <span>Book Your Ride</span> <ArrowRight size={18} className="transition-transform group-hover:translate-x-2" />
           </button>
         </div>
         
         <div className="mt-20 sm:mt-28 grid gap-12 lg:grid-cols-4 border-t border-[#193f3e]/20 pt-16">
-          <div className="lg:col-span-1">
+          <div className="reveal lg:col-span-1">
              <TextBrand descriptor footer />
              <p className="mt-8 text-[13px] leading-relaxed text-[#193f3e]/80 max-w-[280px] font-medium">
                A premium private chauffeur service for the Bay Area & Northern California.
              </p>
           </div>
           
-          <div className="grid grid-cols-2 gap-8 lg:col-span-2">
+          <div className="reveal delay-1 grid grid-cols-2 gap-8 lg:col-span-2">
             <div>
               <span className="font-mono-ui text-[9px] uppercase tracking-[.2em] text-[#193f3e]/60 mb-6 block">Navigation</span>
               <ul className="flex flex-col gap-4 text-[13px] font-medium text-[#193f3e]">
@@ -936,7 +1055,7 @@ function Footer() {
             </div>
           </div>
           
-          <div className="lg:col-span-1">
+          <div className="reveal delay-2 lg:col-span-1">
             <span className="font-mono-ui text-[9px] uppercase tracking-[.2em] text-[#193f3e]/60 mb-6 block">Contact</span>
             <address className="not-italic text-[13px] leading-relaxed text-[#193f3e] font-medium flex flex-col gap-4">
               <p>TuranEliteLimo<br/>501 Broadway, #251<br/>Millbrae, CA 94030</p>
@@ -946,12 +1065,49 @@ function Footer() {
           </div>
         </div>
         
-        <div className="mt-20 flex flex-col justify-between gap-6 border-t border-[#193f3e]/10 pt-8 sm:flex-row items-center font-mono-ui text-[9px] uppercase tracking-[.15em] text-[#193f3e]/70 font-medium">
+        <div className="reveal delay-3 mt-20 flex flex-col justify-between gap-6 border-t border-[#193f3e]/10 pt-8 sm:flex-row items-center font-mono-ui text-[9px] uppercase tracking-[.15em] text-[#193f3e]/70 font-medium">
           <span>© 2026 TuranEliteLimo. All rights reserved.</span>
           <span className="flex items-center gap-2"><ShieldCheck size={12} /> All Rides Licensed & Insured</span>
         </div>
       </div>
     </footer>
+  );
+}
+
+function Reviews() {
+  const sectionRef = useRef<HTMLElement>(null);
+  
+  useScrollLinked(sectionRef, (rect, isMobile) => {
+    const exitProgress = Math.max(0, Math.min(1, -rect.top / (rect.height * 0.8)));
+
+    const content = sectionRef.current?.querySelector('#reviews-content') as HTMLElement;
+    if (content) {
+       content.style.transform = `translateY(${-exitProgress * 40}px)`;
+       content.style.opacity = `${1 - exitProgress * 0.3}`;
+    }
+  });
+
+  return (
+    <section ref={sectionRef} className="bg-[#193f3e] text-[#f6f1e8] py-28 sm:py-40 border-t border-white/5 relative z-0 overflow-hidden">
+      <div id="reviews-content" className="container-edge flex flex-col items-center text-center will-change-transform">
+        <span className="reveal font-mono-ui text-[10px] uppercase tracking-[.25em] text-[#d19a5c] font-medium mb-6 block">Reviews</span>
+        <h2 className="reveal delay-1 max-w-[800px] font-display text-[clamp(3.5rem,7vw,5.5rem)] leading-[.9] tracking-[-.02em] text-[#f6f1e8]">Real riders,<br /><i>real words.</i></h2>
+        <p className="reveal delay-2 mt-8 text-[15px] md:text-[16px] leading-[1.8] text-[#dbe0d6]/80 max-w-[480px] font-medium">On Google and Yelp — where our clients can leave their honest, verified impressions of our chauffeurs.</p>
+        
+        <div className="reveal delay-3 mt-12 flex flex-col sm:flex-row items-center gap-4 sm:gap-6 w-full sm:w-auto">
+          <button type="button" onClick={(e) => e.preventDefault()} className="w-full sm:w-[220px] h-[60px] rounded-full border border-[#d19a5c]/30 bg-[#d19a5c]/10 text-[#d19a5c] flex items-center justify-center gap-3 hover:bg-[#d19a5c] hover:text-[#102a29] transition-colors" data-testid="button-google-reviews">
+             <span className="font-mono-ui text-[11px] uppercase tracking-[.15em] font-medium">Google Reviews</span>
+             <ArrowRight size={14} />
+          </button>
+          <button type="button" onClick={(e) => e.preventDefault()} className="w-full sm:w-[220px] h-[60px] rounded-full border border-white/20 bg-white/5 text-[#f6f1e8] flex items-center justify-center gap-3 hover:bg-white hover:text-[#102a29] transition-colors" data-testid="button-yelp-reviews">
+             <span className="font-mono-ui text-[11px] uppercase tracking-[.15em] font-medium">Yelp Reviews</span>
+             <ArrowRight size={14} />
+          </button>
+        </div>
+        
+        <span className="reveal delay-4 mt-10 block font-mono-ui text-[9px] uppercase tracking-[.2em] text-[#dbe0d6]/50">Every review read personally by our team</span>
+      </div>
+    </section>
   );
 }
 
@@ -972,26 +1128,7 @@ function Home() {
       <StackedStory />
       <Process />
       <Standard />
-      <section className="bg-[#193f3e] text-[#f6f1e8] py-28 sm:py-40 border-t border-white/5">
-        <div className="container-edge reveal flex flex-col items-center text-center">
-          <span className="font-mono-ui text-[10px] uppercase tracking-[.25em] text-[#d19a5c] font-medium mb-6 block">Reviews</span>
-          <h2 className="max-w-[800px] font-display text-[clamp(3.5rem,7vw,5.5rem)] leading-[.9] tracking-[-.02em] text-[#f6f1e8]">Real riders,<br /><i>real words.</i></h2>
-          <p className="mt-8 text-[15px] md:text-[16px] leading-[1.8] text-[#dbe0d6]/80 max-w-[480px] font-medium">On Google and Yelp — where our clients can leave their honest, verified impressions of our chauffeurs.</p>
-          
-          <div className="mt-12 flex flex-col sm:flex-row items-center gap-4 sm:gap-6 w-full sm:w-auto">
-            <button type="button" onClick={(e) => e.preventDefault()} className="w-full sm:w-[220px] h-[60px] rounded-full border border-[#d19a5c]/30 bg-[#d19a5c]/10 text-[#d19a5c] flex items-center justify-center gap-3 hover:bg-[#d19a5c] hover:text-[#102a29] transition-colors" data-testid="button-google-reviews">
-               <span className="font-mono-ui text-[11px] uppercase tracking-[.15em] font-medium">Google Reviews</span>
-               <ArrowRight size={14} />
-            </button>
-            <button type="button" onClick={(e) => e.preventDefault()} className="w-full sm:w-[220px] h-[60px] rounded-full border border-white/20 bg-white/5 text-[#f6f1e8] flex items-center justify-center gap-3 hover:bg-white hover:text-[#102a29] transition-colors" data-testid="button-yelp-reviews">
-               <span className="font-mono-ui text-[11px] uppercase tracking-[.15em] font-medium">Yelp Reviews</span>
-               <ArrowRight size={14} />
-            </button>
-          </div>
-          
-          <span className="mt-10 block font-mono-ui text-[9px] uppercase tracking-[.2em] text-[#dbe0d6]/50">Every review read personally by our team</span>
-        </div>
-      </section>
+      <Reviews />
       <Footer />
     </main>
   );

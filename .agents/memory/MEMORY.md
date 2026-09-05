@@ -2,3 +2,4 @@
 - [Native picker Escape](native-picker-escape.md) — capture Escape before native date/time inputs consume it, then blur and collapse the takeover.
 - [Booking takeover geometry](booking-takeover-geometry.md) — share one viewport-centered frame and absolutely center expansion inside a fixed-height hero.
 - [Homepage responsive parity](homepage-responsive-parity.md) — every homepage change needs deliberate desktop, tablet, and phone review; booking behavior is the exception.
+- [Homepage motion language](homepage-motion-language.md) — small reveals happen once; major scroll-linked motion stays restrained, reversible, and removable.

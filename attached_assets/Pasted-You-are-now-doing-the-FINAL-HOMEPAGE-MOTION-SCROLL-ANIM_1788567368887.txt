@@ -1,0 +1,746 @@
+You are now doing the FINAL HOMEPAGE MOTION / SCROLL-ANIMATION PASS for TuranEliteLimo.
+
+IMPORTANT:
+
+The homepage layout, section order, content, colors, responsive structure, booking behavior, app section, stacked stories, Three Steps, Turan Standard, Reviews, CTA, and footer are now approved.
+
+DO NOT redesign the page.
+
+DO NOT:
+- change section order
+- change content
+- change typography choices
+- change colors
+- change booking logic
+- change mobile booking behavior
+- change the stacked-story structure
+- add new sections
+- remove sections
+- add APIs
+- rebuild components unnecessarily
+
+This pass is ONLY about making the existing homepage feel more refined and alive through restrained scroll-responsive motion.
+
+The goal is NOT to copy Blacklane animations exactly.
+
+The goal is to create a TuranEliteLimo motion language inspired by the same level of polish:
+- calm
+- premium
+- editorial
+- scroll-aware
+- deliberate
+- not flashy
+
+==================================================
+1. CORE MOTION PHILOSOPHY
+==================================================
+
+Use two kinds of motion:
+
+A. ONE-TIME REVEALS
+
+Used for:
+- small labels
+- section headings
+- numbers
+- buttons
+- short text groups
+
+These can animate once when entering the viewport.
+
+B. SCROLL-LINKED MOTION
+
+Used for:
+- larger visual sections
+- app section
+- Turan Standard
+- major editorial compositions
+- selected section exits
+
+These should respond to actual scroll progress.
+
+Important:
+
+If the user scrolls slowly:
+the animation progresses slowly.
+
+If the user stops scrolling:
+the animation should stop.
+
+If the user scrolls faster:
+the animation should progress accordingly.
+
+Do NOT make everything fire as a fixed-duration animation regardless of scroll speed.
+
+==================================================
+2. MOTION CHARACTER
+==================================================
+
+Motion should feel:
+
+- composed
+- smooth
+- premium
+- quiet
+- cinematic
+- editorial
+
+Avoid:
+
+- bouncing
+- spring effects
+- dramatic zooms
+- spinning
+- exaggerated parallax
+- elastic movement
+- fast flashy fades
+- large rotations
+- random movement
+- different animation styles in every section
+
+Use a consistent visual language.
+
+==================================================
+3. PERFORMANCE
+==================================================
+
+Prefer:
+
+- transform
+- opacity
+- translate
+- scale very subtly where needed
+- sticky positioning where already used
+
+Avoid layout-heavy animation where possible.
+
+Do not create jank.
+
+Use requestAnimationFrame / Framer Motion / existing project animation tools appropriately.
+
+Respect:
+prefers-reduced-motion
+
+For reduced motion:
+disable scroll-linked transforms and present content cleanly in final positions.
+
+==================================================
+4. HERO — KEEP MOSTLY STABLE
+==================================================
+
+Do NOT overanimate the hero.
+
+The hero should feel calm when first loaded.
+
+On initial page load:
+
+- eyebrow may fade upward subtly
+- main headline may reveal with a very restrained upward motion
+- supporting copy may follow slightly after
+- booking bar may appear with a subtle upward/fade entrance
+
+Keep the effect minimal.
+
+Do NOT animate individual letters.
+
+Do NOT make the headline slide dramatically.
+
+Do NOT animate the background geometry aggressively.
+
+==================================================
+5. HERO SCROLL EXIT
+==================================================
+
+As the user begins scrolling away from the hero:
+
+Allow a very subtle scroll-linked exit.
+
+Possible treatment:
+
+- hero headline drifts upward a few pixels
+- supporting copy becomes slightly softer
+- background geometry may move at a slightly different rate
+
+Keep this extremely restrained.
+
+Do NOT fade the entire hero aggressively before the next section arrives.
+
+==================================================
+6. SERVICE CAROUSEL
+==================================================
+
+Keep existing carousel functionality.
+
+Do NOT change card structure.
+
+When the section first enters the viewport:
+
+- section eyebrow/headline reveal first
+- cards rise/fade in with a very small stagger
+- navigation arrows appear subtly afterward
+
+Do not stagger by a large amount.
+
+The cards should feel like one composition, not four separate animations.
+
+On mobile:
+do not interfere with horizontal swipe behavior.
+
+==================================================
+7. APP SECTION — IMPORTANT SCROLL-LINKED MOMENT
+==================================================
+
+The TuranEliteLimo app section should receive one of the strongest motion treatments on the page.
+
+Do NOT copy Blacklane’s exact animation.
+
+Create a Turan-specific version.
+
+When entering the section:
+
+LEFT COPY:
+- eyebrow appears first
+- headline rises/fades subtly
+- body and store buttons follow
+
+RIGHT DEVICE VISUAL:
+- device composition enters slightly from the right
+- very small scale correction from approximately 0.98 → 1
+- no dramatic zoom
+
+As the user scrolls THROUGH and AWAY from the app section:
+
+Use scroll-linked opposing movement:
+
+- text column drifts slightly LEFT
+- device composition drifts slightly RIGHT
+
+At the same time:
+- both gradually reduce opacity slightly as they exit
+
+Important:
+this must be tied to scroll progress.
+
+It should feel like the section gently opens apart as the user leaves it.
+
+Do NOT move them far.
+
+Suggested maximum:
+approximately 30–60 px depending on viewport.
+
+Opacity should never become ghost-like while the section is still the main focus.
+
+==================================================
+8. APP SECTION MOBILE
+==================================================
+
+Mobile must have a separate motion treatment.
+
+Do NOT push content sideways far enough to create overflow.
+
+Instead:
+
+- copy can rise slightly
+- phone mockup can rise from below
+- store buttons reveal afterward
+- on exit, use a small upward drift and opacity reduction
+
+No horizontal overflow.
+
+==================================================
+9. STACKED STORY IMAGES
+==================================================
+
+IMPORTANT:
+
+The current stacked-story scroll behavior is already approved.
+
+DO NOT rewrite it.
+
+DO NOT:
+- change opacity behavior
+- reintroduce ghosting
+- change image order
+- change sticky behavior
+- change caption structure
+- change panel stacking
+
+Only integrate it cleanly with the overall page motion.
+
+The current cards must continue to behave like solid stacked panels:
+one lifts to reveal the next.
+
+Keep every active panel fully opaque.
+
+==================================================
+10. THREE STEPS
+==================================================
+
+The Three Steps section should feel elegant and ordered.
+
+When entering:
+
+- eyebrow reveals first
+- main headline reveals second
+- then 01 / 02 / 03 appear in sequence
+
+Use a restrained stagger.
+
+Suggested:
+roughly 60–100ms visual delay between each step.
+
+Within each step:
+number first,
+then heading,
+then body copy.
+
+Do NOT make each step animate dramatically.
+
+The emphasis should be on sequence and clarity.
+
+==================================================
+11. THREE STEPS MOBILE
+==================================================
+
+Mobile is vertical.
+
+Animate the steps as they enter individually.
+
+01
+then 02
+then 03
+
+Each can:
+- rise 12–20 px
+- fade from 0 → 1
+
+Do not make all three animate simultaneously if only one is visible.
+
+==================================================
+12. TURAN STANDARD — EDITORIAL SPLIT MOTION
+==================================================
+
+This section should have a refined opposing motion treatment.
+
+LEFT GREEN PRINCIPLE PANEL:
+
+On enter:
+- move slightly from left toward final position
+- fade in
+- quote itself may reveal after panel settles
+
+RIGHT CONTENT:
+
+- move slightly upward/right or simply rise
+- headline appears first
+- body copy follows
+- metrics appear last
+
+Keep movements small.
+
+Suggested:
+20–40 px maximum.
+
+Do NOT animate the green panel like a card flying onto the page.
+
+==================================================
+13. TURAN STANDARD METRICS
+==================================================
+
+Metrics:
+
+30+
+24/7
+45 MIN
+15 MIN
+
+should reveal with a subtle stagger.
+
+No number counting animation.
+
+Do NOT animate 30+ from 0 to 30.
+
+These are factual metrics, not dashboard counters.
+
+Simply reveal them cleanly.
+
+==================================================
+14. REVIEWS SECTION
+==================================================
+
+The Reviews section should feel calm and credible.
+
+On entry:
+
+- REVIEWS eyebrow reveals
+- “Real riders, real words.” rises/fades
+- supporting paragraph follows
+- Google Reviews and Yelp Reviews buttons appear last
+
+The two buttons can reveal together or with a tiny stagger.
+
+Do NOT animate fake stars or add rating animations.
+
+==================================================
+15. REVIEWS EXIT
+==================================================
+
+As the user leaves the green Reviews chapter and enters the terracotta CTA:
+
+Use a subtle transition between the two color chapters.
+
+Possible treatment:
+
+- reviews content drifts upward slightly
+- opacity softens
+- terracotta section enters from below naturally
+
+Do NOT crossfade the full background colors into muddy gradients.
+
+Keep the section color boundaries visually clean.
+
+==================================================
+16. FINAL TERRACOTTA CTA
+==================================================
+
+This is the final major editorial moment.
+
+On entry:
+
+- “YOUR RIDE STARTS HERE” appears first
+- large “Book in a few simple steps.” headline rises/fades in
+- right-side BOOK YOUR RIDE CTA follows slightly later
+
+The large headline may have a subtle scroll-linked upward drift as the user continues downward.
+
+Very subtle.
+
+Do NOT make it parallax excessively.
+
+==================================================
+17. FOOTER
+==================================================
+
+Footer motion should be minimal.
+
+On entry:
+- brand/contact/footer columns may fade upward slightly
+- no stagger longer than necessary
+- do not animate each footer link separately
+
+Footer should feel settled and usable.
+
+==================================================
+18. HEADER / NAVIGATION
+==================================================
+
+Do NOT add a flashy animated header.
+
+If the existing header is sticky:
+keep it.
+
+Optional:
+as user scrolls down, header background may become slightly more solid for legibility.
+
+Do NOT:
+- shrink dramatically
+- hide/reveal repeatedly
+- animate navigation items
+- create distracting motion
+
+==================================================
+19. BOOKING SECTION
+==================================================
+
+Do NOT redesign booking behavior.
+
+Keep:
+
+DESKTOP:
+- horizontal booking bar
+- expanded hero takeover interaction
+
+MOBILE:
+- stacked booking flow
+
+Existing field transitions should continue to work.
+
+Do not allow new page-scroll animations to conflict with an active booking state.
+
+When booking takeover is active:
+pause or suppress hero scroll-exit transforms if necessary.
+
+==================================================
+20. SCROLL DIRECTION
+==================================================
+
+Animations should behave sensibly when scrolling UP as well as DOWN.
+
+Do not create a page that only looks correct when scrolling down.
+
+For scroll-linked sections:
+movement should naturally reverse when scroll direction reverses.
+
+For one-time reveal animations:
+they may remain revealed once triggered.
+
+This is intentional.
+
+==================================================
+21. ONE-TIME REVEALS
+==================================================
+
+For small entrance reveals, use once:true behavior where appropriate.
+
+Example:
+
+first time user scrolls down:
+content reveals.
+
+If user scrolls back up:
+content stays visible.
+
+Do NOT replay every small fade repeatedly.
+
+This prevents the page from feeling gimmicky.
+
+==================================================
+22. SCROLL-LINKED SECTIONS
+==================================================
+
+For app-section exits, major editorial drift, and similar effects:
+
+these SHOULD respond continuously to scroll position.
+
+They should reverse naturally when scrolling back up.
+
+This distinction is important:
+
+SMALL CONTENT REVEALS:
+one time
+
+LARGE SCROLL-DRIVEN COMPOSITIONS:
+continuous and reversible
+
+==================================================
+23. MOBILE MOTION RULES
+==================================================
+
+Everything must be intentionally adapted for mobile.
+
+Do NOT copy desktop transform distances directly.
+
+Mobile motion should be simpler.
+
+Use:
+- vertical reveals
+- smaller translate values
+- very limited side movement
+- no horizontal overflow
+- no large parallax
+
+Preserve touch and scrolling performance.
+
+Do not interfere with:
+- horizontal service carousel swiping
+- booking inputs
+- buttons
+- sticky storytelling section
+
+==================================================
+24. TABLET
+==================================================
+
+Tablet should not blindly inherit either desktop or phone motion.
+
+Review at approximately:
+
+768×1024
+
+Ensure:
+- no oversized transform distances
+- no content clipping
+- no horizontal overflow
+- app section still feels balanced
+- Turan Standard motion remains clean
+
+==================================================
+25. ANIMATION DISTANCES
+==================================================
+
+Keep movement restrained.
+
+Typical values:
+
+Small text reveal:
+10–20 px
+
+Large content block:
+20–40 px
+
+App-section opposing exit:
+30–60 px maximum on desktop
+
+Scale:
+generally between 0.98 and 1.00
+
+Avoid:
+100+ px translations unless technically required by the existing stacked-story effect.
+
+==================================================
+26. OPACITY
+==================================================
+
+Do not make content semi-transparent for long periods.
+
+Content should quickly become fully readable once it becomes the primary focus.
+
+For scroll-linked exits:
+opacity reduction should be gradual and restrained.
+
+Never reproduce the old ghosting problem from the stacked images.
+
+==================================================
+27. EASING
+==================================================
+
+Use premium, restrained easing.
+
+Prefer:
+ease-out / smooth cubic-bezier curves.
+
+Avoid:
+spring/bounce.
+
+Suggested conceptual feel:
+smooth acceleration,
+soft deceleration,
+no snap.
+
+==================================================
+28. ACCESSIBILITY
+==================================================
+
+Respect:
+
+prefers-reduced-motion: reduce
+
+In reduced-motion mode:
+
+- remove scroll-linked translation/parallax
+- remove scale effects
+- keep content fully visible
+- preserve functionality
+- no content should depend on animation to become readable
+
+==================================================
+29. FINAL QA VIEWPORTS
+==================================================
+
+Test:
+
+DESKTOP:
+1440×1000
+
+TABLET:
+768×1024
+
+PHONE:
+390×844
+
+Verify:
+
+- no horizontal overflow
+- no jitter
+- no blank scroll gaps
+- no flashing
+- no content becoming stuck invisible
+- no sticky sections overlapping incorrectly
+- booking still works
+- mobile booking still works
+- service carousel still swipes
+- app buttons remain clickable
+- stacked story images still work perfectly
+- Reviews buttons remain clickable
+- CTA remains clickable
+
+==================================================
+30. MOTION QA — SCROLL DOWN
+==================================================
+
+Slowly scroll from top to bottom.
+
+Check:
+
+Hero:
+subtle entrance and exit only
+
+Service carousel:
+clean one-time reveal
+
+App:
+copy/device enter cleanly
+then separate subtly on scroll exit
+
+Stacked stories:
+existing approved panel reveal unchanged
+
+Three Steps:
+01 → 02 → 03 sequential reveal
+
+Turan Standard:
+editorial split reveal
+metrics stagger
+
+Reviews:
+calm trust-section reveal
+
+Terracotta CTA:
+strong but restrained entry
+
+Footer:
+minimal reveal
+
+==================================================
+31. MOTION QA — SCROLL UP
+==================================================
+
+Scroll back upward slowly.
+
+Verify:
+
+- large scroll-linked app motion reverses naturally
+- major scroll-linked transforms behave correctly
+- small one-time reveals do NOT unnecessarily replay
+- stacked story interaction remains correct
+- no ghosting
+- no jumpy section resets
+
+==================================================
+32. DO NOT CHANGE CONTENT OR DESIGN
+==================================================
+
+If any animation requires changing layout significantly:
+STOP and use a simpler animation instead.
+
+The design is approved.
+
+Motion must serve the design, not force the design to change.
+
+==================================================
+33. REPORT BACK
+==================================================
+
+At the end, report:
+
+1. which sections received one-time reveals
+2. which sections received scroll-linked motion
+3. exact motion treatment used for the App section
+4. exact motion treatment used for Turan Standard
+5. exact motion treatment used for Reviews
+6. exact motion treatment used for the final CTA
+7. how mobile motion differs from desktop
+8. how prefers-reduced-motion was handled
+9. confirmation that booking behavior was not redesigned
+10. confirmation that stacked-story mechanics were not changed
+11. confirmation that no horizontal overflow exists at desktop/tablet/mobile
