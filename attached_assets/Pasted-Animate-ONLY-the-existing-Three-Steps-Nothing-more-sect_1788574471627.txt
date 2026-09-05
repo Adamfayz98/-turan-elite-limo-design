@@ -1,0 +1,138 @@
+Animate ONLY the existing “Three Steps. Nothing more.” section shown in the attached screenshot.
+
+IMPORTANT:
+Do NOT redesign this section.
+Do NOT change:
+- layout
+- spacing structure
+- typography
+- colors
+- wording
+- section height
+- desktop/mobile responsive structure
+
+This task is motion only.
+
+DESKTOP MOTION:
+
+When the section first enters the viewport:
+
+1. “HOW IT WORKS” appears first
+   - subtle fade in
+   - slight upward movement, about 10–14 px
+
+2. “Three steps. Nothing more.” appears next
+   - fade in
+   - slight upward movement, about 14–18 px
+   - keep movement restrained and editorial
+
+3. Then reveal the three steps in order:
+   01 → 02 → 03
+
+For each step:
+- number appears first
+- heading appears immediately after
+- body copy follows last
+
+Use only a small delay between each piece.
+
+Suggested feel:
+- around 70–100ms between number → heading → body
+- around 100–140ms between Step 01 → Step 02 → Step 03
+
+Do NOT make the sequence feel slow or theatrical.
+
+The whole section should feel calm, premium, and deliberate.
+
+MOVEMENT:
+- vertical movement only
+- approximately 12–20 px
+- no sideways flying
+- no bounce
+- no spring
+- no rotation
+- no zoom
+
+IMPORTANT:
+There is currently a vertical line visible near “02” in the section.
+
+Do NOT leave that as a random visual artifact.
+
+Either:
+- remove it if it is accidental
+
+OR, if it belongs to the current animation implementation:
+- turn it into a very subtle intentional guide that briefly draws downward during the reveal and then fades away
+
+It must not remain as a distracting permanent line.
+
+ONE-TIME BEHAVIOR:
+
+This should be a one-time reveal.
+
+When the user scrolls down the first time:
+- animate the section
+
+When the user scrolls back up and down again:
+- keep the section fully visible
+- do NOT replay the entire animation repeatedly
+
+MOBILE:
+
+Keep the existing mobile vertical layout.
+
+Do NOT animate all three steps at once.
+
+On mobile:
+- reveal Step 01 when it enters the viewport
+- reveal Step 02 when it enters
+- reveal Step 03 when it enters
+
+For each mobile step:
+- number first
+- heading next
+- body last
+- slight 12–18 px upward movement
+- fade to full opacity
+
+Do not create horizontal motion or overflow.
+
+TABLET:
+Adapt naturally between the desktop and mobile behavior without clipping or overlap.
+
+ACCESSIBILITY:
+Respect prefers-reduced-motion.
+
+With reduced motion enabled:
+- show all content immediately
+- opacity 1
+- no transforms
+- no stagger required
+
+VERIFY BEFORE FINISHING:
+
+Desktop:
+1440×1000
+
+Tablet:
+768×1024
+
+Phone:
+390×844
+
+Confirm:
+- section design did not change
+- 01 → 02 → 03 reveal is visible
+- no random vertical line remains
+- no horizontal overflow
+- animation runs only once
+- mobile steps reveal individually
+- reduced-motion behavior works
+
+At the end, tell me:
+1. exactly how you animated the eyebrow
+2. exactly how you animated the main headline
+3. timing/stagger used for 01 / 02 / 03
+4. what happened to the vertical line near 02
+5. how mobile behavior differs from desktop
+6. confirmation that the section layout/design was not changed
