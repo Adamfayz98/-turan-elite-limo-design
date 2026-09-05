@@ -7,4 +7,4 @@ Use one-time entrance reveals for small text groups, labels, controls, cards, an
 
 **Why:** The homepage should feel calm and responsive to scrolling without replaying small effects, trapping elements in exit states, or turning motion into spectacle.
 
-**How to apply:** Keep transforms restrained and reset them to neutral when scrolling back above an exit range. For vertical mobile sequences after a long sticky chapter, use a deliberate in-viewport trigger line so later items cannot reveal early. Reduced motion must render all content immediately with no linked transforms.
+**How to apply:** Keep transforms restrained and reset them to neutral when scrolling back above an exit range. After a long sticky chapter, use a narrow mobile observer band shorter than the gap between stacked items so adjacent steps cannot reveal together. Reduced motion must render all content immediately with no linked transforms.

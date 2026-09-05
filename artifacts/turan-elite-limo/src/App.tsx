@@ -1,4 +1,5 @@
 import { type FormEvent, type ReactNode, useEffect, useState, useRef } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ArrowRight, CalendarDays, Check, Clock3, Globe2, Menu, ShieldCheck, Sparkles, Star, UserRound, X, MapPin, Plane, ChevronLeft, ChevronRight, Quote } from 'lucide-react';
 import { ErrorBoundary } from '@/components/error-boundary';
@@ -962,76 +963,99 @@ function StackedStory() {
 }
 
 function Process() {
-  const sectionRef = useRef<HTMLElement>(null);
+  const prefersReducedMotion = useReducedMotion();
+  const [isDesktop, setIsDesktop] = useState(true);
+  const pieceStagger = 0.08;
+  const stepStagger = 0.12;
 
   useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
-
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const header = section.querySelector<HTMLElement>('[data-process-header]');
-    const steps = Array.from(section.querySelectorAll<HTMLElement>('[data-process-step]'));
-    const timers: number[] = [];
-
-    const show = (element: Element | null, delay = 0) => {
-      if (!element) return;
-      timers.push(window.setTimeout(() => element.classList.add('is-visible'), reducedMotion ? 0 : delay));
-    };
-
-    if (reducedMotion) {
-      section.querySelectorAll<HTMLElement>('.sequence-reveal').forEach((element) => show(element));
-      return () => timers.forEach(window.clearTimeout);
-    }
-
-    const headerObserver = new IntersectionObserver(([entry]) => {
-      if (!entry?.isIntersecting) return;
-      const items = Array.from(header?.querySelectorAll<HTMLElement>('.sequence-reveal') ?? []);
-      items.forEach((item, index) => show(item, index * 90));
-      headerObserver.disconnect();
-    }, { threshold: 0.08 });
-
-    if (header) headerObserver.observe(header);
-
-    const stepObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        const step = entry.target as HTMLElement;
-        const stepIndex = steps.indexOf(step);
-        const items = Array.from(step.querySelectorAll<HTMLElement>('.sequence-reveal'));
-        const desktopOffset = window.innerWidth >= 1024 ? stepIndex * 240 : 0;
-        items.forEach((item, itemIndex) => show(item, desktopOffset + itemIndex * 80));
-        stepObserver.unobserve(step);
-      });
-    }, { threshold: 0.08, rootMargin: '0px 0px -32% 0px' });
-
-    steps.forEach((step) => stepObserver.observe(step));
-
-    return () => {
-      headerObserver.disconnect();
-      stepObserver.disconnect();
-      timers.forEach(window.clearTimeout);
-    };
+    const mq = window.matchMedia('(min-width: 1024px)');
+    setIsDesktop(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
   }, []);
 
+  const getVariants = (delay: number, yMove: number = 18) => ({
+    hidden: { opacity: 0, y: yMove },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.7,
+        ease: [0.22, 1, 0.36, 1],
+        delay: delay
+      }
+    }
+  });
+
+  const reducedMotionVariants = {
+    hidden: { opacity: 1, y: 0 },
+    visible: { opacity: 1, y: 0 }
+  };
+
   return (
-    <section ref={sectionRef} id="process" className="bg-[#e9dfcf] py-28 sm:py-40">
+    <section id="process" className="bg-[#e9dfcf] py-28 sm:py-40" data-process-section>
       <div className="container-edge">
-        <div data-process-header className="flex flex-col items-center text-center">
-          <span className="sequence-reveal font-mono-ui text-[9px] uppercase tracking-[.2em] text-[#bc754e]">How it works</span>
-          <h2 className="sequence-reveal mt-5 max-w-[650px] font-display text-[clamp(3.2rem,6vw,5.5rem)] leading-[.95] tracking-[-.03em]">Three steps.<br /><i>Nothing more.</i></h2>
-        </div>
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-10%" }}
+          className="flex flex-col items-center text-center"
+          data-process-header
+        >
+          <motion.span
+            variants={prefersReducedMotion ? reducedMotionVariants : getVariants(0, 12)}
+            className="font-mono-ui text-[9px] uppercase tracking-[.2em] text-[#bc754e]"
+          >
+            How it works
+          </motion.span>
+          <motion.h2
+            variants={prefersReducedMotion ? reducedMotionVariants : getVariants(0.15, 16)}
+            className="mt-5 max-w-[650px] font-display text-[clamp(3.2rem,6vw,5.5rem)] leading-[.95] tracking-[-.03em]"
+          >
+            Three steps.<br /><i>Nothing more.</i>
+          </motion.h2>
+        </motion.div>
         
         <div className="mt-[86px] flex flex-col lg:grid lg:grid-cols-3 gap-16 lg:gap-12 relative max-w-[1000px] mx-auto">
           {[['01', 'Tell us where and when', 'Choose your pickup, destination, date and time.'], 
             ['02', 'Choose your ride', 'Select from sedans, SUVs and specialty vehicles tailored to your trip.'], 
             ['03', 'We handle the rest', 'A professional chauffeur arrives on time and gets you there safely.']
-           ].map(([num, title, copy], index) => (
-            <div key={num} data-process-step className="flex flex-col items-start text-left lg:items-center lg:text-center">
-              <span className="sequence-reveal font-display text-6xl text-[#193f3e]/60 mb-6 font-medium">{num}</span>
-              <h3 className="sequence-reveal font-display text-2xl mb-4">{title}</h3>
-              <p className="sequence-reveal text-[15px] leading-[1.7] text-[#193f3e]/80 max-w-[280px] font-medium">{copy}</p>
-            </div>
-          ))}
+           ].map(([num, title, copy], index) => {
+            const baseDelay = isDesktop ? 0.35 + (index * stepStagger) : 0;
+            const useVariants = prefersReducedMotion ? reducedMotionVariants : undefined;
+
+            return (
+              <motion.div
+                key={num}
+                initial="hidden"
+                whileInView="visible"
+                 viewport={{ once: true, margin: isDesktop ? "-10%" : "-65% 0px -20% 0px" }}
+                className="flex flex-col items-start text-left lg:items-center lg:text-center"
+                 data-process-step
+              >
+                <motion.span
+                  variants={useVariants || getVariants(baseDelay, 14)}
+                  className="font-display text-6xl text-[#193f3e]/60 mb-6 font-medium"
+                >
+                  {num}
+                </motion.span>
+                <motion.h3
+                  variants={useVariants || getVariants(baseDelay + pieceStagger, 14)}
+                  className="font-display text-2xl mb-4"
+                >
+                  {title}
+                </motion.h3>
+                <motion.p
+                  variants={useVariants || getVariants(baseDelay + (pieceStagger * 2), 14)}
+                  className="text-[15px] leading-[1.7] text-[#193f3e]/80 max-w-[280px] font-medium"
+                >
+                  {copy}
+                </motion.p>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>
