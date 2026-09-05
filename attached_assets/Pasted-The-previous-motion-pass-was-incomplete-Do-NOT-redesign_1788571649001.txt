@@ -1,0 +1,250 @@
+The previous motion pass was incomplete.
+
+Do NOT redesign the homepage.
+Do NOT change content, layout, colors, typography, booking logic, section order, or the approved stacked-story mechanics.
+
+This pass is ONLY to complete the missing scroll/reveal motion across the homepage.
+
+IMPORTANT:
+The app section is currently the only section clearly receiving the new motion treatment, and even that motion ends too early.
+
+I want a visible motion system across EACH of the following sections:
+
+1. Service carousel
+2. TuranEliteLimo App
+3. Three Steps
+4. Turan Standard
+5. Reviews
+6. Final terracotta CTA
+7. Footer
+
+The stacked 3-image story section already has its approved scroll animation.
+DO NOT TOUCH IT.
+
+==================================================
+1. SERVICE CAROUSEL
+==================================================
+
+On first viewport entry:
+
+- section eyebrow/headline should reveal subtly
+- cards should rise/fade in with a small stagger
+- navigation arrows appear slightly after
+
+This is a ONE-TIME reveal.
+
+Do not replay it every time the user scrolls back up.
+
+==================================================
+2. APP SECTION — COMPLETE THE EXISTING MOTION
+==================================================
+
+The app section already has some scroll-linked motion, but it stops too early.
+
+Fix it.
+
+The animation should respond across the full section scroll progress:
+
+ENTER:
+- copy appears/rises subtly
+- device composition enters from the right
+- device scale can move very subtly from ~0.98 to 1
+
+CENTER / FULLY ACTIVE:
+- both columns settle naturally
+- both are fully readable and fully opaque
+
+EXIT:
+- text column gradually drifts left
+- device composition gradually drifts right
+- both reduce opacity slightly as the section exits
+
+IMPORTANT:
+This movement must continue for the entire relevant scroll range of the section.
+
+Do not start the exit motion and then stop before the section leaves.
+
+The motion should reverse naturally if the user scrolls back up.
+
+==================================================
+3. THREE STEPS
+==================================================
+
+This section currently feels static.
+
+Add the requested sequential reveal:
+
+- “HOW IT WORKS” appears
+- main headline appears
+- then Step 01
+- then Step 02
+- then Step 03
+
+Within each step:
+- number first
+- headline second
+- body third
+
+Keep the stagger subtle.
+
+Desktop:
+01 → 02 → 03 across the row.
+
+Mobile:
+each step reveals individually as it enters the viewport.
+
+This is a ONE-TIME reveal.
+
+==================================================
+4. TURAN STANDARD
+==================================================
+
+This section currently feels static.
+
+Add a restrained editorial split reveal.
+
+LEFT GREEN PANEL:
+- enters slightly from the left
+- fades to full opacity
+- quote appears shortly after
+
+RIGHT CONTENT:
+- headline rises/fades in
+- body follows
+- metrics appear last
+
+Metrics:
+30+
+24/7
+45 MIN
+15 MIN
+
+Reveal metrics with a subtle stagger.
+
+Do NOT count numbers up.
+
+Keep movement small and premium.
+
+==================================================
+5. REVIEWS
+==================================================
+
+This section currently appears fully static.
+
+Add a calm one-time reveal sequence:
+
+- REVIEWS eyebrow
+- “Real riders, real words.”
+- supporting paragraph
+- Google Reviews / Yelp Reviews buttons
+- small footer micro-copy last
+
+Do not add fake ratings or stars.
+
+==================================================
+6. FINAL TERRACOTTA CTA
+==================================================
+
+Add a clear but restrained entrance:
+
+- “YOUR RIDE STARTS HERE”
+- large “Book in a few simple steps.”
+- BOOK YOUR RIDE CTA
+
+The large headline may drift upward very slightly with scroll after entering.
+
+Do not use dramatic parallax.
+
+==================================================
+7. FOOTER
+==================================================
+
+Keep footer motion minimal.
+
+On first entry:
+- footer columns fade/rise slightly as groups
+
+Do NOT animate every link individually.
+
+==================================================
+8. MOTION RULES
+==================================================
+
+Use TWO motion types only:
+
+ONE-TIME REVEALS:
+- service carousel
+- Three Steps
+- Turan Standard content
+- Reviews
+- Footer
+
+SCROLL-LINKED / REVERSIBLE:
+- App section exit/entry
+- very subtle Final CTA drift only
+
+Do not make everything scroll-linked.
+
+==================================================
+9. DO NOT BREAK MOBILE
+==================================================
+
+Everything must work on:
+
+Desktop: 1440×1000
+Tablet: 768×1024
+Phone: 390×844
+
+Mobile motion should use smaller translation distances.
+
+No horizontal overflow.
+
+Do not interfere with:
+- mobile booking
+- service carousel swipe
+- buttons
+- stacked stories
+
+==================================================
+10. ACCESSIBILITY
+==================================================
+
+Respect prefers-reduced-motion.
+
+With reduced motion:
+- remove scroll-linked translations
+- remove nonessential fades/transforms
+- show all content normally
+
+==================================================
+11. REQUIRED VERIFICATION
+==================================================
+
+Before saying this is complete:
+
+Record or inspect a FULL top-to-bottom scroll and verify visibly that:
+
+- Service carousel animates
+- App section motion continues through the full section
+- Three Steps animates 01 → 02 → 03
+- Turan Standard panel/content/metrics animate
+- Reviews animate
+- Final CTA animates
+- Footer has subtle entry
+- stacked-story section remains unchanged
+- no section is accidentally static unless intentionally specified
+
+If any named section above is still static, the motion pass is NOT complete.
+
+==================================================
+12. REPORT BACK
+==================================================
+
+At the end, list:
+
+- exact animation added to each named section
+- which are one-time
+- which are scroll-linked
+- how the App section’s scroll range was extended
+- confirmation that stacked stories were untouched
+- confirmation that desktop/tablet/mobile were checked

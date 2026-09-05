@@ -647,7 +647,7 @@ function ServiceSlider() {
             <h2 className="reveal delay-1 mt-5 max-w-[620px] font-display text-[clamp(2.8rem,6vw,5.5rem)] leading-[.95] tracking-[-.04em]">The ride is<br /><i>part of the occasion.</i></h2>
           </div>
           
-          <div className="reveal delay-2 hidden md:flex gap-3 pb-2">
+          <div className="reveal delay-5 hidden md:flex gap-3 pb-2">
             <button onClick={prev} className="w-12 h-12 rounded-full border border-[#193f3e]/20 flex items-center justify-center text-[#193f3e] hover:bg-[#193f3e] hover:text-[#f6f1e8] transition-colors"><ChevronLeft size={20} strokeWidth={1.5} /></button>
             <button onClick={next} className="w-12 h-12 rounded-full border border-[#193f3e]/20 flex items-center justify-center text-[#193f3e] hover:bg-[#193f3e] hover:text-[#f6f1e8] transition-colors"><ChevronRight size={20} strokeWidth={1.5} /></button>
           </div>
@@ -673,7 +673,7 @@ function ServiceSlider() {
             ))}
           </div>
           
-          <div className="flex justify-center gap-4 mt-12 md:hidden">
+          <div className="reveal delay-5 flex justify-center gap-4 mt-12 md:hidden">
             <button onClick={prev} className="w-12 h-12 rounded-full border border-[#193f3e]/20 flex items-center justify-center text-[#193f3e] hover:bg-[#193f3e] hover:text-[#f6f1e8] transition-colors"><ChevronLeft size={20} strokeWidth={1.5} /></button>
             <button onClick={next} className="w-12 h-12 rounded-full border border-[#193f3e]/20 flex items-center justify-center text-[#193f3e] hover:bg-[#193f3e] hover:text-[#f6f1e8] transition-colors"><ChevronRight size={20} strokeWidth={1.5} /></button>
           </div>
@@ -687,24 +687,49 @@ function AppSection() {
   const sectionRef = useRef<HTMLElement>(null);
   
   useScrollLinked(sectionRef, (rect, isMobile) => {
-    const exitProgress = Math.max(0, Math.min(1, -rect.top / 600));
-    
+    const windowHeight = window.innerHeight;
+    const rectHeight = rect.height || 600;
+
+    let enterProgress = 0;
+    let exitProgress = 0;
+
+    if (rect.top > 0) {
+      enterProgress = Math.max(0, Math.min(1, 1 - (rect.top / windowHeight)));
+    } else {
+      exitProgress = Math.max(0, Math.min(1, -rect.top / rectHeight));
+    }
+
     const textCol = sectionRef.current?.querySelector('#app-text-col') as HTMLElement;
     const deviceCol = sectionRef.current?.querySelector('#app-device-col') as HTMLElement;
 
     if (textCol && deviceCol) {
-      if (isMobile) {
-        const drift = exitProgress * 30; // max 30px
-        textCol.style.transform = `translateY(${-drift * 0.5}px)`;
-        deviceCol.style.transform = `translateY(${-drift}px)`;
-        textCol.style.opacity = `${1 - exitProgress * 0.2}`;
-        deviceCol.style.opacity = `${1 - exitProgress * 0.2}`;
+      if (rect.top > 0) {
+        const unreached = 1 - enterProgress;
+        if (isMobile) {
+          textCol.style.transform = `translateY(${unreached * 24}px)`;
+          deviceCol.style.transform = `translateY(${unreached * 32}px)`;
+          textCol.style.opacity = `${enterProgress}`;
+          deviceCol.style.opacity = `${enterProgress}`;
+        } else {
+          deviceCol.style.transform = `translateX(${unreached * 40}px) scale(${1 - (unreached * 0.02)})`;
+          textCol.style.transform = `translateY(${unreached * 24}px)`;
+          textCol.style.opacity = `${enterProgress}`;
+          deviceCol.style.opacity = `${enterProgress}`;
+        }
       } else {
-        const drift = exitProgress * 50; // max 50px
-        textCol.style.transform = `translateX(${-drift}px)`;
-        deviceCol.style.transform = `translateX(${drift}px)`;
-        textCol.style.opacity = `${1 - exitProgress * 0.25}`;
-        deviceCol.style.opacity = `${1 - exitProgress * 0.25}`;
+        if (isMobile) {
+          const drift = exitProgress * 30;
+          textCol.style.transform = `translateY(${-drift * 0.5}px)`;
+          deviceCol.style.transform = `translateY(${-drift}px)`;
+          textCol.style.opacity = `${1 - exitProgress * 0.2}`;
+          deviceCol.style.opacity = `${1 - exitProgress * 0.2}`;
+        } else {
+          const drift = exitProgress * 50;
+          textCol.style.transform = `translateX(${-drift}px)`;
+          deviceCol.style.transform = `translateX(${drift}px) scale(1)`;
+          textCol.style.opacity = `${1 - exitProgress * 0.25}`;
+          deviceCol.style.opacity = `${1 - exitProgress * 0.25}`;
+        }
       }
     }
   });
@@ -713,11 +738,11 @@ function AppSection() {
     <section ref={sectionRef} className="bg-[#f6f1e8] py-28 sm:py-40 border-t border-[#193f3e]/10 overflow-hidden relative">
       <div className="container-edge grid gap-12 lg:grid-cols-[1fr_1.2fr] lg:gap-24 lg:items-center">
         <div id="app-text-col" className="will-change-transform">
-          <span className="reveal font-mono-ui text-[10px] uppercase tracking-[.2em] text-[#bc754e] font-medium">The TuranEliteLimo App</span>
-          <h2 className="reveal delay-1 mt-5 max-w-[500px] font-display text-[clamp(3.2rem,5vw,4.5rem)] leading-[1.05] tracking-[-.03em]">TuranEliteLimo,<br /><i>wherever you go.</i></h2>
-          <p className="reveal delay-2 mt-8 text-[15px] leading-[1.8] text-[#193f3e]/80 max-w-[400px] font-medium">Book and manage your rides from one place. Your chauffeur service stays within reach whenever you need it.</p>
+          <span className="font-mono-ui text-[10px] uppercase tracking-[.2em] text-[#bc754e] font-medium">The TuranEliteLimo App</span>
+          <h2 className="mt-5 max-w-[500px] font-display text-[clamp(3.2rem,5vw,4.5rem)] leading-[1.05] tracking-[-.03em]">TuranEliteLimo,<br /><i>wherever you go.</i></h2>
+          <p className="mt-8 text-[15px] leading-[1.8] text-[#193f3e]/80 max-w-[400px] font-medium">Book and manage your rides from one place. Your chauffeur service stays within reach whenever you need it.</p>
           
-          <div className="reveal delay-3 mt-12 hidden lg:flex flex-col sm:flex-row gap-4">
+          <div className="mt-12 hidden lg:flex flex-col sm:flex-row gap-4">
              <button type="button" onClick={(e) => e.preventDefault()} className="w-full sm:w-[200px] h-[54px] rounded-full border border-[#193f3e]/20 bg-white text-[#193f3e] flex items-center justify-center gap-3 hover:border-[#193f3e]/50 hover:bg-[#e9dfcf] transition-colors shadow-sm" data-testid="button-app-store">
                <span className="font-mono-ui text-[10px] uppercase tracking-[.12em] font-bold">Download on the App Store</span>
              </button>
@@ -728,7 +753,7 @@ function AppSection() {
         </div>
         
         <div id="app-device-col" className="will-change-transform">
-          <div className="reveal-scale delay-2 relative w-full h-[500px] sm:h-[600px] bg-[#e9dfcf]/60 rounded-[4px] overflow-hidden flex items-end justify-center shadow-[inset_0_2px_20px_rgba(0,0,0,0.02)] border border-[#193f3e]/5">
+          <div className="relative w-full h-[500px] sm:h-[600px] bg-[#e9dfcf]/60 rounded-[4px] overflow-hidden flex items-end justify-center shadow-[inset_0_2px_20px_rgba(0,0,0,0.02)] border border-[#193f3e]/5">
            {/* Decorative circles */}
            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full border border-[#193f3e]/5 pointer-events-none" />
            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full border border-[#193f3e]/5 pointer-events-none" />
@@ -937,12 +962,63 @@ function StackedStory() {
 }
 
 function Process() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const header = section.querySelector<HTMLElement>('[data-process-header]');
+    const steps = Array.from(section.querySelectorAll<HTMLElement>('[data-process-step]'));
+    const timers: number[] = [];
+
+    const show = (element: Element | null, delay = 0) => {
+      if (!element) return;
+      timers.push(window.setTimeout(() => element.classList.add('is-visible'), reducedMotion ? 0 : delay));
+    };
+
+    if (reducedMotion) {
+      section.querySelectorAll<HTMLElement>('.sequence-reveal').forEach((element) => show(element));
+      return () => timers.forEach(window.clearTimeout);
+    }
+
+    const headerObserver = new IntersectionObserver(([entry]) => {
+      if (!entry?.isIntersecting) return;
+      const items = Array.from(header?.querySelectorAll<HTMLElement>('.sequence-reveal') ?? []);
+      items.forEach((item, index) => show(item, index * 90));
+      headerObserver.disconnect();
+    }, { threshold: 0.08 });
+
+    if (header) headerObserver.observe(header);
+
+    const stepObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const step = entry.target as HTMLElement;
+        const stepIndex = steps.indexOf(step);
+        const items = Array.from(step.querySelectorAll<HTMLElement>('.sequence-reveal'));
+        const desktopOffset = window.innerWidth >= 1024 ? stepIndex * 240 : 0;
+        items.forEach((item, itemIndex) => show(item, desktopOffset + itemIndex * 80));
+        stepObserver.unobserve(step);
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -32% 0px' });
+
+    steps.forEach((step) => stepObserver.observe(step));
+
+    return () => {
+      headerObserver.disconnect();
+      stepObserver.disconnect();
+      timers.forEach(window.clearTimeout);
+    };
+  }, []);
+
   return (
-    <section id="process" className="bg-[#e9dfcf] py-28 sm:py-40">
+    <section ref={sectionRef} id="process" className="bg-[#e9dfcf] py-28 sm:py-40">
       <div className="container-edge">
-        <div className="flex flex-col items-center text-center">
-          <span className="reveal font-mono-ui text-[9px] uppercase tracking-[.2em] text-[#bc754e]">How it works</span>
-          <h2 className="reveal delay-1 mt-5 max-w-[650px] font-display text-[clamp(3.2rem,6vw,5.5rem)] leading-[.95] tracking-[-.03em]">Three steps.<br /><i>Nothing more.</i></h2>
+        <div data-process-header className="flex flex-col items-center text-center">
+          <span className="sequence-reveal font-mono-ui text-[9px] uppercase tracking-[.2em] text-[#bc754e]">How it works</span>
+          <h2 className="sequence-reveal mt-5 max-w-[650px] font-display text-[clamp(3.2rem,6vw,5.5rem)] leading-[.95] tracking-[-.03em]">Three steps.<br /><i>Nothing more.</i></h2>
         </div>
         
         <div className="mt-[86px] flex flex-col lg:grid lg:grid-cols-3 gap-16 lg:gap-12 relative max-w-[1000px] mx-auto">
@@ -950,10 +1026,10 @@ function Process() {
             ['02', 'Choose your ride', 'Select from sedans, SUVs and specialty vehicles tailored to your trip.'], 
             ['03', 'We handle the rest', 'A professional chauffeur arrives on time and gets you there safely.']
            ].map(([num, title, copy], index) => (
-            <div key={num} className={`reveal delay-${index + 1} flex flex-col items-start text-left lg:items-center lg:text-center`}>
-              <span className="font-display text-6xl text-[#193f3e]/60 mb-6 font-medium">{num}</span>
-              <h3 className="font-display text-2xl mb-4">{title}</h3>
-              <p className="text-[15px] leading-[1.7] text-[#193f3e]/80 max-w-[280px] font-medium">{copy}</p>
+            <div key={num} data-process-step className="flex flex-col items-start text-left lg:items-center lg:text-center">
+              <span className="sequence-reveal font-display text-6xl text-[#193f3e]/60 mb-6 font-medium">{num}</span>
+              <h3 className="sequence-reveal font-display text-2xl mb-4">{title}</h3>
+              <p className="sequence-reveal text-[15px] leading-[1.7] text-[#193f3e]/80 max-w-[280px] font-medium">{copy}</p>
             </div>
           ))}
         </div>
@@ -969,10 +1045,10 @@ function Standard() {
         <div className="reveal-left relative min-h-[400px] sm:min-h-[500px] w-full overflow-hidden bg-[#193f3e] p-8 sm:p-14 text-[#f6f1e8] flex flex-col justify-between shadow-xl">
           <div className="absolute -right-20 top-10 h-[300px] w-[300px] sm:h-[400px] sm:w-[400px] rounded-full border border-[#d19a5c]/20 pointer-events-none" />
           <div className="absolute -right-4 top-24 h-[180px] w-[180px] sm:h-[250px] sm:w-[250px] rounded-full border border-[#d19a5c]/20 pointer-events-none" />
-          <span className="relative font-mono-ui text-[10px] uppercase tracking-[.2em] text-[#d19a5c]">Step in. Breathe out.</span>
+          <span className="reveal delay-2 relative font-mono-ui text-[10px] uppercase tracking-[.2em] text-[#d19a5c]">Step in. Breathe out.</span>
           <div className="relative z-10 mt-auto">
-            <p className="reveal delay-2 font-display text-[clamp(2.5rem,4vw,3.5rem)] leading-[1.05]">“The luxury is<br /><i>the lack of friction.”</i></p>
-            <div className="reveal delay-3 mt-10 flex items-center gap-4">
+            <p className="reveal delay-4 font-display text-[clamp(2.5rem,4vw,3.5rem)] leading-[1.05]">“The luxury is<br /><i>the lack of friction.”</i></p>
+            <div className="reveal delay-5 mt-10 flex items-center gap-4">
               <span className="flex h-10 w-10 items-center justify-center rounded-full border border-[#d19a5c]/40 bg-[#d19a5c]/10"><ShieldCheck size={16} className="text-[#d19a5c]" /></span>
               <span className="font-mono-ui text-[9px] uppercase tracking-[.15em] text-[#dbe0d6]/70">Our operating principle</span>
             </div>
@@ -985,7 +1061,7 @@ function Standard() {
           
           <div className="mt-12 grid grid-cols-2 gap-x-8 gap-y-10 border-t border-[#193f3e]/20 pt-10">
             {[['30+', 'NorCal Cities'], ['24/7', 'Live Dispatch'], ['45 MIN', 'Airport Grace Period'], ['15 MIN', 'Standard Pickup Grace Period']].map(([value, label], index) => (
-              <div key={label} className={`reveal delay-${(index % 4) + 1}`}>
+              <div key={label} className={`reveal delay-${(index % 4) + 3}`}>
                 <strong className="block font-display text-4xl lg:text-5xl font-medium text-[#193f3e]">{value}</strong>
                 <span className="mt-3 block font-mono-ui text-[10px] uppercase tracking-[.15em] text-[#193f3e]/70 font-medium">{label}</span>
               </div>
@@ -1004,9 +1080,9 @@ function Footer() {
   useScrollLinked(footerRef, (rect, isMobile) => {
     const visibleAmount = window.innerHeight - rect.top;
     const progress = Math.max(0, Math.min(1, visibleAmount / window.innerHeight));
-    const ctaHeader = footerRef.current?.querySelector('#cta-header') as HTMLElement;
+    const ctaHeader = footerRef.current?.querySelector('#cta-headline') as HTMLElement;
     if (ctaHeader) {
-      ctaHeader.style.transform = `translateY(${(1 - progress) * 25}px)`;
+      ctaHeader.style.transform = `translateY(${(1 - progress) * 15}px)`;
     }
   });
 
@@ -1015,9 +1091,11 @@ function Footer() {
       <div className="absolute top-0 right-0 w-[800px] h-[800px] rounded-full border border-[#193f3e]/10 -translate-y-1/2 translate-x-1/3 pointer-events-none" />
       <div className="container-edge py-24 sm:py-32 relative z-10">
         <div className="flex flex-col justify-between gap-10 sm:gap-12 lg:flex-row lg:items-end">
-          <div id="cta-header" className="will-change-transform">
+          <div>
             <span className="reveal font-mono-ui text-[10px] uppercase tracking-[.2em] font-medium">Your ride starts here</span>
-            <h2 className="reveal delay-1 mt-6 max-w-[700px] font-display text-[clamp(3.5rem,8vw,7rem)] leading-[.85] tracking-[-.04em]">Book in a few<br /><i>simple steps.</i></h2>
+            <div id="cta-headline" className="will-change-transform">
+              <h2 className="reveal delay-1 mt-6 max-w-[700px] font-display text-[clamp(3.5rem,8vw,7rem)] leading-[.85] tracking-[-.04em]">Book in a few<br /><i>simple steps.</i></h2>
+            </div>
           </div>
           <button onClick={jump} className="reveal delay-2 group flex w-full justify-between sm:w-auto sm:justify-start items-center gap-4 border-b-2 border-[#193f3e] pb-3 sm:pb-3 text-left font-mono-ui text-[12px] uppercase tracking-[.16em] font-bold hover:text-[#f6f1e8] hover:border-[#f6f1e8] transition-colors" data-testid="button-footer-book">
             <span>Book Your Ride</span> <ArrowRight size={18} className="transition-transform group-hover:translate-x-2" />
@@ -1075,21 +1153,9 @@ function Footer() {
 }
 
 function Reviews() {
-  const sectionRef = useRef<HTMLElement>(null);
-  
-  useScrollLinked(sectionRef, (rect, isMobile) => {
-    const exitProgress = Math.max(0, Math.min(1, -rect.top / (rect.height * 0.8)));
-
-    const content = sectionRef.current?.querySelector('#reviews-content') as HTMLElement;
-    if (content) {
-       content.style.transform = `translateY(${-exitProgress * 40}px)`;
-       content.style.opacity = `${1 - exitProgress * 0.3}`;
-    }
-  });
-
   return (
-    <section ref={sectionRef} className="bg-[#193f3e] text-[#f6f1e8] py-28 sm:py-40 border-t border-white/5 relative z-0 overflow-hidden">
-      <div id="reviews-content" className="container-edge flex flex-col items-center text-center will-change-transform">
+    <section className="bg-[#193f3e] text-[#f6f1e8] py-28 sm:py-40 border-t border-white/5 relative z-0 overflow-hidden">
+      <div className="container-edge flex flex-col items-center text-center">
         <span className="reveal font-mono-ui text-[10px] uppercase tracking-[.25em] text-[#d19a5c] font-medium mb-6 block">Reviews</span>
         <h2 className="reveal delay-1 max-w-[800px] font-display text-[clamp(3.5rem,7vw,5.5rem)] leading-[.9] tracking-[-.02em] text-[#f6f1e8]">Real riders,<br /><i>real words.</i></h2>
         <p className="reveal delay-2 mt-8 text-[15px] md:text-[16px] leading-[1.8] text-[#dbe0d6]/80 max-w-[480px] font-medium">On Google and Yelp — where our clients can leave their honest, verified impressions of our chauffeurs.</p>
